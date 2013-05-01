@@ -30,8 +30,6 @@
         "twig/twig"             : "~1.10",
         "twitter/bootstrap"     : "2.3.1",
         
-        "mthaml/silex-mthaml": "dev-master",
-        "mthaml/mthaml": "1.*",
         "kud/tmhoauth-silex-service-provider": "dev-master",
         "themattharris/tmhOAuth": "dev-master"
     },
