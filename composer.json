@@ -1,14 +1,14 @@
 {
-    "name"        : "lyrixx/Silex-Kitchen-Edition",
-    "type"        : "library",
-    "description" : "A Silex Edition. This project is a base for your silex applications.",
-    "keywords"    : ["framework"],
-    "homepage"    : "http://lyrixx.github.com/Silex-Kitchen-Edition/",
+    "name"        :  "wuzzitor/metagist.org",
+    "type"        : "application",
+    "description" : "Metagist provides meta information on packagist.org projects.",
+    "homepage"    : "http://metagist.org",
+    "keywords"    : ["packagist"],
     "license"     : "MIT",
     "authors"     : [
         {
-            "name"  : "Grégoire Pineau",
-            "email" : "lyrixx@lyrixx.info"
+            "name"  : "Daniel Pozzi",
+            "email" : "bonndan76@googlemail.com"
         }
     ],
     "require": {
@@ -28,7 +28,12 @@
         "symfony/validator"     : "~2.2",
         "symfony/yaml"          : "~2.2",
         "twig/twig"             : "~1.10",
-        "twitter/bootstrap"     : "2.3.1"
+        "twitter/bootstrap"     : "2.3.1",
+        
+        "mthaml/silex-mthaml": "dev-master",
+        "mthaml/mthaml": "1.*",
+        "kud/tmhoauth-silex-service-provider": "dev-master",
+        "themattharris/tmhOAuth": "dev-master"
     },
     "require-dev": {
         "symfony/browser-kit"   : "~2.2",
@@ -41,7 +46,7 @@
     },
     "autoload": {
         "psr-0": {
-            "SKE": "src/"
+            "Metagist": "src/"
         }
     }
 }
