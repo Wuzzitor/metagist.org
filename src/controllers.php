@@ -5,15 +5,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Default.
+ * 
+ * 
+ */
 $app->match('/', function() use ($app) {
+    return $app['twig']->render('index.html.twig');
+})->bind('homepage');
+
+/**
+ * Errors 
+ * 
+ * 
+ */
+$app->match('/errors', function() use ($app) {
     $app['session']->getFlashBag()->add('warning', 'Warning flash message');
     $app['session']->getFlashBag()->add('info', 'Info flash message');
     $app['session']->getFlashBag()->add('success', 'Success flash message');
     $app['session']->getFlashBag()->add('error', 'Error flash message');
 
-    return $app['twig']->render('index.html.twig');
-})->bind('homepage');
+    return $app['twig']->render('errors.html.haml');
+})->bind('errors');
 
+/**
+ * 
+ */
 $app->match('/login', function(Request $request) use ($app) {
     $form = $app['form.factory']->createBuilder('form')
         ->add('username', 'text', array('label' => 'Username', 'data' => $app['session']->get('_security.last_username')))

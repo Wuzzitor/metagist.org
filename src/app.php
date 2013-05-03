@@ -105,4 +105,24 @@ if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
 
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 
+/**
+ * 
+ */
+new Metagist\WebController($app);
+
+
+/*
+ * extra configuration (holds the secrets, not under version control)
+ */
+$app[\Metagist\ExternalConfigProvider::CONFIG_LOCATION] = __DIR__ . '/../config.json';
+$app->register(new Metagist\ExternalConfigProvider());
+
+
+/**
+ * Opauth, overwrites some routes. Requires the ExternalConfigProvider
+ * 
+ */
+use SilexOpauth\OpauthExtension;
+$app->register(new OpauthExtension());
+
 return $app;
