@@ -30,8 +30,9 @@
         "twig/twig"             : "~1.10",
         "twitter/bootstrap"     : "2.3.1",
         
-        "kud/tmhoauth-silex-service-provider": "dev-master",
-        "themattharris/tmhOAuth": "dev-master"
+        "opauth/opauth": ">=0.4.0",
+        "opauth/github": "dev-master",
+        "icehero/silex-opauth": "dev-master"
     },
     "require-dev": {
         "symfony/browser-kit"   : "~2.2",
@@ -45,6 +46,7 @@
     "autoload": {
         "psr-0": {
             "Metagist": "src/"
-        }
+        },
+        "files": ["vendor/opauth/github/GitHubStrategy.php"]
     }
 }
