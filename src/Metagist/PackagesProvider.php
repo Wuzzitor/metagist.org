@@ -5,9 +5,9 @@ namespace Metagist;
 /**
  * Provides the PackageRepository to the application.
  * 
- * 
+ * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
-class ProjectsProvider implements \Silex\ServiceProviderInterface
+class PackagesProvider implements \Silex\ServiceProviderInterface
 {
     public function boot(\Silex\Application $app)
     {
