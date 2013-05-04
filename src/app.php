@@ -62,7 +62,7 @@ $app['translator'] = $app->share($app->extend('translator', function($translator
         }));
 
 $app->register(new MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__ . '/../resources/log/app.log',
+    'monolog.logfile' => __DIR__ . '/../log/app.log',
     'monolog.name' => 'app',
     'monolog.level' => 300 // = Logger::WARNING
 ));
@@ -113,18 +113,19 @@ if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
 
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 
-/**
- * 
+/*
+ * The controller registers itself.
  */
 new Metagist\WebController($app);
 
-
 /**
- * Opauth, overwrites some routes. Requires the ExternalConfigProvider
- * 
+ * Opauth, overwrites some routes.
+ * Remember to enable allow_url_include in the php.ini and set the user_agent
+ * user_agent="PHP"
+ * @link https://github.com/zendframework/zf2/pull/4331
  */
 use SilexOpauth\OpauthExtension;
-
 $app->register(new OpauthExtension());
+
 
 return $app;

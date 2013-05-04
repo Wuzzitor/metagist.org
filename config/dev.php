@@ -16,7 +16,7 @@ $app['debug'] = true;
  */
 $app["opauth"] = array(
     "login" => "/auth/login",
-    "callback" => "/auth/callback",
+    "callback" => "/auth/callback/github/oauth2callback",
     "config" => array(
         "security_salt" => "dev-salt",
         "Strategy" =>  array(

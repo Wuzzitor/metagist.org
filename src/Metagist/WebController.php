@@ -36,8 +36,7 @@ class WebController
             'homepage' => array('match' => '/', 'method' => 'index'),
             'errors' => array('match' => '/errors', 'method' => 'errors'),
             'login' => array('match' => '/auth/login', 'method' => 'login'),
-            //'loginCallback' => array('match' => '/auth/callback', 'method' => 'oAuthCallback'),
-            //'logout' => array('match' => '/auth/logout', 'method' => 'logout'),
+            'logout' => array('match' => '/auth/logout', 'method' => 'logout'),
         );
         
         foreach ($routes as $name => $data) {
@@ -60,22 +59,11 @@ class WebController
     }
 
     /**
-     * Github oAuth.
-     * 
-     * 
+     * Github oAuth, redirect to use the github strategy.
      */
     public function login()
     {
-    }
-    
-    /**
-     * oAuth callback action.
-     * 
-     * 
-     */
-    public function oAuthCallback()
-    {
-        
+        return $this->application->redirect('/auth/login/github');
     }
     
     /**
