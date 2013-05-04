@@ -6,8 +6,25 @@ namespace Metagist;
  * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
-class WebController extends WebControllerAbstract
+class WebController
 {
+    /**
+     * the application instance
+     * @var Application 
+     */
+    protected $application;
+
+    /**
+     * Constructor.
+     * 
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->application = $app;
+        $this->initRoutes();
+    }
+    
     /**
      * Routing setup.
      * 
@@ -39,7 +56,7 @@ class WebController extends WebControllerAbstract
      */
     public function index()
     {
-        return $this->render('index.html.twig');
+        return $this->application->render('index.html.twig');
     }
 
     /**
@@ -81,7 +98,7 @@ class WebController extends WebControllerAbstract
      */
     public function errors()
     {
-        $flashBag = $this->session()->getFlashBag();
+        $flashBag = $this->application->session()->getFlashBag();
         $flashBag->add('warning', 'Warning flash message');
         $flashBag->add('info', 'Info flash message');
         $flashBag->add('success', 'Success flash message');
