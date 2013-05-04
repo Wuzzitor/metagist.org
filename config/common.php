@@ -1,6 +1,6 @@
 <?php
 
-// Local
+// Locale
 $app['locale'] = 'en';
 $app['session.default_locale'] = $app['locale'];
 $app['translator.messages'] = array(
@@ -8,9 +8,10 @@ $app['translator.messages'] = array(
 );
 
 // Cache
-$app['cache.path'] = __DIR__ . '/../cache';
+$app['cache.path'] = __DIR__ . '/../resources/cache';
 
 // Http cache
+$app['http_cache.enabled'] = false;
 $app['http_cache.cache_dir'] = $app['cache.path'] . '/http';
 
 // Twig cache
@@ -30,14 +31,22 @@ $app['assetic.input.path_to_js']        = array(
 );
 $app['assetic.output.path_to_js']       = 'js/scripts.js';
 
-// Doctrine (db)
-$app['db.options'] = array(
-    'driver'   => 'pdo_mysql',
-    'host'     => 'localhost',
-    'dbname'   => '',
-    'user'     => 'root',
-    'password' => '',
-);
-
 // User
 $app['security.users'] = array('username' => array('ROLE_USER', 'password'));
+
+/*
+ * opauth configuration
+ */
+$app["opauth"] = array(
+    "login" => "/auth/login",
+    "callback" => "/auth/callback",
+    "config" => array(
+        "security_salt" => "dev-salt",
+        "Strategy" =>  array(
+            "Github" => array(
+                "client_id" => "",
+                    "client_secret" => ""
+            )
+        )
+    )
+);
