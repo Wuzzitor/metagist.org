@@ -3,4 +3,4 @@ resources/log/*
 vendor/
 web/assets/*
 nbproject
-/config.json
+config/prod.php

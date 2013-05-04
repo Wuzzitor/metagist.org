@@ -33,20 +33,3 @@ $app['assetic.output.path_to_js']       = 'js/scripts.js';
 
 // User
 $app['security.users'] = array('username' => array('ROLE_USER', 'password'));
-
-/*
- * opauth configuration
- */
-$app["opauth"] = array(
-    "login" => "/auth/login",
-    "callback" => "/auth/callback",
-    "config" => array(
-        "security_salt" => "dev-salt",
-        "Strategy" =>  array(
-            "Github" => array(
-                "client_id" => "",
-                    "client_secret" => ""
-            )
-        )
-    )
-);
