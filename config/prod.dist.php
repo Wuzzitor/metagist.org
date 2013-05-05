@@ -21,7 +21,7 @@ $app['db.options'] = array(
  */
 $app["opauth"] = array(
     "login" => "/auth/login",
-    "callback" => "/auth/callback",
+    "callback" => "/auth/login/github/oauth2callback",
     "config" => array(
         "security_salt" => "",
         "Strategy" =>  array(
