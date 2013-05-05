@@ -13,6 +13,11 @@ class Package
      */
     protected $identifier;
     
+    /**
+     * Constructor.
+     * 
+     * @param string $identifier
+     */
     public function __construct($identifier)
     {
         $this->identifier = $identifier;

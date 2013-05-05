@@ -2,6 +2,7 @@
 namespace Metagist;
 
 use \Doctrine\DBAL\Driver\Connection;
+use \Packagist\Api\Client as PackagistClient;
 
 /**
  * Repository for packages.
@@ -17,13 +18,21 @@ class PackageRepository
     private $connection;
     
     /**
+     * packagist api client
+     * @var \Packagist\Api\Client
+     */
+    private $client;
+    
+    /**
      * Constructor.
      * 
      * @param \Doctrine\DBAL\Driver\Connection $connection
+     * @param PackagistClient $client
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, PackagistClient $client = null)
     {
         $this->connection = $connection;
+        $this->client     = $client;
     }
     
     /**
@@ -36,5 +45,16 @@ class PackageRepository
     public function byAuthorAndName($author, $name)
     {
         return new Package($author . '/' . $name);
+    }
+    
+    /**
+     * Validate a name (author or package name).
+     * 
+     * @return boolean
+     */
+    public function isValidName($name)
+    {
+        $pattern = '/^[a-zA-Z0-9\-\.]{2,128}$/i';
+        return (bool) preg_match($pattern, $name);
     }
 }
