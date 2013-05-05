@@ -27,9 +27,9 @@ class PackageRepository
      * Constructor.
      * 
      * @param \Doctrine\DBAL\Driver\Connection $connection
-     * @param PackagistClient $client
+     * @param PackagistClient                  $client
      */
-    public function __construct(Connection $connection, PackagistClient $client = null)
+    public function __construct(Connection $connection, PackagistClient $client)
     {
         $this->connection = $connection;
         $this->client     = $client;
@@ -44,7 +44,52 @@ class PackageRepository
      */
     public function byAuthorAndName($author, $name)
     {
-        return new Package($author . '/' . $name);
+        if (!$this->isValidName($author) || !$this->isValidName($name)) {
+            throw new \InvalidArgumentException('The author or package name is invalid.');
+        }
+        
+        $identifier = $author . '/' . $name;
+        $stmt = $this->connection->executeQuery(
+            'SELECT * FROM packages WHERE identifier = ?', array($identifier)
+        );
+
+        if (!$data = $stmt->fetch()) {
+            $package = $this->createPackageFromPackagist($identifier);
+            $stmt = $this->connection->executeQuery(
+                'INSERT INTO packages (identifier, description, versions) VALUES (?, ?, ?)', 
+                array($package->getIdentifier(), $package->getDescription(), implode(',', $package->getVersions()))
+            );
+        } else {
+            $package = new Package($data['identifier']);
+            $package->setDescription($data['description']);
+            $package->setVersions(explode(',', $data['versions']));
+        }
+        
+        return $package;
+    }
+    
+    /**
+     * 
+     * @param string $identifier
+     * @throws Exception
+     */
+    protected function createPackageFromPackagist($identifier)
+    {
+        /* @var $packagistPackage \Packagist\Api\Result\Package */
+        try {
+            $packagistPackage = $this->client->get($identifier);
+        } catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
+            throw new Exception('Could not find ' . $identifier, Exception::PACKAGE_NOT_FOUND, $exception);
+        }
+        
+        $package = new Package($packagistPackage->getName());
+        $package->setDescription($packagistPackage->getDescription());
+        $versions = array();
+        foreach ($packagistPackage->getVersions() as $version) {
+            $versions[] = $version->getVersion();
+        }
+        $package->setVersions($versions);
+        return $package;
     }
     
     /**

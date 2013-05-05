@@ -17,10 +17,16 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
     private $repo;
     
     /**
-     * connectio mock
+     * connection mock
      * @var \Doctrine\DBAL\Connection 
      */
     private $connection;
+    
+    /**
+     * client mock
+     * @var \Packagist\Api\Client
+     */
+    private $client;
     
     /**
      * Test setup
@@ -31,7 +37,28 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->connection = $this->getMockBuilder("\Doctrine\DBAL\Connection")
             ->disableOriginalConstructor()
             ->getMock();
-        $this->repo = new PackageRepository($this->connection);
+        $this->client = $this->getMockBuilder("\Packagist\Api\Client")
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->repo = new PackageRepository($this->connection, $this->client);
+    }
+    
+    /**
+     * Ensures the params are validated.
+     */
+    public function testByAuthorAndNameExceptionIfWrongAuthor()
+    {
+        $this->setExpectedException("\InvalidArgumentException");
+        $this->repo->byAuthorAndName(';;', ';;');
+    }
+    
+    /**
+     * Ensures the params are validated.
+     */
+    public function testByAuthorAndNameExceptionIfWrongName()
+    {
+        $this->setExpectedException("\InvalidArgumentException");
+        $this->repo->byAuthorAndName('test', ';;');
     }
     
     /**
