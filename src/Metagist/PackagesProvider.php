@@ -22,7 +22,7 @@ class PackagesProvider implements \Silex\ServiceProviderInterface
     public function register(\Silex\Application $app)
     {
         $app['packagerepo'] = function () use ($app) {
-            return new PackageRepository($app['db']);
+            return new PackageRepository($app['db'], new \Packagist\Api\Client());
         };
     }
 }
