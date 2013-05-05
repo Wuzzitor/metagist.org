@@ -1,14 +1,62 @@
 <?php
-
 /**
+ * Schema creation as used in silex kitchen edition.
+ * 
  * @author Саша Стаменковић <umpirsky@gmail.com>
+ * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
 
 $schema = new \Doctrine\DBAL\Schema\Schema();
 
-$post = $schema->createTable('post');
-$post->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
-$post->addColumn('title', 'string', array('length' => 32));
-$post->setPrimaryKey(array('id'));
+/*
+ * projects table
+ */
+$projects = $schema->createTable('projects');
+$projects->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+$projects->setPrimaryKey(array('id'));
+$projects->addColumn('identifier', 'string', array('length' => 255, 'notnull' => true));
+
+/*
+ * users table
+ */
+$users = $schema->createTable('users');
+$users->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+$users->setPrimaryKey(array('id'));
+$users->addColumn('username', 'string', array('length' => 32));
+$users->addUniqueIndex(array('username'));
+$users->addColumn('roles', 'string', array('length' => 255));
+$users->addColumn('avatar_url', 'string', array('length' => 255));
+
+/*
+ * votes
+ */
+$votes = $schema->createTable('votes');
+$votes->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+$votes->setPrimaryKey(array('id'));
+$votes->addColumn('project_id', 'integer', array('notnull' => true));
+$votes->addForeignKeyConstraint($projects, array('project_id'), array('id'));
+$votes->addColumn('user_id', 'integer', array('notnull' => true));
+$votes->addForeignKeyConstraint($users, array('user_id'), array('id'));
+$votes->addColumn('time_updated', 'datetime', array('notnull' => true, 'default' => 'CURRENT_TIMESTAMP'));
+$votes->addColumn('version', 'string', array('length' => 32, 'null' => true));
+$votes->addColumn('rating', 'integer', array('length' => 1));
+$votes->addColumn('comment', 'text');
+
+/*
+ * metainfo
+ */
+$metainfo = $schema->createTable('metainfo');
+$metainfo->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+$metainfo->setPrimaryKey(array('id'));
+$metainfo->addColumn('project_id', 'integer', array('notnull' => true));
+$metainfo->addForeignKeyConstraint($projects, array('project_id'), array('id'));
+$metainfo->addColumn('user_id', 'integer', array('null' => true));
+$metainfo->addForeignKeyConstraint($users, array('user_id'), array('id'));
+$metainfo->addColumn('time_updated', 'datetime', array('notnull' => true, 'default' => 'CURRENT_TIMESTAMP'));
+$metainfo->addColumn('version', 'string', array('length' => 32, 'null' => true));
+$metainfo->addColumn('category','string', array('length' => 32, 'notnull' => true));
+$metainfo->addColumn('type','string', array('length' => 32, 'notnull' => true));
+$metainfo->addColumn('content','string', array('length' => 32));
+$metainfo->addColumn('url','string', array('length' => 255, 'notnull' => true));
 
 return $schema;
