@@ -24,7 +24,6 @@ $users->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => 
 $users->setPrimaryKey(array('id'));
 $users->addColumn('username', 'string', array('length' => 32));
 $users->addUniqueIndex(array('username'));
-$users->addColumn('roles', 'string', array('length' => 255));
 $users->addColumn('avatar_url', 'string', array('length' => 255));
 
 /*
