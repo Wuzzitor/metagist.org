@@ -4,3 +4,4 @@ vendor/
 web/assets/*
 nbproject
 config/prod.php
+app.log
