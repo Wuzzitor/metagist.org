@@ -37,6 +37,8 @@ class WebController
             'errors' => array('match' => '/errors', 'method' => 'errors'),
             'login' => array('match' => '/auth/login', 'method' => 'login'),
             'logout' => array('match' => '/auth/logout', 'method' => 'logout'),
+            'vote' => array('match' => '/vote/{author}/{name}', 'method' => 'vote'),
+            'package' => array('match' => '/package/{author}/{name}', 'method' => 'package'),
         );
         
         foreach ($routes as $name => $data) {
@@ -76,6 +78,43 @@ class WebController
         $this->session()->clear();
         return $this->application->redirect(
             $this->application['url_generator']->generate('homepage')
+        );
+    }
+    
+    /**
+     * Shows package info.
+     * 
+     * @param string $author
+     * @param string $name
+     * @return string
+     */
+    public function package($author, $name)
+    {
+        $repository = $this->application->packages();
+        $package = $repository->byAuthorAndName($author, $name);
+        return $this->application->render(
+            'package.html.twig',
+            array(
+                'package' => $package,
+            )
+        );
+    }
+    
+    /**
+     * Vote a package.
+     * 
+     * @param string $author
+     * @param string $name
+     * @return string
+     */
+    public function vote($author, $name)
+    {
+        $package = $this->application->packages()->byAuthorAndName($author, $name);
+        return $this->application->render(
+            'vote.html.twig',
+            array(
+                'package' => $package,
+            )
         );
     }
     

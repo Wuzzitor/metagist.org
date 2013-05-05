@@ -7,7 +7,6 @@
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\HttpCacheServiceProvider;
 use Silex\Provider\MonologServiceProvider;
-use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -32,18 +31,28 @@ $app->register(new ValidatorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 
-$app->register(new SecurityServiceProvider(), array(
+/**
+ * Use the metagist UserProvider
+ * @link http://silex.sensiolabs.org/doc/providers/security.html#defining-a-custom-user-provider
+ */
+$app['users'] = $app->share(function () use ($app) {
+    return new Metagist\UserProvider($app['db'], $app['security.users']);
+});
+
+
+$app->register(new Metagist\OpauthSecurityServiceProvider(), array(
     'security.firewalls' => array(
-        'admin' => array(
+        'default' => array(
             'pattern' => '^/',
-            'form' => array(
-                'login_path' => '/login',
-                'username_parameter' => 'form[username]',
-                'password_parameter' => 'form[password]',
-            ),
-            'logout' => true,
-            'anonymous' => true,
-            'users' => $app['security.users'],
+            'anonymous' => true
+        ),
+        'contribute' => array(
+            'pattern' => '^/contribute',
+            'opauth' => true
+        ),
+        'vote' => array(
+            'pattern' => '^/vote',
+            'opauth' => true
         ),
     ),
 ));
@@ -127,5 +136,8 @@ new Metagist\WebController($app);
 use SilexOpauth\OpauthExtension;
 $app->register(new OpauthExtension());
 
-
+/**
+ * Provides a repo for packages
+ */
+$app->register(new Metagist\PackagesProvider());
 return $app;
