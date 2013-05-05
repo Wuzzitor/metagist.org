@@ -23,7 +23,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->user = new Metagist\User('test123', User::ROLE_USER, 'http://an.url');
+        $this->user = new User('test123', User::ROLE_USER, 'http://an.url');
     }
     
     /**
@@ -32,5 +32,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testGetUserName()
     {
         $this->assertEquals('test123', $this->user->getUsername());
+    }
+    
+    public function testGetAvatarUrl()
+    {
+        $this->assertEquals('http://an.url', $this->user->getAvatarUrl());
     }
 }

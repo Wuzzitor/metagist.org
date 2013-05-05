@@ -102,7 +102,7 @@ class UserProvider implements UserProviderInterface
         
         $stmt = $this->conn->executeQuery(
             'INSERT INTO users (username, avatar_url) VALUES ?, ?',
-            array($user->getUsername(), $user->getGravatarUrl())
+            array($user->getUsername(), $user->getAvatarUrl())
         );
 
         if (!$stmt->rowCount()) {

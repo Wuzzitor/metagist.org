@@ -36,23 +36,23 @@ class User implements UserInterface
     private $role;
     
     /**
-     * the gravatar url
+     * the avatar iamge url
      * @var string
      */
-    private $gravatarUrl;
+    private $avatarUrl;
     
     /**
      * Constructor.
      * 
      * @param string $username github login / nickname
      * @param string $role
-     * @param string $gravatarUrl
+     * @param string $avatarUrl
      */
-    public function __construct($username, $role, $gravatarUrl)
+    public function __construct($username, $role, $avatarUrl)
     {
         $this->username    = $username;
         $this->role        = $role;
-        $this->gravatarUrl = $gravatarUrl;
+        $this->avatarUrl   = $avatarUrl;
     }
     
     /**
@@ -76,13 +76,13 @@ class User implements UserInterface
     }
     
     /**
-     * Returns the gravatar image url.
+     * Returns the avatar image url.
      * 
      * @return string
      */
-    public function getGravatarUrl()
+    public function getAvatarUrl()
     {
-        return $this->gravatarUrl;
+        return $this->avatarUrl;
     }
 
     public function eraseCredentials()
