@@ -11,10 +11,12 @@ $schema = new \Doctrine\DBAL\Schema\Schema();
 /*
  * projects table
  */
-$projects = $schema->createTable('projects');
+$projects = $schema->createTable('packages');
 $projects->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
 $projects->setPrimaryKey(array('id'));
 $projects->addColumn('identifier', 'string', array('length' => 255, 'notnull' => true));
+$projects->addColumn('description', 'string', array('length' => 255, 'notnull' => true));
+$projects->addColumn('versions', 'text', array('null' => true));
 
 /*
  * users table

@@ -27,6 +27,24 @@ class PackageTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertConstructorWorks()
     {
-        $this->assertAttributeEquals('test/123', 'identifier', $this->package);
+        $this->assertEquals('test/123', $this->package->getIdentifier());
+    }
+    
+    /**
+     * Ensures description getter / setter are working
+     */
+    public function testDescription()
+    {
+        $this->package->setDescription('test');
+        $this->assertEquals('test', $this->package->getDescription());
+    }
+    
+    /**
+     * Ensures versions getter / setter are working
+     */
+    public function testVersions()
+    {
+        $this->package->setVersions(array('test', '1.0.1'));
+        $this->assertEquals(array('test', '1.0.1'), $this->package->getVersions());
     }
 }
