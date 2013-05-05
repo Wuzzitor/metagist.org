@@ -14,9 +14,9 @@ class Application extends \Silex\Application
      * @param string $template
      * @return string
      */
-    public function render($template)
+    public function render($template, array $variables = array())
     {
-        return $this['twig']->render($template);
+        return $this['twig']->render($template, $variables);
     }
     
     /**
@@ -37,6 +37,16 @@ class Application extends \Silex\Application
     public function logger()
     {
         return $this['logger'];
+    }
+    
+    /**
+     * Returns the package repository.
+     * 
+     * @return \Metagist\PackageRepository
+     */
+    public function packages()
+    {
+        return $this['packagerepo'];
     }
     
     /**

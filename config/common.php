@@ -32,4 +32,6 @@ $app['assetic.input.path_to_js']        = array(
 $app['assetic.output.path_to_js']       = 'js/scripts.js';
 
 // User
-$app['security.users'] = array('username' => array('ROLE_USER', 'password'));
+$app['security.users'] = array(
+    'admins' => ''
+);
