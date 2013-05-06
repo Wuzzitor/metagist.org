@@ -57,6 +57,6 @@ $metainfo->addColumn('time_updated', 'datetime', array('notnull' => true));
 $metainfo->addColumn('version', 'string', array('length' => 32, 'null' => true));
 $metainfo->addColumn('category','string', array('length' => 32, 'notnull' => true));
 $metainfo->addColumn('group','string', array('length' => 32, 'notnull' => true));
-$metainfo->addColumn('value','string', array('length' => 32));
+$metainfo->addColumn('value','text');
 
 return $schema;
