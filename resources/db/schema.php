@@ -56,8 +56,7 @@ $metainfo->addForeignKeyConstraint($users, array('user_id'), array('id'));
 $metainfo->addColumn('time_updated', 'datetime', array('notnull' => true));
 $metainfo->addColumn('version', 'string', array('length' => 32, 'null' => true));
 $metainfo->addColumn('category','string', array('length' => 32, 'notnull' => true));
-$metainfo->addColumn('type','string', array('length' => 32, 'notnull' => true));
-$metainfo->addColumn('content','string', array('length' => 32));
-$metainfo->addColumn('url','string', array('length' => 255, 'notnull' => true));
+$metainfo->addColumn('group','string', array('length' => 32, 'notnull' => true));
+$metainfo->addColumn('value','string', array('length' => 32));
 
 return $schema;
