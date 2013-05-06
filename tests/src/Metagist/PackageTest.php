@@ -47,4 +47,13 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->package->setVersions(array('test', '1.0.1'));
         $this->assertEquals(array('test', '1.0.1'), $this->package->getVersions());
     }
+    
+    /**
+     * Ensures id getter is working
+     */
+    public function testGetId()
+    {
+        $this->package = new Package('id/test', 10);
+        $this->assertEquals(10, $this->package->getId());
+    }
 }

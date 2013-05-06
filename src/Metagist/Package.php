@@ -4,9 +4,16 @@ namespace Metagist;
 /**
  * Class representing a Composer package.
  * 
+ * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
 class Package
 {
+    /**
+     * internal id
+     * @var int
+     */
+    protected $id;
+    
     /**
      * package identifier (author + name)
      * @var string
@@ -28,11 +35,23 @@ class Package
     /**
      * Constructor.
      * 
-     * @param string $identifier
+     * @param string  $identifier
+     * @param integer $id
      */
-    public function __construct($identifier)
+    public function __construct($identifier, $id = null)
     {
         $this->identifier = $identifier;
+        $this->id         = (int) $id;  
+    }
+    
+    /**
+     * Returns the id of the package.
+     * 
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
     
     /**
