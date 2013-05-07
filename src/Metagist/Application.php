@@ -46,7 +46,17 @@ class Application extends \Silex\Application
      */
     public function packages()
     {
-        return $this['packagerepo'];
+        return $this[RepoProvider::PACKAGE_REPO];
+    }
+    
+    /**
+     * Returns the metainfo repository.
+     * 
+     * @return \Metagist\MetaInfoRepository
+     */
+    public function metainfo()
+    {
+        return $this[RepoProvider::METAINFO_REPO];
     }
     
     /**
