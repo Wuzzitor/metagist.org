@@ -1,0 +1,26 @@
+{
+    "test": {
+        "description": "test",
+        "types": {
+            "testInteger": {
+                "access": "ROLE_USER",
+                "type": "integer",
+                "description": "testInteger text"
+            },
+            "testString": {
+                "type": "string",
+                "description": "testString text"
+            },
+            "testBoolean": {
+                "access": "ROLE_SYSTEM",
+                "type": "boolean",
+                "description": "testBoolean text"
+            },
+            "testUrl": {
+                "access": "ROLE_SYSTEM",
+                "type": "url",
+                "description": "testUrl text"
+            }
+        }
+    }
+}
