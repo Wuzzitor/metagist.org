@@ -23,10 +23,10 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
     private $connection;
     
     /**
-     * client mock
-     * @var \Packagist\Api\Client
+     * Validator 
+     * @var Validator
      */
-    private $client;
+    private $validator;
     
     /**
      * Test setup
@@ -37,10 +37,10 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->connection = $this->getMockBuilder("\Doctrine\DBAL\Connection")
             ->disableOriginalConstructor()
             ->getMock();
-        $this->client = $this->getMockBuilder("\Packagist\Api\Client")
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->repo = new PackageRepository($this->connection, $this->client);
+        $this->validator = new Validator(
+            new CategorySchema(file_get_contents(__DIR__ . '/testdata/testcategories.json'))
+        );
+        $this->repo = new PackageRepository($this->connection, $this->validator);
     }
     
     /**
@@ -62,29 +62,53 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Ensure the name validator works.
-     * 
-     * @dataProvider nameProvider
-     * @param string $name
-     * @param bool   $valid
+     * Ensures null is returned if the package has not been found.
      */
-    public function testIsValidName($name, $valid)
+    public function testPackageNotFoundReturnsNull()
     {
-        $this->assertEquals($valid, $this->repo->isValidName($name));
+        $statement = $this->createMockStatement();
+        $statement->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue(false));
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->will($this->returnValue($statement));
+        
+        $this->repo->byAuthorAndName('test', 'test');
     }
     
-    public function nameProvider()
+    /**
+     * Ensures a package is returned if found.
+     */
+    public function testPackageIsFound()
     {
-        return array(
-            array('test', true),
-            array('test123', true),
-            array('test-123', true),
-            array('test-123-TEST', true),
-            array('test-12.3', true),
-            array('t', false),
-            array('1', false),
-            array('test/123', false),
-            array('test;123', false),
+        $data = array(
+            'id' => 1,
+            'identifier' => 'test/test',
+            'description' => 'test',
+            'versions' => 'dev-master',
         );
+        $statement = $this->createMockStatement();
+        $statement->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue($data));
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->will($this->returnValue($statement));
+        
+        $this->repo->byAuthorAndName('test', 'test');
+    }
+    
+    /**
+     * Creates a statement mock, the provided HydratorMockStatement seems to be broken.
+     * 
+     * @param array $methods
+     * @return Statement mock
+     */
+    protected function createMockStatement(array $methods = array('rowCount', 'fetch'))
+    {
+        return $this->getMock('stdClass', $methods);
     }
 }

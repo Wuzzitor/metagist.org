@@ -1,8 +1,7 @@
 <?php
 namespace Metagist;
 
-use \Doctrine\DBAL\Driver\Connection;
-use \Packagist\Api\Client as PackagistClient;
+use \Doctrine\DBAL\Connection;
 
 /**
  * Repository for packages.
@@ -13,26 +12,25 @@ class PackageRepository
 {
     /**
      * db connection
-     * @var \Doctrine\DBAL\Driver\Connection 
+     * @var \Doctrine\DBAL\Connection 
      */
     private $connection;
     
     /**
-     * packagist api client
-     * @var \Packagist\Api\Client
+     * validator instance
+     * @var Validator 
      */
-    private $client;
+    private $validator;
     
     /**
      * Constructor.
      * 
-     * @param \Doctrine\DBAL\Driver\Connection $connection
-     * @param PackagistClient                  $client
+     * @param \Doctrine\DBAL\Connection $connection
      */
-    public function __construct(Connection $connection, PackagistClient $client)
+    public function __construct(Connection $connection, Validator $validator)
     {
         $this->connection = $connection;
-        $this->client     = $client;
+        $this->validator  = $validator;
     }
     
     /**
@@ -44,7 +42,7 @@ class PackageRepository
      */
     public function byAuthorAndName($author, $name)
     {
-        if (!$this->isValidName($author) || !$this->isValidName($name)) {
+        if (!$this->validator->isValidName($author) || !$this->validator->isValidName($name)) {
             throw new \InvalidArgumentException('The author or package name is invalid.');
         }
         
@@ -54,52 +52,13 @@ class PackageRepository
         );
 
         if (!$data = $stmt->fetch()) {
-            $package = $this->createPackageFromPackagist($identifier);
-            $stmt = $this->connection->executeQuery(
-                'INSERT INTO packages (identifier, description, versions) VALUES (?, ?, ?)', 
-                array($package->getIdentifier(), $package->getDescription(), implode(',', $package->getVersions()))
-            );
+            return null;
         } else {
-            $package = new Package($data['identifier']);
+            $package = new Package($data['identifier'], $data['id']);
             $package->setDescription($data['description']);
             $package->setVersions(explode(',', $data['versions']));
         }
         
         return $package;
-    }
-    
-    /**
-     * 
-     * @param string $identifier
-     * @throws Exception
-     */
-    protected function createPackageFromPackagist($identifier)
-    {
-        /* @var $packagistPackage \Packagist\Api\Result\Package */
-        try {
-            $packagistPackage = $this->client->get($identifier);
-        } catch (\Guzzle\Http\Exception\ClientErrorResponseException $exception) {
-            throw new Exception('Could not find ' . $identifier, Exception::PACKAGE_NOT_FOUND, $exception);
-        }
-        
-        $package = new Package($packagistPackage->getName());
-        $package->setDescription($packagistPackage->getDescription());
-        $versions = array();
-        foreach ($packagistPackage->getVersions() as $version) {
-            $versions[] = $version->getVersion();
-        }
-        $package->setVersions($versions);
-        return $package;
-    }
-    
-    /**
-     * Validate a name (author or package name).
-     * 
-     * @return boolean
-     */
-    public function isValidName($name)
-    {
-        $pattern = '/^[a-zA-Z0-9\-\.]{2,128}$/i';
-        return (bool) preg_match($pattern, $name);
     }
 }
