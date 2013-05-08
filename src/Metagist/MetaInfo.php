@@ -52,6 +52,26 @@ class MetaInfo
     }
     
     /**
+     * Factory method to create metainfo based on values.
+     * 
+     * @param string $identifier must be of format "$category/$group"
+     * @param mixed  $value
+     * @return MetaInfo
+     */
+    public static function fromValue($identifier, $value)
+    {
+        list ($category, $group) = explode('/', $identifier);
+        return self::fromArray(
+            array(
+                'category' => $category,
+                'group'    => $group,
+                'value'    => $value
+            )
+        );
+    }
+
+
+    /**
      * Returns the related package.
      * 
      * @return Package|null

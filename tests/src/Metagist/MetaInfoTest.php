@@ -26,12 +26,24 @@ class MetaInfoTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Ensures the constructor assigns the identifier.
+     * Ensures the array factory method returns a metainfo object.
      */
     public function testFactoryMethod()
     {
         $info = MetaInfo::fromArray(array());
         $this->assertInstanceOf('Metagist\MetaInfo', $info);
+    }
+    
+    /**
+     * Ensures the value factory method returns a metainfo object.
+     */
+    public function testFromValueFactoryMethod()
+    {
+        $info = MetaInfo::fromValue('cat/grp', 'test123');
+        $this->assertInstanceOf('Metagist\MetaInfo', $info);
+        $this->assertEquals('cat', $info->getCategory());
+        $this->assertEquals('grp', $info->getGroup());
+        $this->assertEquals('test123', $info->getValue());
     }
     
     /**
