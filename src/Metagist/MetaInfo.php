@@ -70,7 +70,16 @@ class MetaInfo
         );
     }
 
-
+    /**
+     * Set the related package.
+     * 
+     * @param Package $package
+     */
+    public function setPackage(Package $package)
+    {
+        $this->package = $package;
+    }
+    
     /**
      * Returns the related package.
      * 
