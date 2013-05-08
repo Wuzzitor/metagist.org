@@ -56,4 +56,13 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->package = new Package('id/test', 10);
         $this->assertEquals(10, $this->package->getId());
     }
+    
+    /**
+     * Ensures type getter / setter are working
+     */
+    public function testType()
+    {
+        $this->package->setType('library');
+        $this->assertEquals('library', $this->package->getType());
+    }
 }

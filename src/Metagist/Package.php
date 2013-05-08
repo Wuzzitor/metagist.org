@@ -33,6 +33,12 @@ class Package
     protected $description;
     
     /**
+     * type of the package
+     * @var string
+     */
+    protected $type;
+    
+    /**
      * Constructor.
      * 
      * @param string  $identifier
@@ -102,6 +108,25 @@ class Package
     public function getVersions()
     {
         return $this->versions;
+    }
+    
+    /**
+     * Type setter
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+    
+    /**
+     * Returns the type of the package.
+     * 
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
     
     /**
