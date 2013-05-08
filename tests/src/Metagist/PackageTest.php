@@ -58,6 +58,18 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures a collection of metainfos can be passed.
+     */
+    public function testCollections()
+    {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection(
+            array(MetaInfo::fromValue('test/test', 'test'))
+        );
+        $this->package->setMetaInfos($collection);
+        $this->assertEquals($collection, $this->package->getMetaInfos());
+    }
+    
+    /**
      * Ensures type getter / setter are working
      */
     public function testType()

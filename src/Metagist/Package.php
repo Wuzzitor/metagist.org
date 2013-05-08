@@ -1,6 +1,8 @@
 <?php
 namespace Metagist;
 
+use \Doctrine\Common\Collections\Collection;
+
 /**
  * Class representing a Composer package.
  * 
@@ -37,6 +39,12 @@ class Package
      * @var string
      */
     protected $type;
+    
+    /**
+     * metainfos
+     * @var Collection
+     */
+    protected $metaInfos;
     
     /**
      * Constructor.
@@ -127,6 +135,31 @@ class Package
     public function getType()
     {
         return $this->type;
+    }
+    
+    /**
+     * Set the metainfos.
+     * 
+     * @param \Doctrine\Common\Collections\Collection $collection
+     */
+    public function setMetaInfos(Collection $collection)
+    {
+        foreach ($collection as $metaInfo) {
+            /* @var $metaInfo MetaInfo */
+            $metaInfo->setPackage($this);
+        }
+        
+        $this->metaInfos = $collection;
+    }
+    
+    /**
+     * Returns the associated metainfos.
+     * 
+     * @return \Doctrine\Common\Collections\Collection|null
+     */
+    public function getMetaInfos()
+    {
+        return $this->metaInfos;
     }
     
     /**
