@@ -4,10 +4,16 @@ namespace Metagist;
 /**
  * Class representing the contents of the metainfo.json file.
  * 
- * 
+ * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
 class CategorySchema
 {
+    /**
+     * identifer for the repo category and group
+     * @var string
+     */
+    const REPOSITORY_IDENTIFIER = 'transparency/repository';
+    
     /**
      * @var object
      */

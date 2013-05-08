@@ -64,7 +64,7 @@
                 "type": "url",
                 "description": "Third party reviews of the package. Can be blog posts or else."
             },
-            "github": {
+            "repository": {
                 "access": "ROLE_SYSTEM",
                 "type": "url",
                 "description": "Github url"
