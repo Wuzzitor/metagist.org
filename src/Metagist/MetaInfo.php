@@ -3,6 +3,8 @@ namespace Metagist;
 
 /**
  * Class representing info on a package.
+ * 
+ * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
 class MetaInfo
 {
@@ -50,16 +52,13 @@ class MetaInfo
     }
     
     /**
-     * Validates the content against the category schema.
+     * Returns the related package.
      * 
-     * @param array $schema
-     * @throws InvalidInfoException
+     * @return Package|null
      */
-    public function isValidWithSchema(array $schema)
+    public function getPackage()
     {
-        if ($this->package == null || $this->category == null || $this->group == null) {
-            throw new InvalidInfoException('Package, category or group is not set.');
-        }
+        return $this->package;
     }
     
     /**
