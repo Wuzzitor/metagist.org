@@ -61,4 +61,37 @@ class PackageRepository
         
         return $package;
     }
+    
+    /**
+     * Saves a package.
+     * 
+     * @param \Metagist\Package $package
+     * @return int
+     */
+    public function save(Package $package)
+    {
+        $id = $package->getId();
+        $data = array(
+            $package->getIdentifier(),
+            $package->getDescription(),
+            implode(',', $package->getVersions())
+        );
+        if ($id == null) {
+            $stmt = $this->connection->executeQuery(
+                'INSERT INTO packages (identifier, description, versions) VALUES (?, ?, ?)',
+                $data
+            );
+            $id = $stmt->lastInsertId();
+            $package->setId($id);
+        } else {
+            $data[] = $id;
+            $stmt = $this->connection->executeQuery(
+                'UPDATE packages SET identifier = ?, description = ?, versions = ?)
+                    WHERE id = ?',
+                $data
+            );
+        }
+        
+        return $stmt->rowCount();
+    }
 }

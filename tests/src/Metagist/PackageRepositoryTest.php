@@ -102,12 +102,54 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures a package with an id is updated.
+     */
+    public function testSaveWithId()
+    {
+        $package = new Package('test/test', 123);
+        $statement = $this->createMockStatement();
+        $statement->expects($this->once())
+            ->method('rowCount')
+            ->will($this->returnValue(1));
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->with($this->stringContains('UPDATE packages'))
+            ->will($this->returnValue($statement));
+        
+        $this->repo->save($package);
+    }
+    
+    /**
+     * Ensures a package without an id is inserted.
+     */
+    public function testSaveWithoutId()
+    {
+        $package = new Package('test/test');
+        $statement = $this->createMockStatement();
+        $statement->expects($this->once())
+            ->method('rowCount')
+            ->will($this->returnValue(1));
+        $statement->expects($this->once())
+            ->method('lastInsertId')
+            ->will($this->returnValue(123));
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->with($this->stringContains('INSERT INTO packages'))
+            ->will($this->returnValue($statement));
+        
+        $this->repo->save($package);
+        $this->assertEquals(123, $package->getId());
+    }
+    
+    /**
      * Creates a statement mock, the provided HydratorMockStatement seems to be broken.
      * 
      * @param array $methods
      * @return Statement mock
      */
-    protected function createMockStatement(array $methods = array('rowCount', 'fetch'))
+    protected function createMockStatement(array $methods = array('rowCount', 'fetch', 'lastInsertId'))
     {
         return $this->getMock('stdClass', $methods);
     }
