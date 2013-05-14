@@ -69,6 +69,16 @@ class Package
     }
     
     /**
+     * Set the id of the package.
+     * 
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
+    /**
      * Returns the identifier of the package.
      * 
      * @return string

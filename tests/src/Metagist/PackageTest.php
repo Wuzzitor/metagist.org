@@ -55,6 +55,9 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     {
         $this->package = new Package('id/test', 10);
         $this->assertEquals(10, $this->package->getId());
+        
+        $this->package->setId(123);
+        $this->assertEquals(123, $this->package->getId());
     }
     
     /**
