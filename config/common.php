@@ -20,8 +20,8 @@ $app['twig.options.cache'] = $app['cache.path'] . '/twig';
 // Assetic
 $app['assetic.enabled']              = true;
 $app['assetic.path_to_cache']        = $app['cache.path'] . '/assetic' ;
-$app['assetic.path_to_web']          = __DIR__ . '/../../web/assets';
-$app['assetic.input.path_to_assets'] = __DIR__ . '/../assets';
+$app['assetic.path_to_web']          = __DIR__ . '/../web/assets';
+$app['assetic.input.path_to_assets'] = __DIR__ . '/../resources/assets';
 
 $app['assetic.input.path_to_css']       = $app['assetic.input.path_to_assets'] . '/less/style.less';
 $app['assetic.output.path_to_css']      = 'css/styles.css';
