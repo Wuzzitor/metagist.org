@@ -130,7 +130,7 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
         $statement->expects($this->once())
             ->method('rowCount')
             ->will($this->returnValue(1));
-        $statement->expects($this->once())
+        $this->connection->expects($this->once())
             ->method('lastInsertId')
             ->will($this->returnValue(123));
         

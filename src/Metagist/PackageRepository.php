@@ -81,7 +81,7 @@ class PackageRepository
                 'INSERT INTO packages (identifier, description, versions) VALUES (?, ?, ?)',
                 $data
             );
-            $id = $stmt->lastInsertId();
+            $id = $this->connection->lastInsertId();
             $package->setId($id);
         } else {
             $data[] = $id;
