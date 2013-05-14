@@ -45,4 +45,53 @@ class MetaInfoRepository
         
         return $collection;
     }
+    
+    /**
+     * Saves a package.
+     * 
+     * @param \Metagist\Package $package
+     * @throws \RuntimeException
+     */
+    public function savePackage(Package $package)
+    {
+        if ($package->getId() == null) {
+            throw new \RuntimeException('Save the package first.');
+        }
+        
+        //delete old entries
+        $this->connection->executeQuery(
+            'DELETE FROM metainfo WHERE package_id = ?',
+            array($package->getId())
+        );
+            
+        $metaInfos = $package->getMetaInfos();
+        foreach ($metaInfos as $info) {
+            $this->save($info);
+        }
+    }
+    
+    /**
+     * Saves (inserts) a single info.
+     * 
+     * @param \Metagist\MetaInfo $info
+     * @return int
+     */
+    public function save(MetaInfo $info)
+    {
+        $stmt = $this->connection->executeQuery(
+            'INSERT INTO metainfo (package_id, user_id, time_updated, version, category, group, value) 
+             VALUES (?, ?, ?, ?, ?, ?, ?)',
+            array(
+                $info->getPackage()->getId(),
+                $info->getUserId(),
+                date('Y-m-d H:i:s', time()),
+                $info->getVersion(),
+                $info->getCategory(),
+                $info->getGroup(),
+                $info->getValue()
+            )
+        );
+        
+        return $stmt->rowCount();
+    }
 }

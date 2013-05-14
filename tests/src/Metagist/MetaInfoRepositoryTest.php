@@ -62,6 +62,31 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
         $info = $collection->get(0);
         $this->assertInstanceOf("\Metagist\MetaInfo", $info);
     }
+    
+    /**
+     * Ensures a package can be saved.
+     */
+    public function testSavePackage()
+    {
+        $elements = array(MetaInfo::fromValue('test/test', 123));
+        $collection = new \Doctrine\Common\Collections\ArrayCollection($elements);
+        $package = new Package('test/test123', 123);
+        $package->setMetaInfos($collection);
+        
+        $statement = $this->createMockStatement();
+        $statement->expects($this->at(0))
+            ->method('rowCount')
+            ->will($this->returnValue(1));
+        
+        $this->connection->expects($this->at(0))
+            ->method('executeQuery');
+        $this->connection->expects($this->at(1))
+            ->method('executeQuery')
+            ->with($this->stringContains('INSERT INTO metainfo'))
+            ->will($this->returnValue($statement));
+        
+        $this->repo->savePackage($package);
+    }
         
     /**
      * Creates a statement mock, the provided HydratorMockStatement seems to be broken.
