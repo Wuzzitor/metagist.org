@@ -39,11 +39,12 @@ class MetaInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromValueFactoryMethod()
     {
-        $info = MetaInfo::fromValue('cat/grp', 'test123');
+        $info = MetaInfo::fromValue('cat/grp', 'test123', '1.0.0');
         $this->assertInstanceOf('Metagist\MetaInfo', $info);
         $this->assertEquals('cat', $info->getCategory());
         $this->assertEquals('grp', $info->getGroup());
         $this->assertEquals('test123', $info->getValue());
+        $this->assertEquals('1.0.0', $info->getVersion());
     }
     
     /**
@@ -71,5 +72,32 @@ class MetaInfoTest extends \PHPUnit_Framework_TestCase
     {
         $this->metaInfo = MetaInfo::fromArray(array('value' => 'test'));
         $this->assertEquals('test', $this->metaInfo->getValue());
+    }
+    
+    /**
+     * Tests the version getter.
+     */
+    public function testGetVersion()
+    {
+        $this->metaInfo = MetaInfo::fromArray(array('version' => 'test'));
+        $this->assertEquals('test', $this->metaInfo->getVersion());
+    }
+    
+    /**
+     * Tests the time getter.
+     */
+    public function testGetTimeUpdated()
+    {
+        $this->metaInfo = MetaInfo::fromArray(array('time_updated' => '2012-12-12 00:00:00'));
+        $this->assertEquals('2012-12-12 00:00:00', $this->metaInfo->getTimeUpdated());
+    }
+    
+    /**
+     * Tests the user id getter.
+     */
+    public function testGetUserId()
+    {
+        $this->metaInfo = MetaInfo::fromArray(array('user_id' => 13));
+        $this->assertEquals(13, $this->metaInfo->getUserId());
     }
 }

@@ -9,6 +9,19 @@ namespace Metagist;
 class MetaInfo
 {
     /**
+     * user id
+     * @var int|null
+     */
+    private $user_id;
+    
+    /**
+     * The time of the last update.
+     * 
+     * @var string
+     */
+    private $time_updated;
+    
+    /**
      * category name
      * @var string
      */
@@ -25,6 +38,12 @@ class MetaInfo
      * @var Package 
      */
     private $package;
+    
+    /**
+     * Version info
+     * @var string 
+     */
+    private $version;
     
     /**
      * Content of the information.
@@ -58,14 +77,15 @@ class MetaInfo
      * @param mixed  $value
      * @return MetaInfo
      */
-    public static function fromValue($identifier, $value)
+    public static function fromValue($identifier, $value, $version = null)
     {
         list ($category, $group) = explode('/', $identifier);
         return self::fromArray(
             array(
                 'category' => $category,
                 'group'    => $group,
-                'value'    => $value
+                'value'    => $value,
+                'version'  => $version
             )
         );
     }
@@ -118,5 +138,35 @@ class MetaInfo
     public function getValue()
     {
         return $this->value;
+    }
+    
+    /**
+     * Returns the associated version.
+     * 
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+    
+    /**
+     * Returns the id of the user who created the info.
+     * 
+     * @return int|null
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+    
+    /**
+     * Returns the time of the last update
+     * 
+     * @return string|null
+     */
+    public function getTimeUpdated()
+    {
+        return $this->time_updated;
     }
 }
