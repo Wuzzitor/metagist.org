@@ -49,23 +49,23 @@ class CategorySchema
     /**
      * Returns the categories, iterable.
      * 
-     * @return object
+     * @return array
      */
     public function getCategories()
     {
-        return $this->categories;
+        return (array)$this->categories;
     }
     
     /**
      * Returns the groups of a category.
      * 
      * @param string $category
-     * @return type
+     * @return array
      */
     public function getGroups($category)
     {
         $this->assertCategoryExists($category);
-        return $this->categories->$category->types;
+        return (array)$this->categories->$category->types;
     }
     
     /**

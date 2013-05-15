@@ -17,6 +17,17 @@ class CategorySchemaTest extends \PHPUnit_Framework_TestCase
     private $schema;
     
     /**
+     * Test setup.
+     */
+    public function setUp()
+    {
+        parent::setUp();
+    
+        $json = file_get_contents(__DIR__ .'/testdata/testcategories.json');
+        $this->schema = new CategorySchema($json);
+    }
+    
+    /**
      * Ensures the constructor checks the json.
      */
     public function testConstructorThrowsException()
@@ -26,11 +37,21 @@ class CategorySchemaTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Ensures constructor works.
+     * Ensures categories are returned.
      */
-    public function testValidInit()
+    public function testGetCategories()
     {
-        $json = file_get_contents(__DIR__ .'/testdata/testcategories.json');
-        $this->schema = new CategorySchema($json);
+        $cats = $this->schema->getCategories();
+        $this->assertNotNull($cats);
+    }
+    
+    /**
+     * Ensures groups are returned.
+     */
+    public function testGetGroups()
+    {
+        $groups = $this->schema->getGroups('test');
+        $this->assertNotNull($groups);
+        $this->assertInternalType('array', $groups);
     }
 }
