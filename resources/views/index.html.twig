@@ -3,11 +3,11 @@
 
 {% block content %}
 
-    <h1>metagist</h1>
-    {% if is_granted('ROLE_USER') %}
-        Hello "{{ app.security.token.username }}".<br />
-        <a href="{{ path('logout') }}">{{ 'Logout'|trans }}</a>
-    {% else %}
-        Your a not logged. Please <a href="{{ path('login') }}">{{ 'connect'|trans }}</a>
-    {% endif %}
+    <h1>Latest Info</h1>
+    <ul>
+        {% for package in latest %}
+            <li><a href="/package/{{ package.getIdentifier|e }}">{{ package.getIdentifier|e }}</a> updated.</li>
+        {% endfor %}
+    </ul>
+    
 {% endblock %}
