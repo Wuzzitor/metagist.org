@@ -60,6 +60,17 @@ class Application extends \Silex\Application
     }
     
     /**
+     * Returns the category schema representation.
+     * 
+     * @return \Metagist\CategorySchema
+     */
+    public function categories()
+    {
+        return $this[RepoProvider::CATEGORY_SCHEMA];
+    }
+
+
+    /**
      * Runs the application either from cache or not.
      * 
      * @return void
