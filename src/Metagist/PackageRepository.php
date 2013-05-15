@@ -2,6 +2,7 @@
 namespace Metagist;
 
 use \Doctrine\DBAL\Connection;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Repository for packages.
@@ -53,12 +54,9 @@ class PackageRepository
 
         if (!$data = $stmt->fetch()) {
             return null;
-        } else {
-            $package = new Package($data['identifier'], $data['id']);
-            $package->setDescription($data['description']);
-            $package->setVersions(explode(',', $data['versions']));
         }
         
+        $package = $this->createPackageFromData($data);
         return $package;
     }
     
@@ -93,5 +91,42 @@ class PackageRepository
         }
         
         return $stmt->rowCount();
+    }
+    
+    /**
+     * Retrieves the packages where metainfo has been updated lately.
+     * 
+     * @param int $count
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @todo parameter binding did not work.
+     */
+    public function latest($count = 25)
+    {
+        $sql = "SELECT DISTINCT * FROM packages p 
+            LEFT JOIN metainfo m ON p.id = m.package_id
+            ORDER BY m.time_updated DESC LIMIT " . (int)$count;
+        $stmt = $this->connection->executeQuery($sql);
+
+        $collection = new ArrayCollection();
+        while ($data = $stmt->fetch()) {
+            $collection->add($this->createPackageFromData($data));
+        }
+        
+        return $collection;
+    }
+    
+    /**
+     * Creates a package instance from fetched data.
+     * 
+     * @param array $data
+     * @return \Metagist\Package
+     */
+    protected function createPackageFromData(array $data)
+    {
+        $package = new Package($data['identifier'], $data['id']);
+        $package->setDescription($data['description']);
+        $package->setVersions(explode(',', $data['versions']));
+        
+        return $package;
     }
 }
