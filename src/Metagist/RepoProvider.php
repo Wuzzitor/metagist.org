@@ -27,6 +27,12 @@ class RepoProvider implements \Silex\ServiceProviderInterface
     const METAINFO_REPO = 'repo.metainfo';
     
     /**
+     * pimple key under which the categories and groups can be accessed
+     * @var string
+     */
+    const CATEGORY_SCHEMA = 'categories';
+    
+    /**
      * unused.
      * 
      * @param \Silex\Application $app
@@ -41,8 +47,13 @@ class RepoProvider implements \Silex\ServiceProviderInterface
      */
     public function register(\Silex\Application $app)
     {
-        $json = file_get_contents(__DIR__ . '/../../web/metainfo.json');
-        $validator = new Validator(new CategorySchema($json));
+        $json      = file_get_contents(__DIR__ . '/../../web/metainfo.json');
+        $schema    = new CategorySchema($json);
+        $validator = new Validator($schema);
+        
+        $app[self::CATEGORY_SCHEMA] = function () use ($app, $schema) {
+            return $schema;
+        };
         
         $app[self::PACKAGE_REPO] = function () use ($app, $validator) {
             return new PackageRepository($app['db'], $validator);

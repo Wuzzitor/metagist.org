@@ -44,6 +44,9 @@ class RepoProviderTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->provider->register($app);
         
+        $this->assertNotNull($app[RepoProvider::CATEGORY_SCHEMA]);
+        $this->assertInstanceOf("\Metagist\CategorySchema", $app[RepoProvider::CATEGORY_SCHEMA]);
+        
         $this->assertNotNull($app[RepoProvider::METAINFO_REPO]);
         $this->assertInstanceOf("\Metagist\MetaInfoRepository", $app[RepoProvider::METAINFO_REPO]);
         
