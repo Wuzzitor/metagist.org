@@ -96,10 +96,17 @@ class WebController
     public function package($author, $name)
     {
         $package = $this->getPackage($author, $name);
+        
+        //retrieve the related infos.
+        $metaInfoRepo = $this->application[RepoProvider::METAINFO_REPO];
+        $metaInfos = $metaInfoRepo->byPackage($package);
+        $package->setMetaInfos($metaInfos);
+        
         return $this->application->render(
             'package.html.twig',
             array(
                 'package' => $package,
+                'categories' => $this->application->categories()
             )
         );
     }
