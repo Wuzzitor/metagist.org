@@ -51,7 +51,7 @@ class RepoProvider implements \Silex\ServiceProviderInterface
         $schema    = new CategorySchema($json);
         $validator = new Validator($schema);
         
-        $app[self::CATEGORY_SCHEMA] = function () use ($app, $schema) {
+        $app[self::CATEGORY_SCHEMA] = function () use ($schema) {
             return $schema;
         };
         
