@@ -22,6 +22,7 @@
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
     <div class="container">
+        <div class="block">
         <a class="brand" href="{{ path('homepage') }}">{{ 'metagist.org'|trans }}</a>
         <ul class="nav pull-right">
             {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
@@ -30,6 +31,7 @@
                 <li><a href="{{ path('login') }}">{{ 'Contribute'|trans }}</a></li>
             {% endif %}
         </ul>
+        </div>
     </div>
 
     <div id="main" role="main" class="container">

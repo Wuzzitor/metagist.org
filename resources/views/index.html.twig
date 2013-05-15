@@ -3,11 +3,19 @@
 
 {% block content %}
 
+    <div class="hero-unit">
+        <h1>metagist.org</h1>
+        <p>PHP open source stuff.</p>
+    </div>
+
     <h1>Latest Info</h1>
-    <ul>
-        {% for package in latest %}
-            <li><a href="/package/{{ package.getIdentifier|e }}">{{ package.getIdentifier|e }}</a> updated.</li>
-        {% endfor %}
-    </ul>
+    
+    <div class="block">
+        <ul>
+            {% for package in latest %}
+                <li><a href="/package/{{ package.getIdentifier|e }}">{{ package.getIdentifier|e }}</a> updated.</li>
+            {% endfor %}
+        </ul>
+    </div>
     
 {% endblock %}
