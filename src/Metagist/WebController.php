@@ -57,7 +57,12 @@ class WebController
      */
     public function index()
     {
-        return $this->application->render('index.html.twig');
+        return $this->application->render(
+            'index.html.twig',
+            array(
+                'latest' => $this->application->packages()->latest(),
+            )
+        );
     }
 
     /**
@@ -90,8 +95,7 @@ class WebController
      */
     public function package($author, $name)
     {
-        $repository = $this->application->packages();
-        $package = $repository->byAuthorAndName($author, $name);
+        $package = $this->getPackage($author, $name);
         return $this->application->render(
             'package.html.twig',
             array(
@@ -156,5 +160,28 @@ class WebController
 
             return new Response($message, $code);
         });
+    }
+    
+    /**
+     * Retrieves a package either from the db or packagist.
+     * 
+     * @param string $author
+     * @param string $name
+     * @return Package
+     */
+    protected function getPackage($author, $name)
+    {
+        $packageRepo = $this->application->packages();
+        $package = $packageRepo->byAuthorAndName($author, $name);
+        if ($package == null) {
+            $package = $this->application[RepoProvider::PACKAGE_FACTORY]->byAuthorAndName($author, $name);
+            if ($packageRepo->save($package)) {
+                /* @var $metaInfoRepo MetaInfoRepository */
+                $metaInfoRepo = $this->application[RepoProvider::METAINFO_REPO];
+                $metaInfoRepo->savePackage($package);
+            }
+        }
+        
+        return $package;
     }
 }
