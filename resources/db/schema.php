@@ -40,7 +40,7 @@ $votes->addForeignKeyConstraint($projects, array('package_id'), array('id'));
 $votes->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => true));
 $votes->addForeignKeyConstraint($users, array('user_id'), array('id'));
 $votes->addColumn('time_updated', 'datetime', array('notnull' => true   ));
-$votes->addColumn('version', 'string', array('length' => 32, 'null' => true));
+$votes->addColumn('version', 'string', array('length' => 32, 'notnull' => false));
 $votes->addColumn('rating', 'integer', array('length' => 1));
 $votes->addColumn('comment', 'text');
 
@@ -55,7 +55,7 @@ $metainfo->addForeignKeyConstraint($projects, array('package_id'), array('id'));
 $metainfo->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => false));
 $metainfo->addForeignKeyConstraint($users, array('user_id'), array('id'));
 $metainfo->addColumn('time_updated', 'datetime', array('notnull' => true));
-$metainfo->addColumn('version', 'string', array('length' => 32, 'null' => true));
+$metainfo->addColumn('version', 'string', array('length' => 32, 'notnull' => false));
 $metainfo->addColumn('category','string', array('length' => 32, 'notnull' => true));
 $metainfo->addColumn('group','string', array('length' => 32, 'notnull' => true));
 $metainfo->addColumn('value','text');
