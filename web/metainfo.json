@@ -95,7 +95,7 @@
                 "access": "ROLE_USER",
                 "type": "url",
                 "description": "Travis CI project url"
-            },
+            }
         }
     },
     
