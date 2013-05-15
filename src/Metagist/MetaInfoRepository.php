@@ -79,7 +79,7 @@ class MetaInfoRepository
     public function save(MetaInfo $info)
     {
         $stmt = $this->connection->executeQuery(
-            'INSERT INTO metainfo (package_id, user_id, time_updated, version, category, group, value) 
+            'INSERT INTO metainfo (package_id, user_id, time_updated, version, category, `group`, value) 
              VALUES (?, ?, ?, ?, ?, ?, ?)',
             array(
                 $info->getPackage()->getId(),
