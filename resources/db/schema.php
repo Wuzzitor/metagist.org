@@ -52,7 +52,7 @@ $metainfo->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' 
 $metainfo->setPrimaryKey(array('id'));
 $metainfo->addColumn('package_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => true));
 $metainfo->addForeignKeyConstraint($projects, array('package_id'), array('id'));
-$metainfo->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => true, 'null' => true));
+$metainfo->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => false));
 $metainfo->addForeignKeyConstraint($users, array('user_id'), array('id'));
 $metainfo->addColumn('time_updated', 'datetime', array('notnull' => true));
 $metainfo->addColumn('version', 'string', array('length' => 32, 'null' => true));
