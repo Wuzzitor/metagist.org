@@ -3,9 +3,16 @@
 {% block content %}
 
     <h1>metagist on: {{package}}</h1>
-    <div class="row-fluid">
-        <div class="span4 category"><h2>Transparency</h2></div>
-        <div class="span4 category"><h2>Community</h2></div>
-        <div class="span4 category"><h2>Testing</h2></div>
+
+    {% for name, data in categories.getCategories() %}
+    <div class="block">
+        <h2>{{name}}</h2>
+        <p class="text-info">{{data.description}}</p>
+        {% for group, groupdata in categories.getGroups(name) %}
+            <h3>{{group}}</h3>
+            <p class="text-info">{{groupdata.description}}</p>
+        {% endfor %}
     </div>
+    {% endfor %}
+                
 {% endblock %}
