@@ -100,13 +100,16 @@ class UserProvider implements UserProviderInterface
         $rawData = $response['auth']['raw'];
         $user = new User($rawData['login'], $this->getRoleByUsername($rawData['login']), $rawData['avatar_url']);
         
-        $stmt = $this->conn->executeQuery(
-            'INSERT INTO users (username, avatar_url) VALUES (?, ?)',
-            array($user->getUsername(), $user->getAvatarUrl())
-        );
-
-        if (!$stmt->rowCount()) {
-            throw new \RuntimeException('Could not create the user.');
+        try {
+            $this->loadUserByUsername($user->getUsername());
+        } catch (UsernameNotFoundException $exception) {
+            $stmt = $this->conn->executeQuery(
+                'INSERT INTO users (username, avatar_url) VALUES (?, ?)',
+                array($user->getUsername(), $user->getAvatarUrl())
+            );
+            if (!$stmt->rowCount()) {
+                throw new \RuntimeException('Could not create the user.', 500, $exception);
+            }
         }
         
         return $user;

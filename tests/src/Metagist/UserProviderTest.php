@@ -78,8 +78,14 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
         $statement->expects($this->once())
             ->method('rowCount')
             ->will($this->returnValue(1));
+        $statement->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue(null));
         
-        $this->connection->expects($this->once())
+        $this->connection->expects($this->at(0))
+            ->method('executeQuery')
+            ->will($this->returnValue($statement));
+        $this->connection->expects($this->at(1))
             ->method('executeQuery')
             ->will($this->returnValue($statement));
         
