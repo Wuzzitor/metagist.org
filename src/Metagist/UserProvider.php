@@ -101,7 +101,7 @@ class UserProvider implements UserProviderInterface
         $user = new User($rawData['login'], $this->getRoleByUsername($rawData['login']), $rawData['avatar_url']);
         
         $stmt = $this->conn->executeQuery(
-            'INSERT INTO users (username, avatar_url) VALUES ?, ?',
+            'INSERT INTO users (username, avatar_url) VALUES (?, ?)',
             array($user->getUsername(), $user->getAvatarUrl())
         );
 
