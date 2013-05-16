@@ -38,4 +38,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('http://an.url', $this->user->getAvatarUrl());
     }
+    
+    /**
+     * Ensures to magic toString method returns the username.
+     */
+    public function testToStringReturnsUsername()
+    {
+        $this->assertEquals('test123', (string) $this->user);
+    }
 }
