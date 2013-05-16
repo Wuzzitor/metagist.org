@@ -44,7 +44,8 @@ $app->register(new Metagist\OpauthSecurityServiceProvider(), array(
     'security.firewalls' => array(
         'default' => array(
             'pattern' => '^/',
-            'anonymous' => true
+            'anonymous' => true,
+            'opauth' => true,
         ),
         'contribute' => array(
             'pattern' => '^/contribute',
