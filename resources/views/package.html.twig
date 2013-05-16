@@ -1,18 +1,31 @@
 {% extends 'layout.html.twig' %}
+{% set pagetitle = 'metagist.org on ' ~ package %}
 
 {% block content %}
 
-    <h1>metagist on: {{package}}</h1>
-
-    {% for name, data in categories.getCategories() %}
-    <div class="block">
-        <h2>{{name}}</h2>
-        <p class="text-info">{{data.description}}</p>
-        {% for group, groupdata in categories.getGroups(name) %}
-            <h3>{{group}}</h3>
-            <p class="text-info">{{groupdata.description}}</p>
-        {% endfor %}
+    <div class="hero-unit">
+        <h1>metagist on:<br />{{package}}</h1>
+        <p>{{package.description}}</p>
+        <br />
+        <a class="btn btn-primary" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a>
+        <a class="btn" href="/contribute/{{package.identifier}}">Contribute</a>
     </div>
+    
+    {% for name, data in categories.getCategories() %}
+    {% if loop.index0 is even %}
+    <div class="row-fluid">
+    {% endif %}
+        <div class="block well span6">
+            <h2>{{name}}</h2>
+            <p class="text-info">{{data.description}}</p>
+            {% for group, groupdata in categories.getGroups(name) %}
+                <h3>{{group}}</h3>
+                <p class="text-info">{{groupdata.description}}</p>
+            {% endfor %}
+        </div>
+    {% if  loop.index0 is not even %}
+    </div>
+    {% endif %}
     {% endfor %}
                 
 {% endblock %}

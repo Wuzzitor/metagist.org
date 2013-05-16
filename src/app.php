@@ -53,8 +53,8 @@ $app->register(new Metagist\OpauthSecurityServiceProvider(), array(
             'opauth' => true,
             'users'  => function () use ($app) {return $app['users'];}
         ),
-        'vote' => array(
-            'pattern' => '^/vote',
+        'rate' => array(
+            'pattern' => '^/rate',
             'opauth' => true,
             'users'  => function () use ($app) {return $app['users'];}
         ),

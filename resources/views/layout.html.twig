@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>{{ 'Homepage'|trans }}</title>
+    <title>{{ pagetitle|trans }}</title>
 
     <meta name="description" content="">
     <meta name="author" content="">
@@ -28,7 +28,7 @@
             {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
                 <li><a href="{{ path('logout') }}">{{ 'Logout'|trans }}</a></li>
             {% else %}
-                <li><a href="{{ path('login') }}">{{ 'Contribute'|trans }}</a></li>
+                <li><a href="{{ path('login') }}">{{ 'Sign in with github'|trans }}</a></li>
             {% endif %}
         </ul>
         </div>

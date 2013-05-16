@@ -30,19 +30,19 @@ $users->addUniqueIndex(array('username'));
 $users->addColumn('avatar_url', 'string', array('length' => 255));
 
 /*
- * votes
+ * ratings
  */
-$votes = $schema->createTable('votes');
-$votes->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
-$votes->setPrimaryKey(array('id'));
-$votes->addColumn('package_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => true));
-$votes->addForeignKeyConstraint($projects, array('package_id'), array('id'));
-$votes->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => true));
-$votes->addForeignKeyConstraint($users, array('user_id'), array('id'));
-$votes->addColumn('time_updated', 'datetime', array('notnull' => true   ));
-$votes->addColumn('version', 'string', array('length' => 32, 'notnull' => false));
-$votes->addColumn('rating', 'integer', array('length' => 1));
-$votes->addColumn('comment', 'text');
+$rates = $schema->createTable('ratings');
+$rates->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
+$rates->setPrimaryKey(array('id'));
+$rates->addColumn('package_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => true));
+$rates->addForeignKeyConstraint($projects, array('package_id'), array('id'));
+$rates->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => true, 'notnull' => true));
+$rates->addForeignKeyConstraint($users, array('user_id'), array('id'));
+$rates->addColumn('time_updated', 'datetime', array('notnull' => true   ));
+$rates->addColumn('version', 'string', array('length' => 32, 'notnull' => false));
+$rates->addColumn('rating', 'integer', array('length' => 1, 'notnull' => true));
+$rates->addColumn('comment', 'text');
 
 /*
  * metainfo
