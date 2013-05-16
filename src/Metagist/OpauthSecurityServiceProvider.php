@@ -38,7 +38,7 @@ class OpauthSecurityServiceProvider extends \Silex\Provider\SecurityServiceProvi
         $app['security.authentication_listener.factory.opauth'] = $app->protect(function ($name, $options) use ($app) {
             // define the authentication provider object
             $app['security.authentication_provider.'.$name.'.opauth'] = $app->share(function () use ($app) {
-                new PreAuthenticatedAuthenticationProvider(
+                return new PreAuthenticatedAuthenticationProvider(
                     $app['users'],
                     new UserChecker(),
                     'opauth'
@@ -47,11 +47,16 @@ class OpauthSecurityServiceProvider extends \Silex\Provider\SecurityServiceProvi
 
             // define the authentication listener object
             $app['security.authentication_listener.'.$name.'.opauth'] = $app->share(function () use ($app) {
-                return new OpauthListener(
+                $subscriber = new OpauthListener(
                     $app['security'], 
                     $app['security.authentication_manager'],
-                    $app['users']
+                    $app['users'],
+                    $app['logger'] /* Monolog */
                 );
+                $dispatcher = $app['dispatcher'];
+                /* @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcher */
+                $dispatcher->addSubscriber($subscriber);
+                return $subscriber;
             });
 
             return array(
