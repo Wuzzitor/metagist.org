@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+{% set pagetitle = 'contribute to ' ~ package %}
+
+{% block content %}
+
+    <div class="hero-unit">
+        <p>contribute to:</p>
+        <h1>{{package}}</h1>
+    </div>
+
+    <h1>{{ 'Form'|trans }}</h1>
+
+    <form action="" method="post" novalidate {{ form_enctype(form) }} class="form-horizontal">
+        {{ form_widget(form) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
+        </div>
+    </form>
+                
+{% endblock %}
