@@ -15,7 +15,7 @@ $projects = $schema->createTable('packages');
 $projects->addColumn('id', 'integer', array('unsigned' => true, 'autoincrement' => true));
 $projects->setPrimaryKey(array('id'));
 $projects->addColumn('identifier', 'string', array('length' => 255, 'notnull' => true));
-$projects->addColumn('description', 'string', array('length' => 255, 'notnull' => true));
+$projects->addColumn('description', 'text', array('notnull' => true));
 $projects->addColumn('type', 'string', array('length' => 64));
 $projects->addColumn('versions', 'text', array('null' => true));
 
