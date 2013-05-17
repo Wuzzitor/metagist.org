@@ -12,7 +12,7 @@
         
         <div class="span6 well">
             <h2>Latest Updates</h2>
-            <ul class="metainfo">
+            <ul class="unstyled">
                 {% for metainfo in latest %}
                     <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
                         <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
@@ -23,10 +23,10 @@
         </div>
         
         <div class="span6 well">
-            <h2>Featured</h2>
-            <ul class="metainfo">
+            <h2><i class="icon-bolt"></i> Featured</h2>
+            <ul class="unstyled">
             {% for metainfo in featured %}
-                <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
+                <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}"><i class="icon-li icon-ok"></i>
                     <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
                     <p>{{ metainfo.value|e }}</p>
                 </li>
