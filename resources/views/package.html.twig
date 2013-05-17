@@ -7,8 +7,9 @@
         <h1>metagist on:<br />{{package}}</h1>
         <p>{{package.description}}</p>
         <br />
+        <a class="btn btn-success" href="http://packagist.org/packages/{{package.identifier}}"><i class="icon-white icon-eject"></i> Go to Packagist</a>
         <a class="btn btn-primary" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a>
-        <a class="btn" href="/contribute/{{package.identifier}}">Contribute</a>
+        <a class="btn" href="/contribute/{{package.identifier}}"><i class="icon-pencil"></i> Contribute</a>
     </div>
     
     {% for name, data in categories.getCategories() %}
