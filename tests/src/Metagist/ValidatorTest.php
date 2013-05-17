@@ -147,4 +147,28 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             array('testBadge', "no-url", false),
         );
     }
+    
+    /**
+     * Ensures isValidCategoryGroup() fails without an existing group
+     */
+    public function testIsValidCategoryGroupFails()
+    {
+        $this->assertFalse($this->validator->isValidCategoryGroup('test', 'x'));
+    }
+    
+    /**
+     * Ensures isValidCategoryGroup() fails gracefully.
+     */
+    public function testIsValidCategoryGroupFailsWithException()
+    {
+        $this->assertFalse($this->validator->isValidCategoryGroup('fail', 'x'));
+    }
+    
+    /**
+     * Ensures isValidCategoryGroup() works with an existing group
+     */
+    public function testIsValidCategoryGroup()
+    {
+        $this->assertTrue($this->validator->isValidCategoryGroup('test', 'testInteger'));
+    }
 }

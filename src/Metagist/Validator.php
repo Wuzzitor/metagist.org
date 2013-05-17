@@ -26,6 +26,23 @@ class Validator
     }
     
     /**
+     * Checks if the category group exists.
+     * 
+     * @param string $category
+     * @param string $group
+     * @return boolean
+     */
+    public function isValidCategoryGroup($category, $group)
+    {
+        try {
+            $groups = $this->schema->getGroups($category);
+            return array_key_exists($group, $groups);
+        } catch (\InvalidArgumentException $exception) {
+            return false;
+        }
+    }
+    
+    /**
      * Validate a name (author or package name).
      * 
      * @param string $name author or package name
