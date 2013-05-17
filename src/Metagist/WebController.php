@@ -65,10 +65,12 @@ class WebController
      */
     public function index()
     {
+        $repo = $this->application->metainfo();
         return $this->application->render(
-                'index.html.twig', array(
-                'latest' => $this->application->packages()->latest(),
-                )
+            'index.html.twig', array(
+                'latest' => $repo->latest(),
+                'featured' => $repo->byCategoryGroup('reviews', 'featured'),
+            )
         );
     }
 
