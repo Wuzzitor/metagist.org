@@ -8,14 +8,31 @@
         <p>PHP open source stuff.</p>
     </div>
 
-    <h1>Latest Info</h1>
-    
-    <div class="block">
-        <ul>
-            {% for package in latest %}
-                <li><a href="/package/{{ package.getIdentifier|e }}">{{ package.getIdentifier|e }}</a> updated.</li>
+    <div class="row-fluid">
+        
+        <div class="span6 well">
+            <h2>Latest Updates</h2>
+            <ul class="metainfo">
+                {% for metainfo in latest %}
+                    <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
+                        <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
+                        <strong>{{ (metainfo.getCategory ~ '_' ~ metainfo.getGroup)|trans }}:</strong>  {{ metainfo.getValue |e }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="span6 well">
+            <h2>Featured</h2>
+            <ul class="metainfo">
+            {% for metainfo in featured %}
+                <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
+                    <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
+                    <p>{{ metainfo.value|e }}</p>
+                </li>
             {% endfor %}
-        </ul>
+            </ul>
+        </div>
     </div>
     
 {% endblock %}
