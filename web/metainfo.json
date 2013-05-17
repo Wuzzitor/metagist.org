@@ -20,6 +20,11 @@
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
                 "description": "Approximate number of committs."
+            },
+            "stillmaintained": {
+                "access": "ROLE_USER",
+                "type": "badge",
+                "description": "Still-maintained badge (see stillmaintained.com)."
             }
         }
     },
@@ -95,6 +100,11 @@
                 "access": "ROLE_USER",
                 "type": "url",
                 "description": "Travis CI project url"
+            },
+            "tests.status": {
+                "access": "ROLE_USER",
+                "type": "badge",
+                "description": "Test status badge."
             }
         }
     },
@@ -120,18 +130,31 @@
         }
     },
             
-    "badges": {
+    "reviews": {
         "description": "Special achievements",
         "types": {
             "globalplayer": {
                 "access": "ROLE_ADMIN",
                 "type": "boolean",
+                "cardinality": 1,
                 "description": "Flag to show the package is of major importance (e.g. a major framework)"
             },
             "abandoned": {
                 "access": "ROLE_ADMIN",
                 "type": "boolean",
+                "cardinality": 1,
                 "description": "Flag to show the package is not maintained anymore."
+            },
+            "featured": {
+                "access": "ROLE_ADMIN",
+                "type": "string",
+                "cardinality": 1,
+                "description": "Features the project."
+            },
+            "hiddengem": {
+                "access": "ROLE_ADMIN",
+                "type": "string",
+                "description": "A hidden or unfeatured functionality."
             }
         }
     }
