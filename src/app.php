@@ -89,6 +89,9 @@ $app->register(new TwigServiceProvider(), array(
     'twig.path' => array(__DIR__ . '/../resources/views')
 ));
 
+/*
+ * assetic
+ */
 if (isset($app['assetic.enabled']) && $app['assetic.enabled']) {
     $app->register(new AsseticServiceProvider(), array(
         'assetic.options' => array(
@@ -144,4 +147,14 @@ $app->register(new OpauthExtension());
  * Provides a repo for packages
  */
 $app->register(new Metagist\RepoProvider());
+
+/*
+ * Icons
+ *
+$mapping = array(
+    'transparency_repository' => 'icon-comment'
+);
+$twig = $app['twig'];
+$twig->addExtension(new \Metagist\IconExtension($mapping));
+*/
 return $app;
