@@ -9,6 +9,36 @@ namespace Metagist;
 class CategorySchema
 {
     /**
+     * string type
+     * @var string
+     */
+    CONST TYPE_STRING = 'string';
+    
+    /**
+     * boolean type
+     * @var string
+     */
+    CONST TYPE_BOOLEAN = 'boolean';
+    
+    /**
+     * integer type
+     * @var string
+     */
+    CONST TYPE_INTEGER = 'integer';
+    
+    /**
+     * url type
+     * @var string
+     */
+    CONST TYPE_URL = 'url';
+    
+    /**
+     * badge type (image url)
+     * @var string
+     */
+    CONST TYPE_BADGE = 'badge';
+    
+    /**
      * identifer for the repo category and group
      * @var string
      */
@@ -23,6 +53,7 @@ class CategorySchema
      * Initialize with a json string.
      * 
      * @param string $json
+     * @throws \InvalidArgumentException is the categories are null
      */
     public function __construct($json)
     {

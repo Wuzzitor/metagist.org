@@ -53,19 +53,19 @@ class Validator
         $type  = $this->schema->getType($metaInfo->getCategory(), $metaInfo->getGroup());
         $value = $metaInfo->getValue();
         
-        if ($type == 'string') {
+        if ($type == CategorySchema::TYPE_STRING) {
             return is_string($value) && !empty($value);
         }
         
-        if ($type == "boolean") {
+        if ($type == CategorySchema::TYPE_BOOLEAN) {
             return (bool)filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
         
-        if ($type == "integer") {
+        if ($type == CategorySchema::TYPE_INTEGER) {
             return (bool)filter_var($value, FILTER_VALIDATE_INT);
         }
         
-        if ($type == "url") {
+        if ($type == CategorySchema::TYPE_URL || $type == CategorySchema::TYPE_BADGE) {
             return (bool)filter_var($value, FILTER_VALIDATE_URL);
         }
         

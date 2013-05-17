@@ -20,6 +20,11 @@
                 "access": "ROLE_SYSTEM",
                 "type": "url",
                 "description": "testUrl text"
+            },
+            "testBadge": {
+                "access": "ROLE_ADMIN",
+                "type": "badge",
+                "description": "testBadge text"
             }
         }
     }

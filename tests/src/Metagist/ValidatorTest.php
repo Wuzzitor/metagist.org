@@ -143,6 +143,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             array('testInteger', 12, true),
             array('testInteger', 12.3, false),
             array('testInteger', "a string", false),
+            array('testBadge', "http://metagist.org", true),
+            array('testBadge', "no-url", false),
         );
     }
 }
