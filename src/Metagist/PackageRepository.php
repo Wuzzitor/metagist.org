@@ -94,28 +94,6 @@ class PackageRepository
     }
     
     /**
-     * Retrieves the packages where metainfo has been updated lately.
-     * 
-     * @param int $count
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     * @todo parameter binding did not work.
-     */
-    public function latest($count = 25)
-    {
-        $sql = "SELECT DISTINCT * FROM packages p 
-            LEFT JOIN metainfo m ON p.id = m.package_id
-            ORDER BY m.time_updated DESC LIMIT " . (int)$count;
-        $stmt = $this->connection->executeQuery($sql);
-
-        $collection = new ArrayCollection();
-        while ($data = $stmt->fetch()) {
-            $collection->add($this->createPackageFromData($data));
-        }
-        
-        return $collection;
-    }
-    
-    /**
      * Creates a package instance from fetched data.
      * 
      * @param array $data

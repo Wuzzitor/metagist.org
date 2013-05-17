@@ -96,7 +96,36 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
         
         $this->repo->savePackage($package);
     }
+    
+        /**
+     * Ensures a package is returned if found.
+     */
+    public function testGetLatest()
+    {
+        $data = array(
+            'id' => 1,
+            'identifier' => 'test/test',
+            'description' => 'test',
+            'versions' => 'dev-master',
+            'package_id' => 1,
+        );
+        $statement = $this->createMockStatement();
+        $statement->expects($this->at(0))
+            ->method('fetch')
+            ->will($this->returnValue($data));
+        $statement->expects($this->at(1))
+            ->method('fetch')
+            ->will($this->returnValue(false));
         
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->will($this->returnValue($statement));
+        
+        $collection = $this->repo->latest();
+        $this->assertInstanceOf("\Doctrine\Common\Collections\ArrayCollection", $collection);
+        $this->assertEquals(1, count($collection));
+    }
+    
     /**
      * Creates a statement mock, the provided HydratorMockStatement seems to be broken.
      * 

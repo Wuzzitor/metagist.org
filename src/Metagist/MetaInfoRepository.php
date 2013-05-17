@@ -55,6 +55,7 @@ class MetaInfoRepository
     }
     
     /**
+     * Returns a collection of metainfos with dummy packages.
      * 
      * @param string $category
      * @param string $group
@@ -62,7 +63,20 @@ class MetaInfoRepository
      */
     public function byCategoryGroup($category, $group)
     {
+        if (!$this->validator->isValidCategoryGroup($category, $group)) {
+            throw new \InvalidArgumentException('Category or group not existing.');
+        }
         
+        $stmt = $this->connection->executeQuery(
+            'SELECT m.*, p.identifier FROM metainfo m LEFT JOIN packages p ON p.id = m.package_id 
+             WHERE category = ? AND `group` = ?',
+            array($category, $group)
+        );
+        $collection = new ArrayCollection();
+        while ($row = $stmt->fetch()) {
+            $collection->add($this->createMetaInfoWithDummyPackage($row));
+        }
+        return $collection;
     }
     
     /**
@@ -112,5 +126,41 @@ class MetaInfoRepository
         );
         
         return $stmt->rowCount();
+    }
+    
+    /**
+     * Retrieves metainfo that has been updated lately.
+     * 
+     * @param int $limit
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @todo parameter binding did not work.
+     */
+    public function latest($limit = 25)
+    {
+        $stmt = $this->connection->executeQuery(
+            'SELECT m.*, p.identifier FROM metainfo m LEFT JOIN packages p ON p.id = m.package_id 
+             ORDER BY time_updated DESC LIMIT ' . $limit,
+            array()
+        );
+        $collection = new ArrayCollection();
+        while ($row = $stmt->fetch()) {
+            $collection->add($this->createMetaInfoWithDummyPackage($row));
+        }
+        return $collection;
+    }
+    
+    /**
+     * Creates a MetaInfo instance with a dummy package based on the results
+     * of a joined query.
+     * 
+     * @param array $data
+     * @return MetaInfo
+     */
+    protected function createMetaInfoWithDummyPackage(array $data)
+    {
+        $package = new Package($data['identifier'], $data['package_id']);
+        $data['package'] = $package;
+        $metainfo = MetaInfo::fromArray($data);
+        return $metainfo;
     }
 }

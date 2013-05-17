@@ -102,34 +102,6 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Ensures a package is returned if found.
-     */
-    public function testGetLatest()
-    {
-        $data = array(
-            'id' => 1,
-            'identifier' => 'test/test',
-            'description' => 'test',
-            'versions' => 'dev-master',
-        );
-        $statement = $this->createMockStatement();
-        $statement->expects($this->at(0))
-            ->method('fetch')
-            ->will($this->returnValue($data));
-        $statement->expects($this->at(1))
-            ->method('fetch')
-            ->will($this->returnValue(false));
-        
-        $this->connection->expects($this->once())
-            ->method('executeQuery')
-            ->will($this->returnValue($statement));
-        
-        $collection = $this->repo->latest();
-        $this->assertInstanceOf("\Doctrine\Common\Collections\ArrayCollection", $collection);
-        $this->assertEquals(1, count($collection));
-    }
-    
-    /**
      * Ensures a package with an id is updated.
      */
     public function testSaveWithId()
