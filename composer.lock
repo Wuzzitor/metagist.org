@@ -76,16 +76,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "2.3.3",
+            "version": "2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2.3.3"
+                "reference": "2.3.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2.3.3",
-                "reference": "2.3.3",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2.3.4",
+                "reference": "2.3.4",
                 "shasum": ""
             },
             "require": {
@@ -135,7 +135,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-03-24 19:16:29"
+            "time": "2013-05-11 07:45:37"
         },
         {
             "name": "doctrine/inflector",
@@ -202,17 +202,17 @@
         },
         {
             "name": "guzzle/common",
-            "version": "v3.4.3",
+            "version": "v3.5.0",
             "target-dir": "Guzzle/Common",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/common.git",
-                "reference": "v3.4.3"
+                "reference": "v3.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/common/zipball/v3.4.3",
-                "reference": "v3.4.3",
+                "url": "https://api.github.com/repos/guzzle/common/zipball/v3.5.0",
+                "reference": "v3.5.0",
                 "shasum": ""
             },
             "require": {
@@ -222,7 +222,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -242,21 +242,21 @@
                 "event",
                 "exception"
             ],
-            "time": "2013-04-30 20:30:19"
+            "time": "2013-05-13 20:17:47"
         },
         {
             "name": "guzzle/http",
-            "version": "v3.4.3",
+            "version": "v3.5.0",
             "target-dir": "Guzzle/Http",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/http.git",
-                "reference": "v3.4.3"
+                "reference": "v3.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/http/zipball/v3.4.3",
-                "reference": "v3.4.3",
+                "url": "https://api.github.com/repos/guzzle/http/zipball/v3.5.0",
+                "reference": "v3.5.0",
                 "shasum": ""
             },
             "require": {
@@ -271,7 +271,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -299,21 +299,21 @@
                 "http",
                 "http client"
             ],
-            "time": "2013-04-30 20:30:19"
+            "time": "2013-05-13 20:17:47"
         },
         {
             "name": "guzzle/parser",
-            "version": "v3.4.3",
+            "version": "v3.5.0",
             "target-dir": "Guzzle/Parser",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/parser.git",
-                "reference": "v3.4.3"
+                "reference": "v3.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/parser/zipball/v3.4.3",
-                "reference": "v3.4.3",
+                "url": "https://api.github.com/repos/guzzle/parser/zipball/v3.5.0",
+                "reference": "v3.5.0",
                 "shasum": ""
             },
             "require": {
@@ -322,7 +322,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -343,21 +343,21 @@
                 "message",
                 "url"
             ],
-            "time": "2013-04-26 15:47:38"
+            "time": "2013-05-13 20:17:47"
         },
         {
             "name": "guzzle/stream",
-            "version": "v3.4.3",
+            "version": "v3.5.0",
             "target-dir": "Guzzle/Stream",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/stream.git",
-                "reference": "v3.4.3"
+                "reference": "v3.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/stream/zipball/v3.4.3",
-                "reference": "v3.4.3",
+                "url": "https://api.github.com/repos/guzzle/stream/zipball/v3.5.0",
+                "reference": "v3.5.0",
                 "shasum": ""
             },
             "require": {
@@ -370,7 +370,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -396,7 +396,7 @@
                 "component",
                 "stream"
             ],
-            "time": "2013-04-26 15:47:38"
+            "time": "2013-05-13 20:17:47"
         },
         {
             "name": "icehero/silex-opauth",
@@ -544,12 +544,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/lessphp.git",
-                "reference": "51aad6ef903bdcb18280ae81fb85016a078232a0"
+                "reference": "dbb61d4beaafb0d708b79b008d0b708abeb4eae9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/51aad6ef903bdcb18280ae81fb85016a078232a0",
-                "reference": "51aad6ef903bdcb18280ae81fb85016a078232a0",
+                "url": "https://api.github.com/repos/leafo/lessphp/zipball/dbb61d4beaafb0d708b79b008d0b708abeb4eae9",
+                "reference": "dbb61d4beaafb0d708b79b008d0b708abeb4eae9",
                 "shasum": ""
             },
             "type": "library",
@@ -577,7 +577,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "time": "2013-04-09 01:25:49"
+            "time": "2013-05-07 23:46:12"
         },
         {
             "name": "mheap/silex-assetic",
@@ -585,12 +585,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mheap/Silex-Assetic.git",
-                "reference": "3294311b34848d1395ab38809756fa03be54fb61"
+                "reference": "268f92e971808525c8bbc9276c7edfe8d8f26905"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mheap/Silex-Assetic/zipball/3294311b34848d1395ab38809756fa03be54fb61",
-                "reference": "3294311b34848d1395ab38809756fa03be54fb61",
+                "url": "https://api.github.com/repos/mheap/Silex-Assetic/zipball/268f92e971808525c8bbc9276c7edfe8d8f26905",
+                "reference": "268f92e971808525c8bbc9276c7edfe8d8f26905",
                 "shasum": ""
             },
             "require": {
@@ -639,7 +639,7 @@
                 "assetic",
                 "silex"
             ],
-            "time": "2013-04-13 08:32:44"
+            "time": "2013-05-15 15:54:41"
         },
         {
             "name": "monolog/monolog",
@@ -749,16 +749,16 @@
         },
         {
             "name": "opauth/opauth",
-            "version": "0.4.3",
+            "version": "0.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opauth/opauth.git",
-                "reference": "0.4.3"
+                "reference": "0.4.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opauth/opauth/zipball/0.4.3",
-                "reference": "0.4.3",
+                "url": "https://api.github.com/repos/opauth/opauth/zipball/0.4.4",
+                "reference": "0.4.4",
                 "shasum": ""
             },
             "require": {
@@ -798,7 +798,7 @@
                 "omniauth",
                 "twitter"
             ],
-            "time": "2013-01-10 07:10:44"
+            "time": "2013-05-10 09:01:52"
         },
         {
             "name": "pimple/pimple",
@@ -890,12 +890,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "b5d9bad2adf42f82f58e3eda3908aabada67a77e"
+                "reference": "7ae0fd8b871eaebf95b856940c47679da40666c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/b5d9bad2adf42f82f58e3eda3908aabada67a77e",
-                "reference": "b5d9bad2adf42f82f58e3eda3908aabada67a77e",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/7ae0fd8b871eaebf95b856940c47679da40666c6",
+                "reference": "7ae0fd8b871eaebf95b856940c47679da40666c6",
                 "shasum": ""
             },
             "require": {
@@ -964,7 +964,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-05-04 16:24:16"
+            "time": "2013-05-08 12:49:14"
         },
         {
             "name": "symfony/config",
@@ -1857,16 +1857,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.12.3",
+            "version": "v1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.12.3"
+                "reference": "v1.13.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.12.3",
-                "reference": "v1.12.3",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.0",
+                "reference": "v1.13.0",
                 "shasum": ""
             },
             "require": {
@@ -1875,7 +1875,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -1902,7 +1902,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-04-08 12:40:11"
+            "time": "2013-05-10 15:12:43"
         },
         {
             "name": "twitter/bootstrap",
