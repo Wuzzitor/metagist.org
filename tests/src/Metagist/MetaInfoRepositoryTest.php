@@ -23,6 +23,12 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
     private $connection;
     
     /**
+     * validator mock
+     * @var Validator
+     */
+    private $validator;
+    
+    /**
      * Test setup
      */
     public function setUp()
@@ -31,7 +37,10 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->connection = $this->getMockBuilder("\Doctrine\DBAL\Connection")
             ->disableOriginalConstructor()
             ->getMock();
-        $this->repo = new MetaInfoRepository($this->connection);
+        $this->validator = $this->getMockBuilder("\Metagist\Validator")
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->repo = new MetaInfoRepository($this->connection, $this->validator);
     }
     
     /**

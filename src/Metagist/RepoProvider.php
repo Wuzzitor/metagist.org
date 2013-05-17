@@ -64,8 +64,8 @@ class RepoProvider implements \Silex\ServiceProviderInterface
             return new PackageFactory($client);
         };
         
-        $app[self::METAINFO_REPO] = function () use ($app) {
-            return new MetaInfoRepository($app['db']);
+        $app[self::METAINFO_REPO] = function () use ($app, $validator) {
+            return new MetaInfoRepository($app['db'], $validator);
         };
     }
 }

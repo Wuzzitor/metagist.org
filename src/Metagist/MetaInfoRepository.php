@@ -18,13 +18,21 @@ class MetaInfoRepository
     private $connection;
     
     /**
+     * a meta info validator instance
+     * @var Validator
+     */
+    private $validator;
+    
+    /**
      * Constructor.
      * 
      * @param \Doctrine\DBAL\Driver\Connection $connection
+     * @param Validator                        $validator
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, Validator $validator)
     {
         $this->connection = $connection;
+        $this->validator  = $validator;
     }
     
     /**
@@ -44,6 +52,17 @@ class MetaInfoRepository
         }
         
         return $collection;
+    }
+    
+    /**
+     * 
+     * @param string $category
+     * @param string $group
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function byCategoryGroup($category, $group)
+    {
+        
     }
     
     /**
