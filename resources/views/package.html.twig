@@ -17,11 +17,15 @@
     <div class="row-fluid">
     {% endif %}
         <div class="block well span6">
-            <h2>{{name}}</h2>
-            <p class="text-info">{{data.description}}</p>
+            <h2 title="{{data.description}}">{{name}}</h2>
             {% for group, groupdata in categories.getGroups(name) %}
-                <h3>{{group}}</h3>
-                <p class="text-info">{{groupdata.description}}</p>
+                {% set infos = package.getMetaInfos(name, group)%}
+                {% if infos.count %}
+                    <h3 title="{{groupdata.description}}">{{group}}</h3>
+                    {% for info in infos %}
+                        {{ info.getValue }}
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
         </div>
     {% if  loop.index0 is not even %}
