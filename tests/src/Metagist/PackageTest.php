@@ -80,4 +80,43 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->package->setType('library');
         $this->assertEquals('library', $this->package->getType());
     }
+    
+    /**
+     * Ensures the collection is filtered by category
+     */
+    public function testGetMetaInfosWithCategoryFilter()
+    {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection(
+            array(
+                MetaInfo::fromValue('test/test', 'test'),
+                MetaInfo::fromValue('test/test1', 'test'),
+                MetaInfo::fromValue('notest/test', 'test'),
+            )
+        );
+        $this->package->setMetaInfos($collection);
+        
+        $filtered = $this->package->getMetaInfos('test');
+        $this->assertInstanceOf("\Doctrine\Common\Collections\ArrayCollection", $filtered);
+        $this->assertEquals(2, count($filtered));
+    }
+    
+    /**
+     * Ensures the collection is filtered by category and group.
+     */
+    public function testGetMetaInfosWithCategoryAndGroupFilter()
+    {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection(
+            array(
+                MetaInfo::fromValue('test/test', 'test'),
+                MetaInfo::fromValue('test/test1', 'test'),
+                MetaInfo::fromValue('test/test1', 'test2'),
+                MetaInfo::fromValue('notest/test', 'test'),
+            )
+        );
+        $this->package->setMetaInfos($collection);
+        
+        $filtered = $this->package->getMetaInfos('test', 'test1');
+        $this->assertInstanceOf("\Doctrine\Common\Collections\ArrayCollection", $filtered);
+        $this->assertEquals(2, count($filtered));
+    }
 }

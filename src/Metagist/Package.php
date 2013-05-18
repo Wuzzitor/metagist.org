@@ -167,8 +167,19 @@ class Package
      * 
      * @return \Doctrine\Common\Collections\Collection|null
      */
-    public function getMetaInfos()
+    public function getMetaInfos($category = null, $group = null)
     {
+        if ($category !== null) {
+            $callback = function (MetaInfo $metainfo) use ($category, $group) {
+                $match = $metainfo->getCategory() == $category;
+                if ($group !== null) {
+                    $match = $match && $metainfo->getGroup() == $group; 
+                }
+                return $match;
+            };
+            return $this->metaInfos->filter($callback);
+        }
+        
         return $this->metaInfos;
     }
     
