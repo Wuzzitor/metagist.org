@@ -5,7 +5,7 @@ namespace Metagist;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * WebController for Metagist.
@@ -45,7 +45,8 @@ class WebController
             'login' => array('match' => '/auth/login', 'method' => 'login'),
             'logout' => array('match' => '/auth/logout', 'method' => 'logout'),
             'rate' => array('match' => '/rate/{author}/{name}', 'method' => 'rate'),
-            'contriubute' => array('match' => '/contribute/{author}/{name}', 'method' => 'contribute'),
+            'contribute' => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
+            'contribute-list' => array('match' => '/contribute-list/{author}/{name}', 'method' => 'contributeList'),
             'package' => array('match' => '/package/{author}/{name}', 'method' => 'package'),
         );
 
@@ -105,11 +106,10 @@ class WebController
     public function package($author, $name)
     {
         $package = $this->getPackage($author, $name);
-
         //retrieve the related infos.
-        $metaInfoRepo = $this->application[RepoProvider::METAINFO_REPO];
-        $metaInfos = $metaInfoRepo->byPackage($package);
+        $metaInfos = $this->application->metainfo()->byPackage($package);
         $package->setMetaInfos($metaInfos);
+        
 
         return $this->application->render(
                 'package.html.twig', array(
@@ -129,13 +129,39 @@ class WebController
     public function rate($author, $name)
     {
         $package = $this->application->packages()->byAuthorAndName($author, $name);
+        $form = $this->getFormFactory()->getRateForm($package->getVersions());
+        
         return $this->application->render(
             'rate.html.twig', array(
                 'package' => $package,
+                'form'    => $form->createView()
             )
         );
     }
 
+    /**
+     * Lists the categories and groups to contribute to.
+     * 
+     * @param string $author
+     * @param string $name
+     * @return string
+     */
+    public function contributeList($author, $name)
+    {
+        $package = $this->application->packages()->byAuthorAndName($author, $name);
+        //retrieve the related infos.
+        $metaInfos = $this->application->metainfo()->byPackage($package);
+        $package->setMetaInfos($metaInfos);
+        
+        return $this->application->render(
+            'contribute-list.html.twig', 
+            array(
+                'package' => $package,
+                'categories' => $this->application->categories()
+            )
+        );
+    }
+    
     /**
      * Contribute to the package (provide information).
      * 
@@ -143,10 +169,11 @@ class WebController
      * @param string $name
      * @return string
      */
-    public function contribute($author, $name, Request $request)
+    public function contribute($author, $name, $category, $group, Request $request)
     {
-        $package = $this->application->packages()->byAuthorAndName($author, $name);
-        $form    = $this->getContributeForm();
+        $package     = $this->application->packages()->byAuthorAndName($author, $name);
+        $allowedRole = $this->application->categories()->getAccess($category, $group);
+        $form        = $this->getFormFactory()->getContributeForm($category, $group);
 
         if ($request->isMethod('POST')) {
             $form->bind($request);
@@ -160,87 +187,16 @@ class WebController
 
 
         return $this->application->render(
-                'contribute.html.twig', array(
+            'contribute.html.twig', 
+            array(
                 'package' => $package,
                 'form' => $form->createView(),
-                )
+                'category' => $category,
+                'group' => $group,
+            )
         );
     }
     
-    /**
-     * Returns the form for metainfo contribution.
-     * 
-     * @return \Symfony\Component\Form\Form
-     */
-    protected function getContributeForm()
-    {
-        $builder = $this->application['form.factory']->createBuilder('form');
-        $choices = array('choice a', 'choice b', 'choice c');
-
-        $form = $builder
-            ->add(
-                $builder->create('sub-form', 'form')
-                ->add('subformemail1', 'email', array(
-                    'constraints' => array(new Assert\NotBlank(), new Assert\Email()),
-                    'attr' => array('placeholder' => 'email constraints'),
-                    'label' => 'A custom label : ',
-                ))
-                ->add('subformtext1', 'text')
-            )
-            ->add('text1', 'text', array(
-                'constraints' => new Assert\NotBlank(),
-                'attr' => array('placeholder' => 'not blank constraints')
-            ))
-            ->add('text2', 'text', array('attr' => array('class' => 'span1', 'placeholder' => '.span1')))
-            ->add('text3', 'text', array('attr' => array('class' => 'span2', 'placeholder' => '.span2')))
-            ->add('text4', 'text', array('attr' => array('class' => 'span3', 'placeholder' => '.span3')))
-            ->add('text5', 'text', array('attr' => array('class' => 'span4', 'placeholder' => '.span4')))
-            ->add('text6', 'text', array('attr' => array('class' => 'span5', 'placeholder' => '.span5')))
-            ->add('text8', 'text', array('disabled' => true, 'attr' => array('placeholder' => 'disabled field')))
-            ->add('textarea', 'textarea')
-            ->add('email', 'email')
-            ->add('integer', 'integer')
-            ->add('number', 'number')
-            ->add('password', 'password')
-            ->add('percent', 'percent')
-            ->add('search', 'search')
-            ->add('url', 'url')
-            ->add('choice1', 'choice', array(
-                'choices' => $choices,
-                'multiple' => true,
-                'expanded' => true
-            ))
-            ->add('choice2', 'choice', array(
-                'choices' => $choices,
-                'multiple' => false,
-                'expanded' => true
-            ))
-            ->add('choice3', 'choice', array(
-                'choices' => $choices,
-                'multiple' => true,
-                'expanded' => false
-            ))
-            ->add('choice4', 'choice', array(
-                'choices' => $choices,
-                'multiple' => false,
-                'expanded' => false
-            ))
-            ->add('time', 'time')
-            ->add('checkbox', 'checkbox')
-            ->add('radio', 'radio')
-            ->add('password_repeated', 'repeated', array(
-                'type' => 'password',
-                'invalid_message' => 'The password fields must match.',
-                'options' => array('required' => true),
-                'first_options' => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
-            ))
-            ->getForm()
-        ;
-        
-        return $form;
-    }
-
     /**
      * Renders any errors.
      * 
@@ -304,4 +260,16 @@ class WebController
         return $package;
     }
 
+    /**
+     * Returns the form factory.
+     * 
+     * @return \Metagist\FormFactory
+     */
+    protected function getFormFactory()
+    {
+        return new FormFactory(
+            $this->application['form.factory'],
+            $this->application[RepoProvider::CATEGORY_SCHEMA]
+        );
+    }
 }
