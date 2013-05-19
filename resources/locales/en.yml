@@ -1,3 +1,16 @@
 Homepage: Metagist Homepage
+
+documentation: Package Documentation
+
+flags_featured: Featured Project
+
+transparency: Transparency
+transparency_issues: Issue tracker
 transparency_repository: Git Repository
-reviews_featured: Featured Project
+reliability: Indicators on reliablity
+reliability_usage: Usage
+reliability_maturity: Maturity
+flag_featured: Featured Projects
+
+typehint_integer: "Notice: Only positive numbers are allowed."
+typehint_string: "Provide an explanation."

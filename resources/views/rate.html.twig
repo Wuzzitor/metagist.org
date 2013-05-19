@@ -3,6 +3,13 @@
 
 {% block content %}
 
-    <h1>{{ 'Rate'|trans }} {{package}}</h1>
-
+    <div class="page-header">
+        <h1>Rate {{package}}<br /><small>Please respect the rules.</small></h1>
+    </div>
+    
+    <form action="" method="post" novalidate {{ form_enctype(form) }} class="form-horizontal">
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
+        <a href="/package/{{package.identifier}}" class="btn">{{ 'Cancel'|trans }}</a>
+    </form>
 {% endblock %}

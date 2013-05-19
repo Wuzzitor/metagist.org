@@ -24,12 +24,14 @@
         <div class="block span6">
             <h2 title="{{data.description}}">{{name | trans}}</h2>
             {% for group, groupdata in categories.getGroups(name) %}
-                {% set infos = package.getMetaInfos(name, group)%}
-                {% if infos.count %}
-                    <h3 title="{{groupdata.description}}">{{ (name ~ '_' ~ group) | trans}}</h3>
-                    {% for info in infos %}
-                        {{ info.getValue }}
-                    {% endfor %}
+                {% if is_granted(groupdata.access) %}
+                    {% set infos = package.getMetaInfos(name, group)%}
+                    {% if infos.count %}
+                        <h3 title="{{groupdata.description}}">{{ (name ~ '_' ~ group) | trans}}</h3>
+                        {% for info in infos %}
+                            {{ info.getValue }}
+                        {% endfor %}
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>
