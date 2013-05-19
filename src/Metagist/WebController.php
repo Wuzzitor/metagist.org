@@ -167,8 +167,11 @@ class WebController
     /**
      * Contribute to the package (provide information).
      * 
-     * @param string $author
-     * @param string $name
+     * @param string  $author
+     * @param string  $name
+     * @param string  $category
+     * @param string  $group
+     * @param Request $request
      * @return string
      */
     public function contribute($author, $name, $category, $group, Request $request)
@@ -191,10 +194,14 @@ class WebController
         if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
-                $flashBag->add('success', 'The form is valid');
+                $data     = $form->getData();
+                $metaInfo = MetaInfo::fromValue($category.'/'.$group, $data['value'], $data['version']);
+                $metaInfo->setPackage($package);
+                $this->application->metainfo()->save($metaInfo);
+                $flashBag->add('success', 'Info saved. Thank you.');
+                return $this->application->redirect('/package/' . $package->getIdentifier());
             } else {
-                $form->addError(new FormError('This is a global error'));
-                $flashBag->add('info', 'The form is bind, but not valid');
+                $form->addError(new FormError('Please check the entered value.'));
             }
         }
 
