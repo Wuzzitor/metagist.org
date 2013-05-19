@@ -10,7 +10,7 @@
 
     <div class="row-fluid">
         
-        <div class="span6 well">
+        <div class="span6">
             <h2>Latest Updates</h2>
             <ul class="unstyled">
                 {% for metainfo in latest %}
@@ -22,8 +22,8 @@
             </ul>
         </div>
         
-        <div class="span6 well">
-            <h2><i class="icon-pushpin pull-right icon-4x text-info"></i> Featured</h2>
+        <div class="span6">
+            <h2><i class="icon-pushpin pull-right icon-4x text-info"></i>{{ "Featured Packages" | trans }}</h2>
             <ul class="unstyled">
             {% for metainfo in featured %}
                 <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
