@@ -21,12 +21,12 @@
     {% if loop.index0 is even %}
     <div class="row-fluid">
     {% endif %}
-        <div class="block well span6">
-            <h2 title="{{data.description}}">{{name}}</h2>
+        <div class="block span6">
+            <h2 title="{{data.description}}">{{name | trans}}</h2>
             {% for group, groupdata in categories.getGroups(name) %}
                 {% set infos = package.getMetaInfos(name, group)%}
                 {% if infos.count %}
-                    <h3 title="{{groupdata.description}}">{{group}}</h3>
+                    <h3 title="{{groupdata.description}}">{{ (name ~ '_' ~ group) | trans}}</h3>
                     {% for info in infos %}
                         {{ info.getValue }}
                     {% endfor %}
