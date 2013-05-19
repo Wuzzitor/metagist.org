@@ -10,6 +10,7 @@
             },
             "maturity": {
                 "type": "string",
+                "access": "ROLE_USER",
                 "description": "Classification of the package's maturity (alpha, beta, productive etc.)"
             },
             "committers": {
