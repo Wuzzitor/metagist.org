@@ -3,6 +3,7 @@ namespace Metagist;
 
 use \Symfony\Component\Security\Core\Authentication\Provider\PreAuthenticatedAuthenticationProvider;
 use \Symfony\Component\Security\Core\User\UserChecker;
+use \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
 
 /**
  * OpauthSecurityServiceProvider for Silex to work with opauth.
@@ -51,7 +52,7 @@ class OpauthSecurityServiceProvider extends \Silex\Provider\SecurityServiceProvi
                     $app['security'], 
                     $app['security.authentication_manager'],
                     $app['users'],
-                    $app['logger'] /* Monolog */
+                    $app['monolog']
                 );
                 $dispatcher = $app['dispatcher'];
                 /* @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcher */

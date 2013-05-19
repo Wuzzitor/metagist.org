@@ -9,14 +9,15 @@ use \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManage
 use \Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use \Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use \Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use \Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use \Psr\Log\LoggerInterface;
-
+use \Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Listener for successful opauth authentication.
  * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
-class OpauthListener implements EventSubscriberInterface //, ListenerInterface
+class OpauthListener implements EventSubscriberInterface, ListenerInterface
 {
     /**
      * context
@@ -41,7 +42,7 @@ class OpauthListener implements EventSubscriberInterface //, ListenerInterface
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
-    
+   
     /**
      * Constructor.
      * 
@@ -53,12 +54,12 @@ class OpauthListener implements EventSubscriberInterface //, ListenerInterface
         SecurityContext $context,
         AuthenticationProviderManager $manager,
         UserProvider $provider,
-        LoggerInterface $logger = null
+        LoggerInterface $logger
     ) {
-        $this->context  = $context;
-        $this->manager  = $manager;
-        $this->provider = $provider;
-        $this->logger   = $logger;
+        $this->context        = $context;
+        $this->manager        = $manager;
+        $this->provider       = $provider;
+        $this->logger         = $logger;
     }
     
     /**
@@ -75,13 +76,15 @@ class OpauthListener implements EventSubscriberInterface //, ListenerInterface
         $token = new PreAuthenticatedToken($user, '', 'opauth');
         $this->manager->authenticate($token);
         $this->context->setToken($token);
-        $this->log("GitHub auth success:" . var_export($user, true));
+        $this->logger->info("GitHub auth successful.");
+        
+        $event->setArgument('result', new \Symfony\Component\HttpFoundation\RedirectResponse('/'));
     }
     
     public function onError(GenericEvent $event)
     {
         $response = $event->getSubject();
-        $this->log(var_export($response, true));
+        $this->logger->alert(var_export($response, true));
     }
     
     /**
@@ -97,21 +100,13 @@ class OpauthListener implements EventSubscriberInterface //, ListenerInterface
         );
     }
 
+    /**
+     * Redirects to index page.
+     * 
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     */
     public function handle(GetResponseEvent $event)
     {
-        $event;
+        
     }
-
-    /**
-     * info-logs a message.
-     * 
-     * @param string $message
-     */
-    protected function log($message)
-    {
-        if ($this->logger) {
-            $this->logger->info($message);
-        }
-    }
-
 }
