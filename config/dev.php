@@ -37,3 +37,8 @@ $app['db.options'] = array(
     'user'     => 'root',
     'password' => '',
 );
+
+// User
+$app['security.users'] = array(
+    'admins' => 'bonndan'
+);

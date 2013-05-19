@@ -32,3 +32,8 @@ $app["opauth"] = array(
         )
     )
 );
+
+// User
+$app['security.users'] = array(
+    'admins' => 'bonndan'
+);

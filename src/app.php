@@ -59,6 +59,10 @@ $app->register(new Metagist\OpauthSecurityServiceProvider(), array(
             'users'  => function () use ($app) {return $app['users'];}
         ),
     ),
+    'security.role_hierarchy' => array(
+        'ROLE_SYSTEM' => array('ROLE_USER'),
+        'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_SYSTEM'),
+    )
 ));
 
 $app['security.encoder.digest'] = $app->share(function ($app) {
