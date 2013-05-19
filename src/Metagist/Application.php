@@ -22,7 +22,7 @@ class Application extends \Silex\Application
     /**
      * Provides access to the session.
      * 
-     * @return Symfony\Component\HttpFoundation\Session\Session;
+     * @return \Symfony\Component\HttpFoundation\Session\Session;
      */
     public function session()
     {
@@ -32,11 +32,11 @@ class Application extends \Silex\Application
     /**
      * Provides access to the logger.
      * 
-     * @return Monolog\Logger
+     * @return \Monolog\Logger
      */
     public function logger()
     {
-        return $this['logger'];
+        return $this['monolog'];
     }
     
     /**
@@ -69,7 +69,16 @@ class Application extends \Silex\Application
         return $this[RepoProvider::CATEGORY_SCHEMA];
     }
 
-
+    /**
+     * Returns the security context.
+     * 
+     * @return Symfony\Component\Security\Core\SecurityContext
+     */
+    public function security()
+    {
+        return $this['security'];
+    }
+    
     /**
      * Runs the application either from cache or not.
      * 
