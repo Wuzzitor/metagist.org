@@ -29,7 +29,7 @@
                     {% if infos.count %}
                         <h3 title="{{groupdata.description}}">{{ (name ~ '_' ~ group) | trans}}</h3>
                         {% for info in infos %}
-                            {{ info.getValue }}
+                            <span class="label label-info">{{ info.getValue }}</span>
                         {% endfor %}
                     {% endif %}
                 {% endif %}
