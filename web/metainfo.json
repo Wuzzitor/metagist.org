@@ -31,13 +31,6 @@
         }
     },
             
-    "metrics": {
-        "access": "ROLE_SYSTEM",
-        "description": "Metrics derived from static code analysis.",
-        "types": {
-        }
-    },
-            
     "documentation": {
         "description": "Project documentation.",
         "access": "ROLE_USER",
@@ -56,6 +49,28 @@
                 "access": "ROLE_USER",
                 "type": "url",
                 "description": "Learning resources"
+            }
+        }
+    },
+    
+    "community": {
+        "description": "Community resources like blogs, forums, irc.",
+        "access": "ROLE_USER",
+        "types": {
+            "blog": {
+                "access": "ROLE_USER",
+                "type": "url",
+                "description": "Official blog"
+            },
+            "irc": {
+                "access": "ROLE_USER",
+                "type": "url",
+                "description": "IRC url"
+            },
+            "mailinglist": {
+                "access": "ROLE_USER",
+                "type": "url",
+                "description": "Project mailing list"
             }
         }
     },
@@ -113,29 +128,14 @@
             }
         }
     },
-    
-    "community": {
-        "description": "Community resources like blogs, forums, irc.",
+            
+    "metrics": {
         "access": "ROLE_USER",
+        "description": "Metrics derived from static code analysis.",
         "types": {
-            "blog": {
-                "access": "ROLE_USER",
-                "type": "url",
-                "description": "Official blog"
-            },
-            "irc": {
-                "access": "ROLE_USER",
-                "type": "url",
-                "description": "IRC url"
-            },
-            "mailinglist": {
-                "access": "ROLE_USER",
-                "type": "url",
-                "description": "Project mailing list"
-            }
         }
     },
-            
+    
     "flags": {
         "description": "Special flags to be set by admins only.",
         "access": "ROLE_ADMIN", 
