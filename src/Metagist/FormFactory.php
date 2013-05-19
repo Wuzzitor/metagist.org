@@ -63,20 +63,31 @@ class FormFactory
     /**
      * Returns the form for metainfo contribution.
      * 
-     * @param array $versions
+     * @param array  $versions
+     * @param string $type
      * @return \Symfony\Component\Form\Form
      */
-    public function getContributeForm(array $versions = array(''))
+    public function getContributeForm(array $versions = array(''), $type = 'string')
     {
+        $types = array(
+            'url' => 'text',
+            'integer' => 'number'
+        );
+        if (isset($types[$type])) {
+            $fieldType = $types[$type];
+        } else {
+            $fieldType = 'text';
+        }
+        
         $builder = $this->formFactory->createBuilder('form');
         $form = $builder
-            ->add('value', 'text', array(
-                'constraints' => new Assert\NotBlank(),
-            ))
             ->add('version', 'choice', array(
                 'choices' => array('') + $versions,
                 'multiple' => false,
                 'expanded' => false
+            ))
+            ->add('value', $fieldType, array(
+                'constraints' => new Assert\NotBlank(),
             ))
             ->getForm()
         ;
