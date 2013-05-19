@@ -23,11 +23,14 @@
         </div>
         
         <div class="span6 well">
-            <h2><i class="icon-bolt"></i> Featured</h2>
+            <h2><i class="icon-pushpin pull-right icon-4x text-info"></i> Featured</h2>
             <ul class="unstyled">
             {% for metainfo in featured %}
-                <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}"><i class="icon-li icon-ok"></i>
-                    <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
+                <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
+                    <h3>
+                        <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
+                    </h3>
+                    
                     <p>{{ metainfo.value|e }}</p>
                 </li>
             {% endfor %}
