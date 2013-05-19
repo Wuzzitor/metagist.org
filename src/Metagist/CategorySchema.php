@@ -78,6 +78,25 @@ class CategorySchema
     }
     
     /**
+     * Returns the role which can access the category or group.
+     * 
+     * @param string $category
+     * @param string $group
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function getAccess($category, $group = null)
+    {
+        if ($group === null) {
+            $this->assertCategoryExists($category);
+            return $this->categories->$category->access;
+        }
+        
+        $this->assertGroupExists($category, $group);
+        return $this->categories->$category->types->$group->access;
+    }
+    
+    /**
      * Returns the categories, iterable.
      * 
      * @return array

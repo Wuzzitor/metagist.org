@@ -54,4 +54,40 @@ class CategorySchemaTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($groups);
         $this->assertInternalType('array', $groups);
     }
+    
+    /**
+     * Ensures the category access is returned.
+     */
+    public function testGetAccessForCategory()
+    {
+        $role = $this->schema->getAccess('test');
+        $this->assertEquals('ROLE_ADMIN', $role);
+    }
+    
+    /**
+     * Ensures the category is checked.
+     */
+    public function testGetAccessForCategoryException()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $this->schema->getAccess('nonono');
+    }
+    
+    /**
+     * Ensures the group access is returned.
+     */
+    public function testGetAccessForGroup()
+    {
+        $role = $this->schema->getAccess('test', 'testBoolean');
+        $this->assertEquals('ROLE_SYSTEM', $role);
+    }
+    
+    /**
+     * Ensures the group is checked.
+     */
+    public function testGetAccessForGroupException()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $this->schema->getAccess('test', 'nonono');
+    }
 }

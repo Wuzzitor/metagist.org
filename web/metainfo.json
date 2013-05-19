@@ -1,6 +1,7 @@
 {
     "reliability": {
         "description": "",
+        "access": "ROLE_USER",
         "types": {
             "usage": {
                 "access": "ROLE_USER",
@@ -30,6 +31,7 @@
     },
             
     "metrics": {
+        "access": "ROLE_SYSTEM",
         "description": "Metrics derived from static code analysis.",
         "types": {
         }
@@ -37,6 +39,7 @@
             
     "documentation": {
         "description": "Project documentation.",
+        "access": "ROLE_USER",
         "types": {
             "api": {
                 "access": "ROLE_USER",
@@ -58,6 +61,7 @@
             
     "transparency": {
         "description": "Information provided by third parties.",
+        "access": "ROLE_USER",
         "types": {
             "issues": {
                 "access": "ROLE_USER",
@@ -111,6 +115,7 @@
     
     "community": {
         "description": "Community resources like blogs, forums, irc.",
+        "access": "ROLE_USER",
         "types": {
             "blog": {
                 "access": "ROLE_USER",
@@ -130,8 +135,9 @@
         }
     },
             
-    "reviews": {
-        "description": "Special achievements",
+    "flags": {
+        "description": "Special flags to be set by admins only.",
+        "access": "ROLE_ADMIN", 
         "types": {
             "globalplayer": {
                 "access": "ROLE_ADMIN",
