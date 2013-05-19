@@ -3,18 +3,17 @@
 
 {% block content %}
 
-    <div class="hero-unit">
-        <p>contribute to:</p>
-        <h1>{{package}}</h1>
+    <div class="page-header">
+        <h1>contribute to<br />{{package}}<br /><small>{{ description }}</small></h1>
     </div>
 
-    <h1>{{ 'Form'|trans }}</h1>
+    <h2>{{ (category ~ '_' ~ group) | trans}}</h2>
+    <p>{{ ('typehint_' ~ type) | trans}}</p>
 
     <form action="" method="post" novalidate {{ form_enctype(form) }} class="form-horizontal">
         {{ form_widget(form) }}
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
-        </div>
+        <button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
+        <a href="/package/{{package.identifier}}" class="btn">{{ 'Cancel'|trans }}</a>
     </form>
                 
 {% endblock %}
