@@ -90,7 +90,9 @@ class WebController
      */
     public function logout()
     {
+        $this->application->session()->invalidate();
         $this->application->session()->clear();
+        
         return $this->application->redirect(
                 $this->application['url_generator']->generate('homepage')
         );
@@ -172,11 +174,19 @@ class WebController
     public function contribute($author, $name, $category, $group, Request $request)
     {
         $package     = $this->application->packages()->byAuthorAndName($author, $name);
-        $allowedRole = $this->application->categories()->getAccess($category, $group);
+        $reqRole     = $this->application->categories()->getAccess($category, $group);
         $flashBag    = $this->application->session()->getFlashBag();
         $form        = $this->getFormFactory()->getContributeForm($package->getVersions());
         $groups      = $this->application->categories()->getGroups($category);
         $groupData   = $groups[$group];
+        
+        if (!$this->application->security()->isGranted($reqRole)) {
+            $flashBag->add('error', 'Access denied to ' . $category . '_' . $group);
+            $this->application->logger()->warning(
+                'Contribute denied: Required  ' . $reqRole . ' for ' . $category . '/' . $group
+            );
+            return $this->application->redirect('/package/' . $package->getIdentifier());
+        }
         
         if ($request->isMethod('POST')) {
             $form->bind($request);
@@ -276,5 +286,16 @@ class WebController
             $this->application['form.factory'],
             $this->application[RepoProvider::CATEGORY_SCHEMA]
         );
+    }
+    
+    /**
+     * Returns the current user.
+     * 
+     * @return \Metagist\User|null
+     */
+    protected function getUser()
+    {
+        $token = $this->application->security()->getToken();
+        return (null !== $token) ? $token->getUser() : null;
     }
 }
