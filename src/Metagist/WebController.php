@@ -70,7 +70,7 @@ class WebController
         return $this->application->render(
             'index.html.twig', array(
                 'latest' => $repo->latest(),
-                'featured' => $repo->byCategoryGroup('reviews', 'featured'),
+                'featured' => $repo->byCategoryGroup('flags', 'featured'),
             )
         );
     }
@@ -173,15 +173,18 @@ class WebController
     {
         $package     = $this->application->packages()->byAuthorAndName($author, $name);
         $allowedRole = $this->application->categories()->getAccess($category, $group);
-        $form        = $this->getFormFactory()->getContributeForm($category, $group);
-
+        $flashBag    = $this->application->session()->getFlashBag();
+        $form        = $this->getFormFactory()->getContributeForm($package->getVersions());
+        $groups      = $this->application->categories()->getGroups($category);
+        $groupData   = $groups[$group];
+        
         if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
-                $app['session']->getFlashBag()->add('success', 'The form is valid');
+                $flashBag->add('success', 'The form is valid');
             } else {
                 $form->addError(new FormError('This is a global error'));
-                $app['session']->getFlashBag()->add('info', 'The form is bind, but not valid');
+                $flashBag->add('info', 'The form is bind, but not valid');
             }
         }
 
@@ -193,6 +196,8 @@ class WebController
                 'form' => $form->createView(),
                 'category' => $category,
                 'group' => $group,
+                'type'  => $groupData->type,
+                'description' => $groupData->description,
             )
         );
     }
