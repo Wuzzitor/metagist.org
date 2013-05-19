@@ -5,13 +5,13 @@ namespace Metagist;
 use \Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use \Symfony\Component\EventDispatcher\GenericEvent;
 use \Symfony\Component\Security\Core\SecurityContext;
+use \Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
 use \Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use \Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use \Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use \Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use \Psr\Log\LoggerInterface;
-use \Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 /**
  * Listener for successful opauth authentication.
  * 
@@ -44,15 +44,15 @@ class OpauthListener implements EventSubscriberInterface, ListenerInterface
     private $logger;
    
     /**
-     * Constructor.
      * 
      * @param \Symfony\Component\Security\Core\SecurityContext $context
-     * @param \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager $manager
-     * @param UserProvider $provider
+     * @param \Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface $manager
+     * @param \Metagist\UserProvider $provider
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         SecurityContext $context,
-        AuthenticationProviderManager $manager,
+        AuthenticationManagerInterface $manager,
         UserProvider $provider,
         LoggerInterface $logger
     ) {
