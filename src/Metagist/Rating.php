@@ -15,6 +15,12 @@ class Rating
     private $user_id;
     
     /**
+     * user
+     * @var User
+     */
+    private $user;
+    
+    /**
      * The time of the last update.
      * 
      * @var string
@@ -148,5 +154,25 @@ class Rating
     public function getTimeUpdated()
     {
         return $this->time_updated;
+    }
+    
+    /**
+     * Set the user.
+     * 
+     * @param \Metagist\User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+    
+    /**
+     * Returns the user.
+     * 
+     * @return User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
