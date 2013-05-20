@@ -44,9 +44,11 @@ class RatingRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('fetch')
             ->will($this->returnValue(
                 array(
-                    'category' => 'cat123',
-                    'group' => 'group123',
-                    'value' => 'val123'))
+                    'package_id' => 13,
+                    'rating' => 1,
+                    'title' => 'testtitle',
+                    'comment' => 'testcomment',
+                    'identifier' => 'val123/xyz'))
             );
         $statement->expects($this->at(1))
             ->method('fetch')
@@ -61,6 +63,8 @@ class RatingRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("\Doctrine\Common\Collections\Collection", $collection);
         $info = $collection->get(0);
         $this->assertInstanceOf("\Metagist\Rating", $info);
+        $this->assertEquals('testcomment', $info->getComment());
+        $this->assertInstanceOf("\Metagist\Package", $info->getPackage());
     }
     
     /**

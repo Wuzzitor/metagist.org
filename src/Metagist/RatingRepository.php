@@ -31,16 +31,24 @@ class RatingRepository
      * Retrieves all stored meta info for the given package.
      * 
      * @param \Metagist\Package $package
+     * @param integer           $offset
+     * @param integer           $limit
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function byPackage(Package $package)
+    public function byPackage(Package $package, $offset = 0, $limit = 25)
     {
         $collection = new ArrayCollection();
         $stmt = $this->connection->executeQuery(
-            'SELECT * FROM ratings WHERE package_id = ? ORDER BY time_updated DESC', array($package->getId())
+            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier
+             FROM ratings r
+             LEFT JOIN packages p ON r.package_id = p.id
+             LEFT JOIN users u ON r.user_id = u.id
+             WHERE package_id = ? 
+             ORDER BY time_updated DESC LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset,
+            array($package->getId())
         );
         while ($row = $stmt->fetch()) {
-            $collection->add(Rating::fromArray($row));
+            $collection->add($this->createRatingWithDummyPackage($row));
         }
         
         return $collection;
@@ -118,6 +126,13 @@ class RatingRepository
     {
         $package = new Package($data['identifier'], $data['package_id']);
         $data['package'] = $package;
+        
+        if (isset($data['username'])) {
+            $user = new User($data['username'], 'ROLE_USER', $data['avatar_url']);
+            $user->setId($data['user_id']);
+            $data['user'] = $user;
+        }
+        
         $rating = Rating::fromArray($data);
         return $rating;
     }
