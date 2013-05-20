@@ -40,10 +40,12 @@
                 {% if is_granted(groupdata.access) %}
                     {% set infos = package.getMetaInfos(name, group)%}
                     {% if infos.count %}
-                        <h3 title="{{groupdata.description}}">{{ (name ~ '_' ~ group) | trans}}</h3>
-                        {% for info in infos %}
-                            <span class="label label-info">{{ info.getValue }}</span>
-                        {% endfor %}
+                        <dl class="dl-horizontal">
+                            {% for info in infos %}
+                                 <dt title="{{groupdata.description}}">{{ (name ~ '_' ~ group) | trans}}</dt>
+                                 <dd>{{ info.getValue }}</dd>
+                            {% endfor %}
+                        </dl>
                     {% endif %}
                 {% endif %}
             {% endfor %}
@@ -52,5 +54,6 @@
     </div>
     {% endif %}
     {% endfor %}
+    </div>
                 
 {% endblock %}
