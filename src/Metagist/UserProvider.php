@@ -58,15 +58,18 @@ class UserProvider implements UserProviderInterface
             array(strtolower($username))
         );
 
-        if (!$user = $stmt->fetch()) {
+        if (!$data = $stmt->fetch()) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
 
-        return new User(
-            $user['username'],
-            $this->getRoleByUsername($user['username']),
-            $user['avatar_url']
+        $user = new User(
+            $data['username'],
+            $this->getRoleByUsername($data['username']),
+            $data['avatar_url']
         );
+        $user->setId($data['id']);
+        
+        return $user;
     }
     
     /**
@@ -101,12 +104,13 @@ class UserProvider implements UserProviderInterface
         $user = new User($rawData['login'], $this->getRoleByUsername($rawData['login']), $rawData['avatar_url']);
         
         try {
-            $this->loadUserByUsername($user->getUsername());
+            $user = $this->loadUserByUsername($user->getUsername());
         } catch (UsernameNotFoundException $exception) {
             $stmt = $this->conn->executeQuery(
                 'INSERT INTO users (username, avatar_url) VALUES (?, ?)',
                 array($user->getUsername(), $user->getAvatarUrl())
             );
+            $user->setId($this->conn->lastInsertId());
             if (!$stmt->rowCount()) {
                 throw new \RuntimeException('Could not create the user.', 500, $exception);
             }

@@ -50,7 +50,7 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
         $statement = $this->createMockStatement();
         $statement->expects($this->once())
             ->method('fetch')
-            ->will($this->returnValue(array('username' => 'test', 'avatar_url' => 'http://ava.tar')));
+            ->will($this->returnValue(array('username' => 'test', 'avatar_url' => 'http://ava.tar', 'id' => 13)));
         
         $this->connection->expects($this->once())
             ->method('executeQuery')
@@ -58,6 +58,7 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
         
         $user = $this->provider->loadUserByUsername('test');
         $this->assertInstanceOf('Metagist\User', $user);
+        $this->assertEquals(13, $user->getId());
     }
     
     /**
@@ -88,10 +89,14 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
         $this->connection->expects($this->at(1))
             ->method('executeQuery')
             ->will($this->returnValue($statement));
+        $this->connection->expects($this->once())
+            ->method('lastInsertId')
+            ->will($this->returnValue(13));
         
         $user = $this->provider->createUserFromOauthResponse($response);
         $this->assertInstanceOf('Metagist\User', $user);
         $this->assertEquals('test123', $user->getUsername());
+        $this->assertEquals(13, $user->getId());
     }
     
     /**
@@ -103,7 +108,7 @@ class UserProviderTest extends \PHPUnit_Framework_TestCase
         $statement = $this->createMockStatement();
         $statement->expects($this->once())
             ->method('fetch')
-            ->will($this->returnValue(array('username' => 'test123', 'avatar_url' => 'http://ava.tar')));
+            ->will($this->returnValue(array('username' => 'test123', 'avatar_url' => 'http://ava.tar', 'id' => 13)));
         
         $this->connection->expects($this->once())
             ->method('executeQuery')
