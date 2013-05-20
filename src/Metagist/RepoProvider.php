@@ -27,6 +27,12 @@ class RepoProvider implements \Silex\ServiceProviderInterface
     const METAINFO_REPO = 'repo.metainfo';
     
     /**
+     * pimple key under which the ratings repo can be accessed
+     * @var string
+     */
+    const RATINGS_REPO = 'repo.ratings';
+    
+    /**
      * pimple key under which the categories and groups can be accessed
      * @var string
      */
@@ -66,6 +72,10 @@ class RepoProvider implements \Silex\ServiceProviderInterface
         
         $app[self::METAINFO_REPO] = function () use ($app, $validator) {
             return new MetaInfoRepository($app['db'], $validator);
+        };
+        
+        $app[self::RATINGS_REPO] = function () use ($app) {
+            return new RatingRepository($app['db']);
         };
     }
 }

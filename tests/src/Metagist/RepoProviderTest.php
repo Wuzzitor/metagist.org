@@ -55,5 +55,8 @@ class RepoProviderTest extends \PHPUnit_Framework_TestCase
         
         $this->assertNotNull($app[RepoProvider::PACKAGE_REPO]);
         $this->assertInstanceOf("\Metagist\PackageRepository", $app[RepoProvider::PACKAGE_REPO]);
+        
+        $this->assertNotNull($app[RepoProvider::RATINGS_REPO]);
+        $this->assertInstanceOf("\Metagist\RatingRepository", $app[RepoProvider::RATINGS_REPO]);
     }
 }
