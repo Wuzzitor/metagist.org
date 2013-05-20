@@ -82,7 +82,7 @@ class Application extends \Silex\Application
     /**
      * Returns the security context.
      * 
-     * @return Symfony\Component\Security\Core\SecurityContext
+     * @return \Symfony\Component\Security\Core\SecurityContext
      */
     public function security()
     {
