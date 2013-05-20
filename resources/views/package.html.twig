@@ -17,11 +17,24 @@
         
     </div>
     
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>{{ "Latest Reviews" |trans}}</h2>
+            <ul class="unstyled">
+            {% for rating in ratings %}
+                <li>
+                    {% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}
+                    <a href="/ratings/{{package.getIdentifier}}">{{rating.title}} by {{rating.getUser}}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% for name, data in categories.getCategories() %}
     {% if loop.index0 is even %}
     <div class="row-fluid">
     {% endif %}
-        <div class="block span6">
+        <div class="span6">
             <h2 title="{{data.description}}">{{name | trans}}</h2>
             {% for group, groupdata in categories.getGroups(name) %}
                 {% if is_granted(groupdata.access) %}

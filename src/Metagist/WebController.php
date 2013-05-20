@@ -40,14 +40,16 @@ class WebController
     protected function initRoutes()
     {
         $routes = array(
-            'homepage' => array('match' => '/', 'method' => 'index'),
-            'errors' => array('match' => '/errors', 'method' => 'errors'),
-            'login' => array('match' => '/auth/login', 'method' => 'login'),
-            'logout' => array('match' => '/auth/logout', 'method' => 'logout'),
-            'rate' => array('match' => '/rate/{author}/{name}', 'method' => 'rate'),
-            'contribute' => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
+            'homepage'      => array('match' => '/', 'method' => 'index'),
+            'errors'        => array('match' => '/errors', 'method' => 'errors'),
+            'login'         => array('match' => '/auth/login', 'method' => 'login'),
+            'logout'        => array('match' => '/auth/logout', 'method' => 'logout'),
+            'ratings'       => array('match' => '/ratings/{author}/{name}', 'method' => 'ratings'),
+            'ratings-pp'    => array('match' => '/ratings/{author}/{name}/{page}', 'method' => 'ratings'),
+            'rate'          => array('match' => '/rate/{author}/{name}', 'method' => 'rate'),
+            'contribute'    => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
             'contribute-list' => array('match' => '/contribute-list/{author}/{name}', 'method' => 'contributeList'),
-            'package' => array('match' => '/package/{author}/{name}', 'method' => 'package'),
+            'package'       => array('match' => '/package/{author}/{name}', 'method' => 'package'),
         );
 
         foreach ($routes as $name => $data) {
@@ -71,6 +73,7 @@ class WebController
             'index.html.twig', array(
                 'latest' => $repo->latest(),
                 'featured' => $repo->byCategoryGroup('flags', 'featured'),
+                'best' => $this->application->ratings()->best(5)
             )
         );
     }
@@ -114,13 +117,34 @@ class WebController
         
 
         return $this->application->render(
-                'package.html.twig', array(
+            'package.html.twig',
+            array(
                 'package' => $package,
-                'categories' => $this->application->categories()
-                )
+                'categories' => $this->application->categories(),
+                'ratings' => $this->application->ratings()->byPackage($package, 0, 5)
+            )
         );
     }
 
+    /**
+     * Shows the package ratings.
+     * 
+     * @param sting  $author
+     * @param string $name
+     * @return string
+     */
+    public function ratings($author, $name, $page = 1)
+    {
+        $package  = $this->application->packages()->byAuthorAndName($author, $name);
+        
+        return $this->application->render(
+            'ratings.html.twig', array(
+                'package' => $package,
+                'ratings' => $this->application->ratings()->byPackage($package)
+            )
+        );
+    }
+    
     /**
      * Rate a package.
      * 
@@ -128,10 +152,26 @@ class WebController
      * @param string $name
      * @return string
      */
-    public function rate($author, $name)
+    public function rate($author, $name, Request $request)
     {
-        $package = $this->application->packages()->byAuthorAndName($author, $name);
-        $form = $this->getFormFactory()->getRateForm($package->getVersions());
+        $package  = $this->application->packages()->byAuthorAndName($author, $name);
+        $form     = $this->getFormFactory()->getRateForm($package->getVersions());
+        $flashBag = $this->application->session()->getFlashBag();
+        
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $data     = $form->getData();
+                $data['package'] = $package;
+                $data['user_id'] = $this->application->security()->getToken()->getUser()->getId();
+                $rating = Rating::fromArray($data);
+                $this->application->ratings()->save($rating);
+                $flashBag->add('success', 'Thanks.');
+                return $this->application->redirect('/package/' . $package->getIdentifier());
+            } else {
+                $form->addError(new FormError('Please check the entered value.'));
+            }
+        }
         
         return $this->application->render(
             'rate.html.twig', array(
