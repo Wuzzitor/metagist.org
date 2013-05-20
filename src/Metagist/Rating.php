@@ -40,6 +40,12 @@ class Rating
     private $rating;
     
     /**
+     * title
+     * @var string 
+     */
+    private $title;
+    
+    /**
      * comment
      * @var string 
      */
@@ -95,9 +101,19 @@ class Rating
     }
     
     /**
-     * Returns the value.
+     * Returns the title.
      * 
-     * @return string|int
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+    
+    /**
+     * Returns the comment text.
+     * 
+     * @return string|null
      */
     public function getComment()
     {

@@ -45,6 +45,7 @@ class RatingTest extends \PHPUnit_Framework_TestCase
                 'package' => $package,
                 'user_id' => 12,
                 'rating' => 3,
+                'title' => 'test title',
                 'comment' => 'test comment',
                 'version' => '1.0.0',
                 'time_updated' => '2012-12-12 00:00:00'
@@ -53,6 +54,7 @@ class RatingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($package, $rating->getPackage());
         $this->assertEquals(3, $rating->getRating());
         $this->assertEquals(12, $rating->getUserId());
+        $this->assertEquals('test title', $rating->getTitle());
         $this->assertEquals('test comment', $rating->getComment());
         $this->assertEquals('1.0.0', $rating->getVersion());
         $this->assertEquals('2012-12-12 00:00:00', $rating->getTimeUpdated());

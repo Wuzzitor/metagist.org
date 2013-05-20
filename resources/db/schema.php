@@ -42,6 +42,7 @@ $rates->addForeignKeyConstraint($users, array('user_id'), array('id'));
 $rates->addColumn('time_updated', 'datetime', array('notnull' => true   ));
 $rates->addColumn('version', 'string', array('length' => 32, 'notnull' => false));
 $rates->addColumn('rating', 'integer', array('length' => 1, 'notnull' => true));
+$rates->addColumn('title', 'text', array('length' => 255, 'notnull' => true));
 $rates->addColumn('comment', 'text');
 
 /*
