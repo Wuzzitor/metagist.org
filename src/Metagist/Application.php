@@ -62,7 +62,7 @@ class Application extends \Silex\Application
     /**
      * Returns the metainfo repository.
      * 
-     * @return \Metagist\MetaInfoRepository
+     * @return \Metagist\RatingRepository
      */
     public function ratings()
     {
