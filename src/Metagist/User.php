@@ -24,6 +24,12 @@ class User implements UserInterface
     const ROLE_ADMIN = 'ROLE_ADMIN';
     
     /**
+     * the intenal user id
+     * @var int
+     */
+    private $id;
+    
+    /**
      * the username aka github login
      * @var string
      */
@@ -53,6 +59,26 @@ class User implements UserInterface
         $this->username    = $username;
         $this->role        = $role;
         $this->avatarUrl   = $avatarUrl;
+    }
+    
+    /**
+     * Set the user Id.
+     * 
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
+    /**
+     * Returns the user Id.
+     * 
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->id;
     }
     
     /**

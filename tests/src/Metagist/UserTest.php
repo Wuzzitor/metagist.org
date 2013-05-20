@@ -34,6 +34,15 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test123', $this->user->getUsername());
     }
     
+    /**
+     * Tests the id getter and setter
+     */
+    public function testId()
+    {
+        $this->user->setId(12);
+        $this->assertEquals(12, $this->user->getId());
+    }
+    
     public function testGetAvatarUrl()
     {
         $this->assertEquals('http://an.url', $this->user->getAvatarUrl());
