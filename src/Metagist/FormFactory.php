@@ -53,6 +53,9 @@ class FormFactory
                 'multiple' => false,
                 'expanded' => false
             ))
+            ->add('title', 'text', array(
+                'constraints' => new Assert\NotBlank(),
+            ))
             ->add('comment', 'textarea')
             ->getForm()
         ;
