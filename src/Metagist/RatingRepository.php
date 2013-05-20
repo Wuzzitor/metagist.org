@@ -69,7 +69,7 @@ class RatingRepository
         
         $stmt = $this->connection->executeQuery(
             'INSERT INTO ratings (package_id, user_id, time_updated, version, rating, comment) 
-             VALUES (?, ?, ?, ?, ?, ?, ?)',
+             VALUES (?, ?, ?, ?, ?, ?)',
             array(
                 $packageId,
                 $userId,
