@@ -97,7 +97,7 @@ class RatingRepository
              FROM ratings r 
              LEFT JOIN packages p ON p.id = r.package_id
              GROUP BY r.package_id
-             ORDER BY reating DESC LIMIT ' . $limit,
+             ORDER BY rating DESC LIMIT ' . $limit,
             array()
         );
         $collection = new ArrayCollection();
