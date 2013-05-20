@@ -46,6 +46,18 @@ class RatingTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures the array factory method returns a rating object.
+     */
+    public function testGetUserIdFromUserObject()
+    {
+        $rating = Rating::fromArray(array());
+        $user = new \Metagist\User('test', 'ROLE_ADMIN');
+        $user->setId(13);
+        $rating->setUser($user);
+        $this->assertEquals(13, $rating->getUserId());
+    }
+    
+    /**
      * Ensures the value factory method returns a metainfo object.
      */
     public function testFactoryMethodStoresValues()

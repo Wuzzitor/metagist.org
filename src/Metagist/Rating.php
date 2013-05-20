@@ -143,7 +143,15 @@ class Rating
      */
     public function getUserId()
     {
-        return $this->user_id;
+        if ($this->user_id != null) {
+            return $this->user_id;
+        }
+        
+        if ($this->user !== null) {
+            return $this->user->getId();
+        }
+        
+        return null;
     }
     
     /**
