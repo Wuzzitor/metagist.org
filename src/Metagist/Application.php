@@ -60,6 +60,16 @@ class Application extends \Silex\Application
     }
     
     /**
+     * Returns the metainfo repository.
+     * 
+     * @return \Metagist\MetaInfoRepository
+     */
+    public function ratings()
+    {
+        return $this[RepoProvider::RATINGS_REPO];
+    }
+    
+    /**
      * Returns the category schema representation.
      * 
      * @return \Metagist\CategorySchema
