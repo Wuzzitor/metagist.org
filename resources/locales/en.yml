@@ -1,6 +1,7 @@
 Homepage: Metagist Homepage
 
 documentation: Package Documentation
+documentation_manual: End user manual
 
 flags_featured: Featured Project
 
@@ -14,3 +15,4 @@ flag_featured: Featured Projects
 
 typehint_integer: "Notice: Only positive numbers are allowed."
 typehint_string: "Provide an explanation."
+typehint_url: "The value must be a valid url."
