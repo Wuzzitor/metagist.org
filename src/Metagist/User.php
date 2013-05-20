@@ -54,7 +54,7 @@ class User implements UserInterface
      * @param string $role
      * @param string $avatarUrl
      */
-    public function __construct($username, $role, $avatarUrl)
+    public function __construct($username, $role = null, $avatarUrl = null)
     {
         $this->username    = $username;
         $this->role        = $role;
