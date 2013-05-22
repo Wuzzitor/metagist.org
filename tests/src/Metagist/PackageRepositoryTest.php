@@ -102,6 +102,31 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures a package collection is returned when LIKE - searching
+     */
+    public function testByIdentifierPart()
+    {
+        $data = array(
+            'id' => 1,
+            'identifier' => 'test/test',
+            'description' => 'test',
+            'versions' => 'dev-master',
+        );
+        $statement = $this->createMockStatement();
+        $statement->expects($this->at(0))
+            ->method('fetch')
+            ->will($this->returnValue($data));
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->with($this->stringContains('WHERE identifier LIKE ?'), array('%tes%'))
+            ->will($this->returnValue($statement));
+        
+        $result = $this->repo->byIdentifierPart('tes');
+        $this->assertInstanceOf("\Doctrine\Common\Collections\ArrayCollection", $result);
+    }
+    
+    /**
      * Ensures a package with an id is updated.
      */
     public function testSaveWithId()

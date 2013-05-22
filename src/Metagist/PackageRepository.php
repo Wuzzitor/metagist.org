@@ -61,6 +61,27 @@ class PackageRepository
     }
     
     /**
+     * Retrieves all packages matching an identifier part.
+     * 
+     * @param string $identifier
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function byIdentifierPart($identifier)
+    {
+        $stmt = $this->connection->executeQuery(
+            'SELECT * FROM packages WHERE identifier LIKE ?',
+            array('%' . $identifier . '%')
+        );
+
+        $collection = new ArrayCollection();
+        while ($data = $stmt->fetch()) {
+            $collection->add($this->createPackageFromData($data));
+        }
+        
+        return $collection;
+    }
+    
+    /**
      * Saves a package.
      * 
      * @param \Metagist\Package $package
