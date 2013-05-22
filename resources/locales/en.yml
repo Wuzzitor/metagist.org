@@ -11,6 +11,7 @@ transparency_repository: Git Repository
 reliability: Indicators on reliablity
 reliability_usage: Usage
 reliability_maturity: Maturity
+reliability_committers: Committers
 flag_featured: Featured Projects
 
 typehint_integer: "Notice: Only positive numbers are allowed."

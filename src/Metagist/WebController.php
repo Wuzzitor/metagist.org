@@ -50,6 +50,7 @@ class WebController
             'contribute'    => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
             'contribute-list' => array('match' => '/contribute-list/{author}/{name}', 'method' => 'contributeList'),
             'package'       => array('match' => '/package/{author}/{name}', 'method' => 'package'),
+            'search'        => array('match' => '/search', 'method' => 'search'),
         );
 
         foreach ($routes as $name => $data) {
@@ -255,6 +256,45 @@ class WebController
                 'group' => $group,
                 'type'  => $groupData->type,
                 'description' => $groupData->description,
+            )
+        );
+    }
+    
+    /**
+     * Search for a package.
+     * 
+     * @param Request $request
+     * @return string
+     */
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+        @list ($author, $name) = explode('/', $query);
+        $package = null;
+        try {
+            $package = $this->application->packages()->byAuthorAndName($author, $name);
+            if ($package !== null) {
+                $url = '/' . $package->getIdentifier();
+                return new \Symfony\Component\HttpFoundation\RedirectResponse($url);
+            } else {
+                /*
+                 * Creating a dummy package, triggers the creation process if
+                 * user follows the link.
+                 */
+                $dummy = new Package($author . '/' . $name);
+            }
+        } catch (\Exception $exception) {
+            $this->application->logger()->info('Search failed: ' . $exception->getMessage());
+        }
+        
+        $packages = $this->application->packages()->byIdentifierPart($author);
+        
+        return $this->application->render(
+            'search.html.twig', 
+            array(
+                'query' => $query,
+                'dummy' => isset($dummy) ? $dummy : null,
+                'packages' => $packages,
             )
         );
     }

@@ -1,0 +1,38 @@
+{% extends 'layout.html.twig' %}
+{% set pagetitle = 'metagist.org' %}
+
+{% block content %}
+
+    <div class="page-header">
+        <form action="/search" method="post" class="form-search pull-right">
+            <input type="text" class="input-medium search-query" name="query" value="{{query | e}}">
+            <button type="submit" class="btn btn-primary">Search again</button>
+        </form>
+        
+        <h1>Search results<br /><small>Packages matching your query "{{query | e}}"</small></h1>
+    </div>
+
+    <div class="row-fluid">
+        
+        <div class="span12">
+            <ul class="unstyled">
+                {% for package in packages %}
+                    <li>
+                        <h2><a href="/package/{{ package.getIdentifier|e }}">{{ package.getIdentifier|e }}</a></h2>
+                        <p>
+                        {{ package.getDescription }}
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        {% if dummy %}
+        <div class="span12">
+            <h2>Try: <a href="/package/{{ dummy.getIdentifier|e }}">{{ dummy.getIdentifier|e }}</a></h2>
+        </div>
+        {% endif %}
+    </div>
+        
+    
+{% endblock %}
