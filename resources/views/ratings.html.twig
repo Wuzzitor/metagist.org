@@ -11,8 +11,15 @@
     
     <div class="row-fluid">
     {% for rating in ratings %}
-        <div class="span12">
-            <h2>{% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %} {{rating.title | e}}</h2>
+        <div class="span2 text-center">
+            <h2>{% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}</h2>
+            <div>
+                <img src="{{rating.getUser.getAvatarUrl}}" alt="User icon" /><br />
+                by {{rating.getUser.getUsername}}
+            </div>
+        </div>
+        <div class="span10">
+            <h2>{{rating.title | e}}</h2>
             <p>{{rating.comment | e}}</p>
         </div>
     {% endfor %}
