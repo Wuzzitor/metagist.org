@@ -220,9 +220,11 @@ class WebController
         $package     = $this->application->packages()->byAuthorAndName($author, $name);
         $reqRole     = $this->application->categories()->getAccess($category, $group);
         $flashBag    = $this->application->session()->getFlashBag();
-        $form        = $this->getFormFactory()->getContributeForm($package->getVersions());
         $groups      = $this->application->categories()->getGroups($category);
         $groupData   = $groups[$group];
+        $form        = $this->getFormFactory()->getContributeForm(
+                            $package->getVersions(), $groupData->type
+                       );
         
         if (!$this->application->security()->isGranted($reqRole)) {
             $flashBag->add('error', 'Access denied to ' . $category . '_' . $group);
