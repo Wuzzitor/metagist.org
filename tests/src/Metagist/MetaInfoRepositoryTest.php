@@ -127,6 +127,31 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures metainfos with cardinality 1 are replaced.
+     */
+    public function testSaveWithCardinalityOne()
+    {
+        $metaInfo = MetaInfo::fromValue('test/test', 123);
+        $package = new Package('test/test123', 123);
+        $metaInfo->setPackage($package);
+        
+        $statement = $this->createMockStatement();
+        $statement->expects($this->at(0))
+            ->method('rowCount')
+            ->will($this->returnValue(1));
+        
+        $this->connection->expects($this->at(0))
+            ->method('executeQuery')
+            ->with("DELETE FROM metainfo WHERE package_id = ? AND category = ? AND  `group` = ?");
+        $this->connection->expects($this->at(1))
+            ->method('executeQuery')
+            ->with($this->stringContains('INSERT INTO metainfo'))
+            ->will($this->returnValue($statement));
+        
+        $this->repo->save($metaInfo, 1);
+    }
+    
+    /**
      * Creates a statement mock, the provided HydratorMockStatement seems to be broken.
      * 
      * @param array $methods

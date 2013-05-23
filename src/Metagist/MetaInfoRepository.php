@@ -99,7 +99,7 @@ class MetaInfoRepository
             
         $metaInfos = $package->getMetaInfos();
         foreach ($metaInfos as $info) {
-            $this->save($info);
+            $this->save($info, null);
         }
     }
     
@@ -107,10 +107,22 @@ class MetaInfoRepository
      * Saves (inserts) a single info.
      * 
      * @param \Metagist\MetaInfo $info
+     * @param mixed              $cardinality
      * @return int
      */
-    public function save(MetaInfo $info)
+    public function save(MetaInfo $info, $cardinality)
     {
+        if ($cardinality === 1) {
+            $this->connection->executeQuery(
+                'DELETE FROM metainfo WHERE package_id = ? AND category = ? AND  `group` = ?',
+                array(
+                    $info->getPackage()->getId(),
+                    $info->getCategory(),
+                    $info->getGroup()
+                )
+            );
+        }
+        
         $stmt = $this->connection->executeQuery(
             'INSERT INTO metainfo (package_id, user_id, time_updated, version, category, `group`, value) 
              VALUES (?, ?, ?, ?, ?, ?, ?)',

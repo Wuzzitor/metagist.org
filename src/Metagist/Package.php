@@ -148,7 +148,7 @@ class Package
     }
     
     /**
-     * Set the metainfos.
+     * Set the metainfos and assigns the package to each metainfo.
      * 
      * @param \Doctrine\Common\Collections\Collection $collection
      */
