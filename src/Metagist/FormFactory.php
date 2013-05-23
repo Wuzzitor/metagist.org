@@ -23,6 +23,12 @@ class FormFactory
     private $formFactory;
     
     /**
+     * maps form field type to metainfo type
+     * @var array 
+     */
+    private $types;
+    
+    /**
      * Constructor.
      * 
      * @param \Symfony\Component\Form\FormFactory $factory
@@ -32,6 +38,13 @@ class FormFactory
     {
         $this->formFactory = $factory;
         $this->schema      = $schema;
+        $this->types = array(
+            'string'    => array('text',     new Assert\Type(array('type' => 'string'))),
+            'url'       => array('text',     new Assert\Url()),
+            'badge'     => array('text',     new Assert\Url()),
+            'integer'   => array('number',   new Assert\Type(array('type' => 'integer'))),
+            'boolean'   => array('checkbox', new Assert\Type(array('type' => 'boolean'))),
+        );
     }
     
     /**
@@ -70,17 +83,13 @@ class FormFactory
      * @param string $type
      * @return \Symfony\Component\Form\Form
      */
-    public function getContributeForm(array $versions = array(''), $type = 'string')
+    public function getContributeForm(array $versions = array(''), $type)
     {
-        $types = array(
-            'url' => 'text',
-            'integer' => 'number'
-        );
-        if (isset($types[$type])) {
-            $fieldType = $types[$type];
-        } else {
-            $fieldType = 'text';
+        if (!isset($this->types[$type])) {
+            throw new \InvalidArgumentException('unknown type ' . $type);
         }
+        $fieldType  = $this->types[$type][0];
+        $constraint = array(new Assert\NotBlank(), $this->types[$type][1]);
         
         $builder = $this->formFactory->createBuilder('form');
         $form = $builder
@@ -90,7 +99,7 @@ class FormFactory
                 'expanded' => false
             ))
             ->add('value', $fieldType, array(
-                'constraints' => new Assert\NotBlank(),
+                'constraints' => $constraint,
             ))
             ->getForm()
         ;

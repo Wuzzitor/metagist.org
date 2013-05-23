@@ -49,8 +49,17 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetContributeForm()
     {
         $versions = array('test');
-        $form = $this->factory->getContributeForm($versions);
+        $form = $this->factory->getContributeForm($versions, 'string');
         $this->assertInstanceOf("\Symfony\Component\Form\Form", $form);
+    }
+    
+    /**
+     * Ensures the factory checks the type.
+     */
+    public function testGetContributeFormThrowsException()
+    {
+        $this->setExpectedException("\InvalidArgumentException");
+        $this->factory->getContributeForm(array('test'), 'unknown');
     }
     
     /**
