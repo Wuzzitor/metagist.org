@@ -47,8 +47,8 @@ class WebController
             'ratings'       => array('match' => '/ratings/{author}/{name}', 'method' => 'ratings'),
             'ratings-pp'    => array('match' => '/ratings/{author}/{name}/{page}', 'method' => 'ratings'),
             'rate'          => array('match' => '/rate/{author}/{name}', 'method' => 'rate'),
+            'contribute-list' => array('match' => '/contribute/list/{author}/{name}', 'method' => 'contributeList'),
             'contribute'    => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
-            'contribute-list' => array('match' => '/contribute-list/{author}/{name}', 'method' => 'contributeList'),
             'package'       => array('match' => '/package/{author}/{name}', 'method' => 'package'),
             'search'        => array('match' => '/search', 'method' => 'search'),
         );
@@ -218,7 +218,6 @@ class WebController
     public function contribute($author, $name, $category, $group, Request $request)
     {
         $package     = $this->application->packages()->byAuthorAndName($author, $name);
-        $reqRole     = $this->application->categories()->getAccess($category, $group);
         $flashBag    = $this->application->session()->getFlashBag();
         $groups      = $this->application->categories()->getGroups($category);
         $groupData   = $groups[$group];
@@ -226,22 +225,21 @@ class WebController
                             $package->getVersions(), $groupData->type
                        );
         
-        if (!$this->application->security()->isGranted($reqRole)) {
-            $flashBag->add('error', 'Access denied to ' . $category . '_' . $group);
-            $this->application->logger()->warning(
-                'Contribute denied: Required  ' . $reqRole . ' for ' . $category . '/' . $group
-            );
-            return $this->application->redirect('/package/' . $package->getIdentifier());
-        }
-        
         if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
                 $data     = $form->getData();
                 $metaInfo = MetaInfo::fromValue($category.'/'.$group, $data['value'], $data['version']);
                 $metaInfo->setPackage($package);
-                $this->application->metainfo()->save($metaInfo);
-                $flashBag->add('success', 'Info saved. Thank you.');
+                
+                try {
+                    $this->application->metainfo()->save($metaInfo);
+                    $flashBag->add('success', 'Info saved. Thank you.');
+                } catch (Symfony\Component\Security\Core\Exception\AccessDeniedException $exception) {
+                    $this->application->logger()->warn($exception->getMessage());
+                    $flashBag->add('error', 'Access denied to ' . $category . '_' . $group);
+                }
+                
                 return $this->application->redirect('/package/' . $package->getIdentifier());
             } else {
                 $form->addError(new FormError('Please check the entered value.'));
