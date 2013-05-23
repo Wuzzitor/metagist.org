@@ -57,7 +57,7 @@ class MetaInfoRepositoryProxy
      */
     public function __call($name, $arguments)
     {
-        return call_user_method_array($name, $this->repository, $arguments);
+        return call_user_func_array(array($this->repository, $name), $arguments);
     }
     
     /**
