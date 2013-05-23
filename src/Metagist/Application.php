@@ -50,13 +50,18 @@ class Application extends \Silex\Application
     }
     
     /**
-     * Returns the metainfo repository.
+     * Returns the metainfo repository (proxy).
      * 
      * @return \Metagist\MetaInfoRepository
      */
     public function metainfo()
     {
-        return $this[RepoProvider::METAINFO_REPO];
+        $proxy = new MetaInfoRepositoryProxy(
+            $this[RepoProvider::METAINFO_REPO],
+            $this->security(),
+            $this->categories()
+        );
+        return $proxy;
     }
     
     /**

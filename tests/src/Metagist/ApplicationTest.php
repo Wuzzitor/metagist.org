@@ -67,14 +67,28 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * metainfo repo shortcut test
      */
-    public function testProvidesMetaInfoRepoShortcut()
+    public function testMetaInfoRepoShortcutReturnsProxy()
     {
-        $test = new \stdClass();
-        $this->app[RepoProvider::METAINFO_REPO] = function () use ($test) {
-            return $test;
+        $this->app['security'] = function () {
+            return $this->getMockBuilder("\Symfony\Component\Security\Core\SecurityContextInterface")
+                ->disableOriginalConstructor()
+                ->getMock();
         };
         
-        $this->assertSame($test, $this->app->metainfo());
+        $this->app['categories'] = function () {
+            return $this->getMockBuilder("\Metagist\CategorySchema")
+                ->disableOriginalConstructor()
+                ->getMock();
+        };
+        
+        $test = new \stdClass();
+        $this->app[RepoProvider::METAINFO_REPO] = function () {
+            return $this->getMockBuilder("\Metagist\MetaInfoRepository")
+                ->disableOriginalConstructor()
+                ->getMock();
+        };
+        
+        $this->assertInstanceOf("\Metagist\MetaInfoRepositoryProxy", $this->app->metainfo());
     }
     
     /**
