@@ -1,6 +1,7 @@
 Homepage: Metagist Homepage
 
 documentation: Package Documentation
+documentation_api: API Documentation
 documentation_manual: End user manual
 
 flags_featured: Featured Project
