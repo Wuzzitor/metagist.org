@@ -158,13 +158,4 @@ $app->register(new OpauthExtension());
  */
 $app->register(new Metagist\RepoProvider());
 
-/*
- * Icons
- *
-$mapping = array(
-    'transparency_repository' => 'icon-comment'
-);
-$twig = $app['twig'];
-$twig->addExtension(new \Metagist\IconExtension($mapping));
-*/
 return $app;

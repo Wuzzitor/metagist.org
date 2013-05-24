@@ -135,7 +135,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testProvidesRenderShortcut()
     {
-        $test = $this->getMock("\stdClass", array('render'));
+        $test = $this->getMock("\stdClass", array('render', 'addExtension'));
         $test->expects($this->once())
             ->method('render')
             ->with('template', array());

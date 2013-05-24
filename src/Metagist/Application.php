@@ -16,6 +16,15 @@ class Application extends \Silex\Application
      */
     public function render($template, array $variables = array())
     {
+        /**
+         * Icons, extensions must be registered very late
+         * @link https://groups.google.com/forum/?fromgroups#!topic/silex-php/DzZNxSgCMFM
+         */
+        $mapping = array(
+           'transparency_repository' => 'icon-comment'
+        );
+        $this['twig']->addExtension(new \Metagist\IconExtension($mapping));
+        
         return $this['twig']->render($template, $variables);
     }
     
