@@ -1,15 +1,20 @@
 Homepage: Metagist Homepage
 
+community: Community
+
 documentation: Package Documentation
 documentation_api: API Documentation
 documentation_manual: End user manual
 
+flags: Flags
 flags_featured: Featured Project
+
+metrics: Code Analysis Metrics
 
 transparency: Transparency
 transparency_issues: Issue tracker
 transparency_repository: Git Repository
-reliability: Indicators on reliablity
+reliability: Indicators on reliability
 reliability_usage: Usage
 reliability_maturity: Maturity
 reliability_committers: Committers
