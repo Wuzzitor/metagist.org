@@ -39,7 +39,8 @@ $app['users'] = $app->share(function () use ($app) {
     return new Metagist\UserProvider($app['db'], $app['security.users']);
 });
 
-
+$contributePath = '^/contribute';
+$ratePath       = '^/rate';
 $app->register(new Metagist\OpauthSecurityServiceProvider(), array(
     'security.firewalls' => array(
         'default' => array(
@@ -49,12 +50,13 @@ $app->register(new Metagist\OpauthSecurityServiceProvider(), array(
             'users'  => function () use ($app) {return $app['users'];}
         ),
         'contribute' => array(
-            'pattern' => '^/contribute',
+            'pattern' => $contributePath,
+            'security' => true,
             'opauth' => true,
             'users'  => function () use ($app) {return $app['users'];}
         ),
         'rate' => array(
-            'pattern' => '^/rate',
+            'pattern' => $ratePath,
             'opauth' => true,
             'users'  => function () use ($app) {return $app['users'];}
         ),
@@ -62,6 +64,10 @@ $app->register(new Metagist\OpauthSecurityServiceProvider(), array(
     'security.role_hierarchy' => array(
         'ROLE_SYSTEM' => array('ROLE_USER'),
         'ROLE_ADMIN' => array('ROLE_USER', 'ROLE_SYSTEM'),
+    ),
+    'security.access_rules' => array(
+        array($contributePath, 'ROLE_USER'),
+        array($ratePath, 'ROLE_USER'),
     )
 ));
 

@@ -42,6 +42,7 @@ class WebController
         $routes = array(
             'homepage'      => array('match' => '/', 'method' => 'index'),
             'errors'        => array('match' => '/errors', 'method' => 'errors'),
+            'loginNotice'   => array('match' => '/login', 'method' => 'loginNotice'),
             'login'         => array('match' => '/auth/login', 'method' => 'login'),
             'logout'        => array('match' => '/auth/logout', 'method' => 'logout'),
             'ratings'       => array('match' => '/ratings/{author}/{name}', 'method' => 'ratings'),
@@ -299,6 +300,16 @@ class WebController
         );
     }
     
+    /**
+     * Just displays the notice that the user has to be logged in.
+     * 
+     * @return string
+     */
+    public function loginNotice()
+    {
+        return $this->application->render('login.html.twig');
+    }
+
     /**
      * Renders any errors.
      * 
