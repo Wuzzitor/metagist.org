@@ -30,3 +30,12 @@ $app['assetic.input.path_to_js']        = array(
     $app['assetic.input.path_to_assets'] . '/js/script.js',
 );
 $app['assetic.output.path_to_js']       = 'js/scripts.js';
+
+/*
+ * category group icons
+ */
+$app['category.icons.mapping'] = array(
+    'documentation_api' => 'icon-sitemap',
+    'documentation_manual' => 'icon-book',
+    'transparency_repository' => 'icon-github',
+);
