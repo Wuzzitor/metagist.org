@@ -42,7 +42,7 @@ class FormFactory
             'string'    => array('text',     new Assert\Type(array('type' => 'string'))),
             'url'       => array('text',     new Assert\Url()),
             'badge'     => array('text',     new Assert\Url()),
-            'integer'   => array('number',   new Assert\Type(array('type' => 'integer'))),
+            'integer'   => array('number',   new Assert\Type(array('type' => 'numeric'))),
             'boolean'   => array('checkbox', new Assert\Type(array('type' => 'boolean'))),
         );
     }
