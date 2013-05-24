@@ -33,7 +33,7 @@ class IconExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'icon'    => new \Twig_Function_Method($this, 'icon'),
+            'icon' => new \Twig_Function_Method($this, 'icon', array("is_safe" => array("html"))),
         );
     }
     
