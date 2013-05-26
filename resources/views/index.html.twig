@@ -15,36 +15,12 @@
     <div class="row-fluid">
         
         <div class="span4">
-            <h2>Latest Updates</h2>
-            <ul class="unstyled">
-                {% for metainfo in latest %}
-                    <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
-                        <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
-                        <strong>{{ icon(metainfo.getCategory ~ '_' ~ metainfo.getGroup) }} {{ (metainfo.getCategory ~ '_' ~ metainfo.getGroup)|trans }}:</strong>  {{ metainfo.getValue |e }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <div class="span4">
-            <h2>Best rated</h2>
-            <ul class="unstyled">
-                {% for rating in best %}
-                    <li>
-                        {% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}
-                        <a href="/package/{{ rating.getPackage.getIdentifier|e }}">{{ rating.getPackage.getIdentifier|e }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <div class="span4">
             <h2>{{ "Featured Packages" | trans }}</h2>
             <ul class="unstyled">
             {% for metainfo in featured %}
                 <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
                     <h3>
-                        <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
+                        <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}"><i class="icon icon-arrow-right"></i> {{ metainfo.getPackage|e }}</a>
                     </h3>
                     
                     <p>{{ metainfo.value|e }}</p>
@@ -52,6 +28,45 @@
             {% endfor %}
             </ul>
         </div>
+        
+        <div class="span4">
+            <h2>Latest Updates</h2>
+            <ul class="unstyled">
+                {% for metainfo in latest %}
+                    <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
+                        <strong>{{ icon(metainfo.getCategory ~ '/' ~ metainfo.getGroup) }} {{ (metainfo.getCategory ~ '_' ~ metainfo.getGroup)|trans }}:</strong>  {{ renderInfo(metainfo) }}
+                        <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}" title="{{ metainfo.getPackage.getIdentifier|e }}"><i class="icon icon-arrow-right"></i> {{ metainfo.getPackage }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="span4">
+            <h2>Best Rated</h2>
+            <ul class="unstyled">
+                {% for rating in best %}
+                    <li>
+                        {% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}
+                        <a href="/package/{{ rating.getPackage.getIdentifier|e }}">{{ rating.getPackage|e }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            
+            
+            {% if latestRating %}
+            <h2>{{ latestRating.getUser }}: 
+                {% for i in 1..latestRating.rating %}<i class="icon icon-star"></i>{% endfor %} for {{ latestRating.getPackage|e }}
+            </h2>
+            <a href="/package/{{ latestRating.getPackage.getIdentifier|e }}"><i class="icon icon-arrow-right"></i> {{ latestRating.getPackage|e }}</a>
+            
+            <div class="pull-left"><img src="{{ latestRating.getUser.getAvatarUrl }}" alt="{{ latestRating.getUser }}" /></div>
+            <p>
+                <i class="icon icon-quote-left"></i> <em>{{ latestRating.getComment|e }}</em> <i class="icon icon-quote-right"></i>
+            </p>
+            {% endif %}
+        </div>
+        
+        
     </div>
     
 {% endblock %}

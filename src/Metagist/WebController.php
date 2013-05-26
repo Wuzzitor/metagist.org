@@ -70,10 +70,12 @@ class WebController
      */
     public function index()
     {
-        $repo = $this->application->metainfo();
+        $repo    = $this->application->metainfo();
+        $ratings = $this->application->ratings();
         return $this->application->render(
             'index.html.twig', array(
                 'latest' => $repo->latest(),
+                'latestRating' => $ratings->latest()->first(),
                 'featured' => $repo->byCategoryGroup('flags', 'featured'),
                 'best' => $this->application->ratings()->best(5)
             )
