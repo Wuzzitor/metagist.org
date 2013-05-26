@@ -44,6 +44,7 @@ class MetaInfosExtensionTest extends \PHPUnit_Framework_TestCase
         $functions = $this->extension->getFunctions();
         $this->assertNotEmpty($functions);
         $this->assertArrayHasKey('renderInfos', $functions);
+        $this->assertArrayHasKey('renderInfo', $functions);
     }
     
     /**
@@ -127,5 +128,15 @@ class MetaInfosExtensionTest extends \PHPUnit_Framework_TestCase
     public function testGetName()
     {
         $this->assertEquals(MetaInfosExtension::NAME, $this->extension->getName());
+    }
+    
+    /**
+     * Ensures a single metainfo can in rendered.
+     */
+    public function testRenderMetaInfo()
+    {
+        $metaInfo = \Metagist\MetaInfo::fromValue('test/url', 'http://an.url');
+        $result = $this->extension->renderInfo($metaInfo);
+        $this->assertContains('<span>http://an.url</span>', $result);
     }
 }

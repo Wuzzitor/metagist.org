@@ -86,6 +86,7 @@ class MetaInfosExtension extends \Twig_Extension
     {
         return array(
             'renderInfos' => new \Twig_Function_Method($this, 'renderInfos', array("is_safe" => array("html"))),
+            'renderInfo' => new \Twig_Function_Method($this, 'renderInfos', array("is_safe" => array("html"))),
         );
     }
     
@@ -113,18 +114,42 @@ class MetaInfosExtension extends \Twig_Extension
             $collection = $function($collection);
         }
         
-        $class = isset($config[self::CSS_CLASS_KEY]) ? 
-            ' class="' . $config[self::CSS_CLASS_KEY] . '"' : '';
-        $displayAs = isset($config[self::CONVERSION_KEY]) ? $config[self::CONVERSION_KEY] : null;
+        
         $buffer = '<ul class="unstyled">';
         foreach ($collection as $metaInfo) {
-            $buffer .= '<li><span' . $class . '>' 
-                . $this->getRenderedValue($metaInfo, $displayAs)
-                . '</span></li>' . PHP_EOL;
+            $buffer .= '<li>' . $this->renderMetaInfo($metaInfo, $config). '</li>' . PHP_EOL;
         }
         $buffer .= '</ul>' . PHP_EOL;
         
         return $buffer;
+    }
+    
+    public function renderInfo(\Metagist\MetaInfo $metaInfo)
+    {
+        /* @var $first \Metagist\MetaInfo */
+        $category = $metaInfo->getCategory();
+        $group    = $metaInfo->getGroup();
+        
+        $strategy = isset($this->mappings[$category.'/'.$group]) ? 
+            $this->mappings[$category.'/'.$group] : array();
+        
+        return $this->renderMetaInfo($metaInfo, $strategy);
+    }
+    
+    /**
+     * Renders a single metainfo.
+     * 
+     * @param \Metagist\MetaInfo $metaInfo
+     * @param array $config
+     * @return string
+     */
+    protected function renderMetaInfo(\Metagist\MetaInfo $metaInfo, array $config)
+    {
+        $class = isset($config[self::CSS_CLASS_KEY]) ? 
+            ' class="' . $config[self::CSS_CLASS_KEY] . '"' : '';
+        $displayAs = isset($config[self::CONVERSION_KEY]) ? $config[self::CONVERSION_KEY] : null;
+        
+        return '<span' . $class . '>' . $this->getRenderedValue($metaInfo, $displayAs) . '</span>';
     }
     
     /**
