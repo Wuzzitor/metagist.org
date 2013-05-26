@@ -14,6 +14,9 @@
         {% else %}
             <a class="btn" href="{{ path('login') }}"><i class="icon-white icon-key"></i> {{ 'Sign in to rate and contribute'|trans }}</a>
         {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-warning" href="/update/{{package.identifier}}"><i class="icon-refresh"></i> Update</a>
+        {% endif %}
         
     </div>
     

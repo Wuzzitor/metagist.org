@@ -67,11 +67,8 @@ class PackageFactory
         }
         $package->setVersions($versions);
         
-        $metainfos = new \Doctrine\Common\Collections\ArrayCollection(
-            array(
-                MetaInfo::fromValue(CategorySchema::REPOSITORY_IDENTIFIER, $packagistPackage->getRepository()),
-            )
-        );
+        $metainfoFactory = new MetaInfoFactory();
+        $metainfos = $metainfoFactory->fromPackagistPackage($packagistPackage);
         $package->setMetaInfos($metainfos);
         
         return $package;

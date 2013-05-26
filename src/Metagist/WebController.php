@@ -52,6 +52,7 @@ class WebController
             'contribute'    => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
             'package'       => array('match' => '/package/{author}/{name}', 'method' => 'package'),
             'search'        => array('match' => '/search', 'method' => 'search'),
+            'update'        => array('match' => '/update/{author}/{name}', 'method' => 'update'),
         );
 
         foreach ($routes as $name => $data) {
@@ -128,6 +129,33 @@ class WebController
                 'ratings' => $this->application->ratings()->byPackage($package, 0, 5)
             )
         );
+    }
+    
+    /**
+     * Updates package info.
+     * 
+     * @param string $author
+     * @param string $name
+     * @return string
+     */
+    public function update($author, $name)
+    {
+        $packageFactory = $this->application[ServiceProvider::PACKAGE_FACTORY];
+        /* @var $packageFactory PackageFactory */
+        $tempPackage = $packageFactory->byAuthorAndName($author, $name);
+        $package = $this->application->packages()->byAuthorAndName($author, $name);
+        
+        foreach ($tempPackage->getMetaInfos() as $metaInfo) {
+            /* @var $metaInfo MetaInfo */
+            $metaInfo->setPackage($package);
+            $this->application->metainfo()->save($metaInfo);
+        }
+        
+        $this->application->session()->getFlashBag()->add(
+            'success',
+            'The package ' . $package->getIdentifier() . ' has been updated. Thanks.'
+        );
+        return $this->application->redirect('/package/' . $package->getIdentifier());
     }
 
     /**
