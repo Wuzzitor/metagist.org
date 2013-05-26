@@ -1,7 +1,9 @@
 Metagist.org
 ============
 
-Provides meta information on packagist.org packages.
+Metagist is a portal which provides information on composer packages. It retrieves
+data from Packagist as well as GitHub and other sources. End users can contribute
+information, too.
 
-## Credits ##
-[**dedicated page**](http://lyrixx.github.com/Silex-Kitchen-Edition).
+![screenshot](https://github.com/wuzzitor/metagist/raw/master/doc/screen.png "In-Dev Screenshot")
+
