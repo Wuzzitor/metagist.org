@@ -6,6 +6,7 @@ documentation: Package Documentation
 documentation_api: API Documentation
 documentation_manual: End user manual
 documentation_gettingstarted: Getting started
+documentation_license: License
 
 flags: Flags
 flags_featured: Featured Project
@@ -20,6 +21,9 @@ reliability_usage: Used in projects
 reliability_maturity: Maturity
 reliability_committers: Committers
 reliability_committs: Committs
+reliability_maintainers: Maintainers
+reliability_requires: Dependencies
+reliability_requires.dev: Dev-Dependencies
 reliability_stillmaintained: Still maintained?
 flag_featured: Featured Projects
 

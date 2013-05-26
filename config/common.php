@@ -40,6 +40,7 @@ $app['category.icons.mapping'] = array(
     'documentation/gettingstarted' => 'icon-rocket',
     
     'reliability/committers' => 'icon-group',
+    'reliability/maintainers' => 'icon-group',
     'reliability/usage' => 'icon-resize-horizontal',
     
     'testing/tests.number' => 'icon-dashboard',
@@ -52,6 +53,9 @@ $app['category.icons.mapping'] = array(
  */
 $app['category.render.mapping'] = array(
     'reliability/usage' => array('class' => 'label label-info'),
+    'reliability/maintainers' => array('class' => 'badge'),
+    'reliability/committers' => array('class' => 'badge'),
+    'reliability/committs' => array('class' => 'badge'),
     'documentation/api' => array('displayAs' => 'url'),
     'transparency/repository' => array('displayAs' => 'url'),
     'testing/tests.status' => array('displayAs' => 'badge'),
