@@ -40,7 +40,10 @@ $app['category.icons.mapping'] = array(
     'documentation/gettingstarted' => 'icon-rocket',
     
     'reliability/committers' => 'icon-group',
+    'reliability/usage' => 'icon-resize-horizontal',
     
+    'testing/tests.number' => 'icon-dashboard',
+    'testing/tests.status' => 'icon-lightbulb',
     'transparency/repository' => 'icon-github',
 );
 

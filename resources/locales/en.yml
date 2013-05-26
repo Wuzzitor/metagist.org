@@ -5,6 +5,7 @@ community: Community
 documentation: Package Documentation
 documentation_api: API Documentation
 documentation_manual: End user manual
+documentation_gettingstarted: Getting started
 
 flags: Flags
 flags_featured: Featured Project
@@ -15,11 +16,18 @@ transparency: Transparency
 transparency_issues: Issue tracker
 transparency_repository: Git Repository
 reliability: Indicators on reliability
-reliability_usage: Usage
+reliability_usage: Used in projects
 reliability_maturity: Maturity
 reliability_committers: Committers
+reliability_committs: Committs
+reliability_stillmaintained: Still maintained?
 flag_featured: Featured Projects
 
+testing_tests: Tests Location
+testing_tests.number: Number of tests
+testing_tests.status: Tests status
+
+typehint_badge: "Please provided an url to an image."
 typehint_integer: "Notice: Only positive numbers are allowed."
 typehint_string: "Provide an explanation."
 typehint_url: "The value must be a valid url."
