@@ -5,5 +5,11 @@ Metagist is a portal which provides information on composer packages. It retriev
 data from Packagist as well as GitHub and other sources. End users can contribute
 information, too.
 
-![screenshot](https://github.com/wuzzitor/metagist/raw/master/doc/screen.png "In-Dev Screenshot")
+Rating and Reviews
+------------------
+
+Like many app stores MetaGist will provide a rating system.
+
+
+![screenshot](https://github.com/wuzzitor/metagist.org/raw/master/doc/screen.png "In-Dev Screenshot")
 
