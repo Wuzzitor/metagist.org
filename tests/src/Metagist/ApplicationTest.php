@@ -143,6 +143,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->app['twig'] = function () use ($test) {
             return $test;
         };
+        $this->app['category.icons.mapping'] = array();
         
         $this->app->render('template', array());
     }

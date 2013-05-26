@@ -20,7 +20,7 @@ class Application extends \Silex\Application
          * Icons, extensions must be registered very late
          * @link https://groups.google.com/forum/?fromgroups#!topic/silex-php/DzZNxSgCMFM
          */
-        $this['twig']->addExtension(new \Metagist\IconExtension($this['category.icons.mapping']));
+        $this['twig']->addExtension(new \Metagist\Twig\IconExtension($this['category.icons.mapping']));
         
         return $this['twig']->render($template, $variables);
     }

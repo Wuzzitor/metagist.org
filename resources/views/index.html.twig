@@ -20,7 +20,7 @@
                 {% for metainfo in latest %}
                     <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
                         <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}">{{ metainfo.getPackage.getIdentifier|e }}</a>
-                        <strong>{{ (metainfo.getCategory ~ '_' ~ metainfo.getGroup)|trans }}:</strong>  {{ metainfo.getValue |e }}
+                        <strong>{{ icon(metainfo.getCategory ~ '_' ~ metainfo.getGroup) }} {{ (metainfo.getCategory ~ '_' ~ metainfo.getGroup)|trans }}:</strong>  {{ metainfo.getValue |e }}
                     </li>
                 {% endfor %}
             </ul>

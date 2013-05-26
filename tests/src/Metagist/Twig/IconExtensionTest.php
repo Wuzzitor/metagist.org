@@ -1,10 +1,10 @@
 <?php
-namespace Metagist;
+namespace Metagist\Twig;
 
 require_once __DIR__ . '/bootstrap.php';
 
 /**
- * Tests the category schema class.
+ * Tests the twig extension to obtain icons for category groups.
  * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */

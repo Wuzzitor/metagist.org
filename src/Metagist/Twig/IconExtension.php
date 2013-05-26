@@ -1,6 +1,6 @@
 <?php
 
-namespace Metagist;
+namespace Metagist\Twig;
 
 /**
  * Twig extension to create icons.
