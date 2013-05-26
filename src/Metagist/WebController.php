@@ -364,10 +364,10 @@ class WebController
         $packageRepo = $this->application->packages();
         $package = $packageRepo->byAuthorAndName($author, $name);
         if ($package == null) {
-            $package = $this->application[RepoProvider::PACKAGE_FACTORY]->byAuthorAndName($author, $name);
+            $package = $this->application[ServiceProvider::PACKAGE_FACTORY]->byAuthorAndName($author, $name);
             if ($packageRepo->save($package)) {
                 /* @var $metaInfoRepo MetaInfoRepository */
-                $metaInfoRepo = $this->application[RepoProvider::METAINFO_REPO];
+                $metaInfoRepo = $this->application[ServiceProvider::METAINFO_REPO];
                 $metaInfoRepo->savePackage($package);
             }
         }
@@ -384,7 +384,7 @@ class WebController
     {
         return new FormFactory(
             $this->application['form.factory'],
-            $this->application[RepoProvider::CATEGORY_SCHEMA]
+            $this->application[ServiceProvider::CATEGORY_SCHEMA]
         );
     }
     

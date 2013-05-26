@@ -6,7 +6,7 @@ namespace Metagist;
  * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
-class RepoProvider implements \Silex\ServiceProviderInterface
+class ServiceProvider implements \Silex\ServiceProviderInterface
 {
     /**
      * pimple key under which the package repo can be accessed

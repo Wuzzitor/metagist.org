@@ -57,7 +57,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testProvidesPackageRepoShortcut()
     {
         $test = new \stdClass();
-        $this->app[RepoProvider::PACKAGE_REPO] = function () use ($test) {
+        $this->app[ServiceProvider::PACKAGE_REPO] = function () use ($test) {
             return $test;
         };
         
@@ -81,8 +81,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                 ->getMock();
         };
         
-        $test = new \stdClass();
-        $this->app[RepoProvider::METAINFO_REPO] = function () {
+        $this->app[ServiceProvider::METAINFO_REPO] = function () {
             return $this->getMockBuilder("\Metagist\MetaInfoRepository")
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -97,7 +96,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testProvidesRatingRepoShortcut()
     {
         $test = new \stdClass();
-        $this->app[RepoProvider::RATINGS_REPO] = function () use ($test) {
+        $this->app[ServiceProvider::RATINGS_REPO] = function () use ($test) {
             return $test;
         };
         
@@ -110,7 +109,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testProvidesCategorySchemaShortcut()
     {
         $test = new \stdClass();
-        $this->app[RepoProvider::CATEGORY_SCHEMA] = function () use ($test) {
+        $this->app[ServiceProvider::CATEGORY_SCHEMA] = function () use ($test) {
             return $test;
         };
         

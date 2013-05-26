@@ -57,7 +57,7 @@ class Application extends \Silex\Application
      */
     public function packages()
     {
-        return $this[RepoProvider::PACKAGE_REPO];
+        return $this[ServiceProvider::PACKAGE_REPO];
     }
     
     /**
@@ -68,7 +68,7 @@ class Application extends \Silex\Application
     public function metainfo()
     {
         $proxy = new MetaInfoRepositoryProxy(
-            $this[RepoProvider::METAINFO_REPO],
+            $this[ServiceProvider::METAINFO_REPO],
             $this->security(),
             $this->categories()
         );
@@ -82,7 +82,7 @@ class Application extends \Silex\Application
      */
     public function ratings()
     {
-        return $this[RepoProvider::RATINGS_REPO];
+        return $this[ServiceProvider::RATINGS_REPO];
     }
     
     /**
@@ -92,7 +92,7 @@ class Application extends \Silex\Application
      */
     public function categories()
     {
-        return $this[RepoProvider::CATEGORY_SCHEMA];
+        return $this[ServiceProvider::CATEGORY_SCHEMA];
     }
 
     /**

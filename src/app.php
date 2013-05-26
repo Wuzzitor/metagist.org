@@ -156,6 +156,6 @@ $app->register(new OpauthExtension());
 /**
  * Provides a repo for packages
  */
-$app->register(new Metagist\RepoProvider());
+$app->register(new Metagist\ServiceProvider());
 
 return $app;
