@@ -39,3 +39,9 @@ $app['category.icons.mapping'] = array(
     'documentation_manual' => 'icon-book',
     'transparency_repository' => 'icon-github',
 );
+
+/**
+ * Configuration how to render category group entries
+ */
+$app['category.render.mapping'] = array(
+);

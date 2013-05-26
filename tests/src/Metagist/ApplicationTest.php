@@ -144,6 +144,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             return $test;
         };
         $this->app['category.icons.mapping'] = array();
+        $this->app['category.render.mapping'] = array();
         
         $this->app->render('template', array());
     }
