@@ -80,7 +80,7 @@ class MetaInfoRepositoryProxy
         //cardinality check
         $groups      = $this->schema->getGroups($category);
         $groupData   = $groups[$group];
-        $cardinality = isset($groupData->cardinality) ? : null;
+        $cardinality = isset($groupData->cardinality) ? $groupData->cardinality : null;
         
         $this->repository->save($metaInfo, $cardinality);
     }
