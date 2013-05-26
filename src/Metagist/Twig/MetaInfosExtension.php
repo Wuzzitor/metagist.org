@@ -86,7 +86,7 @@ class MetaInfosExtension extends \Twig_Extension
     {
         return array(
             'renderInfos' => new \Twig_Function_Method($this, 'renderInfos', array("is_safe" => array("html"))),
-            'renderInfo' => new \Twig_Function_Method($this, 'renderInfos', array("is_safe" => array("html"))),
+            'renderInfo' => new \Twig_Function_Method($this, 'renderInfo', array("is_safe" => array("html"))),
         );
     }
     
