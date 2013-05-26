@@ -40,7 +40,7 @@
                 {% if (groupdata.access == 'ROLE_ADMIN' and is_granted(groupdata.access)) or groupdata.access != 'ROLE_ADMIN' %}
                     {% set infos = package.getMetaInfos(name, group)%}
                         <dl class="dl-horizontal">
-                             <dt title="{{groupdata.description}}">{{ icon(name ~ '_' ~ group) }} {{ (name ~ '_' ~ group) | trans}}</dt>
+                             <dt title="{{groupdata.description}}">{{ icon(name ~ '/' ~ group) }} {{ (name ~ '_' ~ group) | trans}}</dt>
                              {% if infos.count %}
                                 <dd>{{ renderInfos(infos) }}</dd>
                              {% else %}
