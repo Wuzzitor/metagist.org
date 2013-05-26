@@ -44,4 +44,8 @@ $app['category.icons.mapping'] = array(
  * Configuration how to render category group entries
  */
 $app['category.render.mapping'] = array(
+    'reliability/usage' => array('class' => 'label label-info'),
+    'documentation/api' => array('displayAs' => 'url'),
+    'transparency/repository' => array('displayAs' => 'url'),
+    'testing/tests.status' => array('displayAs' => 'badge'),
 );

@@ -39,14 +39,14 @@
             {% for group, groupdata in categories.getGroups(name) %}
                 {% if (groupdata.access == 'ROLE_ADMIN' and is_granted(groupdata.access)) or groupdata.access != 'ROLE_ADMIN' %}
                     {% set infos = package.getMetaInfos(name, group)%}
-                    {% if infos.count %}
                         <dl class="dl-horizontal">
-                            {% for info in infos %}
-                                 <dt title="{{groupdata.description}}">{{ icon(name ~ '_' ~ group) }} {{ (name ~ '_' ~ group) | trans}}</dt>
-                                 <dd>{{ info.getValue }}</dd>
-                            {% endfor %}
+                             <dt title="{{groupdata.description}}">{{ icon(name ~ '_' ~ group) }} {{ (name ~ '_' ~ group) | trans}}</dt>
+                             {% if infos.count %}
+                                <dd>{{ renderInfos(infos) }}</dd>
+                             {% else %}
+                                <dd><span class="text-warning">Contribution required</span></dd>
+                             {% endif %}
                         </dl>
-                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>

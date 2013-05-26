@@ -22,8 +22,17 @@ class MetaInfosExtensionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+        $filter = function(\Doctrine\Common\Collections\Collection $collection) {
+            return $this->getFirst($collection);
+        };
+        
         $this->extension = new MetaInfosExtension(
-            array('test/list' => MetaInfosExtension::STRATEGY_UNMODIFIED)
+            array(
+                'test/list' => array('displayAs' => 'url'),
+                'test/badge' => array('displayAs' => 'badge'),
+                'test/styled' => array('class' => 'label'),
+                'test/filter' => array('filter' => $filter),
+            )
         );
     }
     
@@ -38,33 +47,79 @@ class MetaInfosExtensionTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Ensures a collection is rendered even if the strategy is not defined.
+     * Ensures a collection is rendered as list.
      */
-    public function testRenderInfosAsListIsDefault() 
+    public function testRenderAsDefault() 
     {
         $collection = new \Doctrine\Common\Collections\ArrayCollection();
         $collection->add(\Metagist\MetaInfo::fromValue('test/unknown', 'http://an.url'));
         $collection->add(\Metagist\MetaInfo::fromValue('test/unknown', 'http://an.other.url'));
         
         $list = $this->extension->renderInfos($collection);
-        $this->assertContains('<li>http://an.url</li>', $list);
-        $this->assertContains('<li>http://an.other.url</li>', $list);
+        $this->assertContains('<li><span>http://an.url</span></li>', $list);
+        $this->assertContains('<li><span>http://an.other.url</span></li>', $list);
     }
     
     /**
-     * Ensures a collection is rendered as list if configured so.
+     * Ensures that css classes are applied if given.
      */
-    public function testRenderInfosAsList() 
+    public function testApplyClass() 
+    {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection();
+        $collection->add(\Metagist\MetaInfo::fromValue('test/styled', 'http://an.url'));
+        
+        $list = $this->extension->renderInfos($collection);
+        $this->assertContains('<li><span class="label">', $list);
+    }
+    
+    /**
+     * Tests the url rendering
+     */
+    public function testDisplayAsUrl() 
     {
         $collection = new \Doctrine\Common\Collections\ArrayCollection();
         $collection->add(\Metagist\MetaInfo::fromValue('test/list', 'http://an.url'));
-        $collection->add(\Metagist\MetaInfo::fromValue('test/list', 'http://an.other.url'));
         
         $list = $this->extension->renderInfos($collection);
-        $this->assertContains('<li>http://an.url</li>', $list);
-        $this->assertContains('<li>http://an.other.url</li>', $list);
+        $this->assertContains('<li><span><a href="http://an.url" target="_blank">http://an.url</a></span></li>', $list);
     }
     
+    /**
+     * Tests the url rendering
+     */
+    public function testDisplayAsBadge() 
+    {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection();
+        $collection->add(\Metagist\MetaInfo::fromValue('test/badge', 'http://an.url'));
+        
+        $list = $this->extension->renderInfos($collection);
+        $this->assertContains('<li><span><img src="http://an.url" alt="badge"/></span></li>', $list);
+    }
+    
+    /**
+     * Ensures a given filter is used.
+     */
+    public function testWithFilter()
+    {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection();
+        $collection->add(\Metagist\MetaInfo::fromValue('test/filter', 'http://an.url'));
+        $collection->add(\Metagist\MetaInfo::fromValue('test/filter', 'http://an.other.url'));
+        
+        $list = $this->extension->renderInfos($collection);
+        $this->assertContains('http://an.url', $list);
+        $this->assertNotContains('http://an.other.url', $list);
+    }
+    
+    /**
+     * Test filter.
+     * 
+     * @param \Doctrine\Common\Collections\Collection $info
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getFirst(\Doctrine\Common\Collections\Collection $info)
+    {
+        return new \Doctrine\Common\Collections\ArrayCollection(array($info->first()));
+    }
     
     /**
      * Test the name of the extension.
