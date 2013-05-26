@@ -55,6 +55,30 @@ class RatingRepository
     }
     
     /**
+     * Retrieve the latest ratings.
+     * 
+     * @param int $limit
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function latest($limit = 1)
+    {
+        $collection = new ArrayCollection();
+        $stmt = $this->connection->executeQuery(
+            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier
+             FROM ratings r
+             LEFT JOIN packages p ON r.package_id = p.id
+             LEFT JOIN users u ON r.user_id = u.id
+             ORDER BY time_updated DESC LIMIT ' . (int)$limit,
+            array()
+        );
+        while ($row = $stmt->fetch()) {
+            $collection->add($this->createRatingWithDummyPackage($row));
+        }
+        
+        return $collection;
+    }
+    
+    /**
      * Saves (inserts) a single info.
      * 
      * @param \Metagist\Rating $rating

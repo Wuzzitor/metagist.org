@@ -68,6 +68,38 @@ class RatingRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures the latest ratings can be retrieved.
+     */
+    public function testLatest()
+    {
+        $statement = $this->createMockStatement();
+        $statement->expects($this->at(0))
+            ->method('fetch')
+            ->will($this->returnValue(
+                array(
+                    'package_id' => 13,
+                    'rating' => 1,
+                    'title' => 'testtitle',
+                    'comment' => 'testcomment',
+                    'identifier' => 'val123/xyz'))
+            );
+        $statement->expects($this->at(1))
+            ->method('fetch')
+            ->will($this->returnValue(false));
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->will($this->returnValue($statement));
+        
+        $collection = $this->repo->latest();
+        $this->assertInstanceOf("\Doctrine\Common\Collections\Collection", $collection);
+        $info = $collection->get(0);
+        $this->assertInstanceOf("\Metagist\Rating", $info);
+        $this->assertEquals('testcomment', $info->getComment());
+        $this->assertInstanceOf("\Metagist\Package", $info->getPackage());
+    }
+    
+    /**
      * Ensures a package can be saved.
      */
     public function testSave()
