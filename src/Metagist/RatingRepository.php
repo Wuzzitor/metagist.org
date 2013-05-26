@@ -39,7 +39,7 @@ class RatingRepository
     {
         $collection = new ArrayCollection();
         $stmt = $this->connection->executeQuery(
-            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier
+            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier, p.description
              FROM ratings r
              LEFT JOIN packages p ON r.package_id = p.id
              LEFT JOIN users u ON r.user_id = u.id
@@ -64,7 +64,7 @@ class RatingRepository
     {
         $collection = new ArrayCollection();
         $stmt = $this->connection->executeQuery(
-            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier
+            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier, p.description
              FROM ratings r
              LEFT JOIN packages p ON r.package_id = p.id
              LEFT JOIN users u ON r.user_id = u.id
@@ -125,7 +125,7 @@ class RatingRepository
     public function best($limit = 25)
     {
         $stmt = $this->connection->executeQuery(
-            'SELECT AVG(r.rating) AS rating, r.package_id, p.identifier
+            'SELECT AVG(r.rating) AS rating, r.package_id, p.identifier, p.description
              FROM ratings r 
              LEFT JOIN packages p ON p.id = r.package_id
              GROUP BY r.package_id
@@ -149,6 +149,9 @@ class RatingRepository
     private function createRatingWithDummyPackage(array $data)
     {
         $package = new Package($data['identifier'], $data['package_id']);
+        if (isset($data['description'])) {
+            $package->setDescription($data['description']);
+        }
         $data['package'] = $package;
         
         if (isset($data['username'])) {
