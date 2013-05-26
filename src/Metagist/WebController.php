@@ -187,15 +187,17 @@ class WebController
     public function rate($author, $name, Request $request)
     {
         $package  = $this->application->packages()->byAuthorAndName($author, $name);
-        $form     = $this->getFormFactory()->getRateForm($package->getVersions());
         $flashBag = $this->application->session()->getFlashBag();
+        $user     = $this->application->security()->getToken()->getUser();
+        $rating   = $this->application->ratings()->byPackageAndUser($package, $user);
+        $form     = $this->getFormFactory()->getRateForm($package->getVersions(), $rating);
         
         if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
                 $data     = $form->getData();
                 $data['package'] = $package;
-                $data['user_id'] = $this->application->security()->getToken()->getUser()->getId();
+                $data['user_id'] = $user->getId();
                 $rating = Rating::fromArray($data);
                 $this->application->ratings()->save($rating);
                 $flashBag->add('success', 'Thanks.');

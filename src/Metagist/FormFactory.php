@@ -50,11 +50,23 @@ class FormFactory
     /**
      * Returns the rating form.
      * 
+     * @param array $versions
+     * @param \Metagist\Rating $rating
      * @return \Symfony\Component\Form\Form
      */
-    public function getRateForm(array $versions = array(''))
+    public function getRateForm(array $versions = array(''), Rating $rating = null)
     {
-        $builder = $this->formFactory->createBuilder('form');
+        $data = array();
+        if ($rating !== null) {
+            $data = array(
+                'version' => $rating->getVersion(),
+                'rating'  => $rating->getRating(),
+                'title'   => $rating->getTitle(),
+                'comment' => $rating->getComment()
+            );
+        }
+        
+        $builder = $this->formFactory->createBuilder('form', $data);
 
         $form = $builder
             ->add('rating', 'choice', array(
@@ -67,7 +79,7 @@ class FormFactory
                 'expanded' => false
             ))
             ->add('title', 'text', array(
-                'constraints' => new Assert\NotBlank(),
+                'constraints' => new Assert\NotNull(),
             ))
             ->add('comment', 'textarea')
             ->getForm()
