@@ -190,6 +190,6 @@ class Package
      */
     public function __toString()
     {
-        return $this->identifier;
+        return substr($this->identifier, strpos($this->identifier, '/') + 1);
     }
 }

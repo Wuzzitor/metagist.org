@@ -119,4 +119,12 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("\Doctrine\Common\Collections\ArrayCollection", $filtered);
         $this->assertEquals(2, count($filtered));
     }
+    
+    /**
+     * Ensures the toString method returns the name without author/owner
+     */
+    public function testToStringReturnsOnlyTheName()
+    {
+        $this->assertEquals('123', $this->package->__toString());
+    }
 }
