@@ -55,6 +55,33 @@ class RatingRepository
     }
     
     /**
+     * Retrieves the rating of a package by the given user.
+     * 
+     * @param \Metagist\Package $package
+     * @param \Metagist\User    $user
+     * @return Rating|null
+     */
+    public function byPackageAndUser(Package $package, User $user)
+    {
+        $stmt = $this->connection->executeQuery(
+            'SELECT r.*, u.id AS user_id, u.username, u.avatar_url, p.identifier, p.description
+             FROM ratings r
+             LEFT JOIN packages p ON r.package_id = p.id
+             LEFT JOIN users u ON r.user_id = u.id
+             WHERE package_id = ? AND r.user_id = ?',
+             array($package->getId(), $user->getId())
+        );
+        $data = $stmt->fetch();
+        if ($data != false) {
+            $data['user']    = $user;
+            $data['package'] = $package;
+            return Rating::fromArray($data);
+        }
+        
+        return null;
+    }
+    
+    /**
      * Retrieve the latest ratings.
      * 
      * @param int $limit

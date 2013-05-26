@@ -68,6 +68,38 @@ class RatingRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures a package rating for a given user is retrieved.
+     */
+    public function testByPackageAndUser()
+    {
+        $statement = $this->createMockStatement();
+        $statement->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue(
+                array(
+                    'package_id' => 13,
+                    'rating' => 1,
+                    'title' => 'testtitle',
+                    'comment' => 'testcomment',
+                    'identifier' => 'val123/xyz'))
+            );
+        
+        $this->connection->expects($this->once())
+            ->method('executeQuery')
+            ->with($this->stringContains('WHERE package_id = ? AND r.user_id = ?'), array(123, 22))
+            ->will($this->returnValue($statement));
+        
+        $package = new Package('test/test123', 123);
+        $user    = new User('test');
+        $user->setId(22);
+        
+        $rating = $this->repo->byPackageAndUser($package, $user);
+        $this->assertInstanceOf("\Metagist\Rating", $rating);
+        $this->assertEquals($user, $rating->getUser());
+        $this->assertEquals($package, $rating->getPackage());
+    }
+    
+    /**
      * Ensures the latest ratings can be retrieved.
      */
     public function testLatest()
