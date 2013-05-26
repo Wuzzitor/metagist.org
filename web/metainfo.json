@@ -16,16 +16,19 @@
             "committers": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
+                "cardinality": 1,
                 "description": "Approximate number of committers."
             },
             "committs": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
+                "cardinality": 1,
                 "description": "Approximate number of committs."
             },
             "maintainers": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
+                "cardinality": 1,
                 "description": "Number of package maintainers."
             },
             "stillmaintained": {
@@ -36,11 +39,13 @@
             "requires": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
+                "cardinality": 1,
                 "description": "Number of required dependencies."
             },
             "requires.dev": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
+                "cardinality": 1,
                 "description": "Number of required dependencies for development."
             }
         }
@@ -66,9 +71,10 @@
                 "description": "Learning resources"
             },
             "license": {
-                "access": "ROLE_USER",
+                "access": "ROLE_SYSTEM",
                 "type": "string",
-                "description": "License"
+                "cardinality": 1,
+                "description": "License (as retrieved from package info)."
             }
         }
     },
@@ -112,7 +118,7 @@
             "repository": {
                 "access": "ROLE_SYSTEM",
                 "type": "url",
-                "description": "Github url"
+                "description": "Git repository url"
             },
             "ohloh": {
                 "access": "ROLE_USER",
