@@ -23,10 +23,25 @@
                 "type": "integer",
                 "description": "Approximate number of committs."
             },
+            "maintainers": {
+                "access": "ROLE_SYSTEM",
+                "type": "integer",
+                "description": "Number of package maintainers."
+            },
             "stillmaintained": {
                 "access": "ROLE_USER",
                 "type": "badge",
                 "description": "Still-maintained badge (see stillmaintained.com)."
+            },
+            "requires": {
+                "access": "ROLE_SYSTEM",
+                "type": "integer",
+                "description": "Number of required dependencies."
+            },
+            "requires.dev": {
+                "access": "ROLE_SYSTEM",
+                "type": "integer",
+                "description": "Number of required dependencies for development."
             }
         }
     },
@@ -49,6 +64,11 @@
                 "access": "ROLE_USER",
                 "type": "url",
                 "description": "Learning resources"
+            },
+            "license": {
+                "access": "ROLE_USER",
+                "type": "string",
+                "description": "License"
             }
         }
     },
