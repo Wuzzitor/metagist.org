@@ -126,20 +126,23 @@ class RatingRepository
             array($packageId, $userId)
         );
         
-        $stmt = $this->connection->executeQuery(
-            'INSERT INTO ratings (package_id, user_id, time_updated, version, rating, comment) 
-             VALUES (?, ?, ?, ?, ?, ?)',
-            array(
-                $packageId,
-                $userId,
-                date('Y-m-d H:i:s', time()),
-                $rating->getVersion(),
-                $rating->getRating(),
-                $rating->getComment()
-            )
+        $data = array(
+            $packageId,
+            $userId,
+            date('Y-m-d H:i:s', time()),
+            $rating->getVersion(),
+            $rating->getRating(),
+            $rating->getTitle(),
+            $rating->getComment()
         );
         
-        return $stmt->rowCount();
+        $stmt = $this->connection->executeQuery(
+            'INSERT INTO ratings (package_id, user_id, time_updated, version, rating, title, comment) 
+             VALUES (?, ?, ?, ?, ?, ?, ?)',
+            $data
+        );
+        $rows = $stmt->rowCount();
+        return $rows;
     }
     
     /**

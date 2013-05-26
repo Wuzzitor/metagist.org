@@ -68,9 +68,17 @@ class FormFactory
         
         $builder = $this->formFactory->createBuilder('form', $data);
 
+        $choices = array(
+            1 => '1 (lowest rating)',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5 (highest rating)',
+        );
+            
         $form = $builder
             ->add('rating', 'choice', array(
-                'choices' => range(1, 5),
+                'choices' => $choices,
                 'constraints' => new Assert\Range(array('min' => 1, 'max' => 5)),
             ))
             ->add('version', 'choice', array(
