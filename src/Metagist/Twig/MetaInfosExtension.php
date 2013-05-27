@@ -161,19 +161,17 @@ class MetaInfosExtension extends \Twig_Extension
      */
     protected function getRenderedValue(\Metagist\MetaInfo $metaInfo, $displayAs = null)
     {
-        $value = $metaInfo->getValue();
-        
-        $conversions = array(
-            'url' => '<a href="%1$s" target="_blank">%1$s</a>',
-            'badge' => '<img src="%s" alt="badge"/>',
+        $strategies = array(
+            'url'   => new \Metagist\Twig\RenderStrategy\Link(),
+            'file'   => new \Metagist\Twig\RenderStrategy\FileLink(),
+            'badge' => new \Metagist\Twig\RenderStrategy\Badge(),
         );
-        if (isset($conversions[$displayAs])) {
-            $template = $conversions[$displayAs];
-        } else {
-            $template = '%s';
-        }
         
-        return sprintf($template, $value);
+        if (isset($strategies[$displayAs])) {
+            return $strategies[$displayAs]->render($metaInfo);
+        } 
+        
+        return $metaInfo->getValue();
     }
     
 }

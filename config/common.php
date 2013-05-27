@@ -57,6 +57,7 @@ $app['category.render.mapping'] = array(
     'reliability/committers' => array('class' => 'badge'),
     'reliability/committs' => array('class' => 'badge'),
     'documentation/api' => array('displayAs' => 'url'),
+    'documentation/manual' => array('displayAs' => 'file'),
     'transparency/repository' => array('displayAs' => 'url'),
     'testing/tests.status' => array('displayAs' => 'badge'),
 );

@@ -94,7 +94,7 @@ class MetaInfosExtensionTest extends \PHPUnit_Framework_TestCase
         $collection->add(\Metagist\MetaInfo::fromValue('test/badge', 'http://an.url'));
         
         $list = $this->extension->renderInfos($collection);
-        $this->assertContains('<li><span><img src="http://an.url" alt="badge"/></span></li>', $list);
+        $this->assertContains('<li><span><img src="http://an.url" alt="badge for ', $list);
     }
     
     /**
