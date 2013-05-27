@@ -32,8 +32,9 @@
             <ul class="unstyled">
                 {% for rating in best %}
                     <li>
-                        {% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}
-                        <a href="/package/{{ rating.getPackage.getIdentifier|e }}">{{ rating.getPackage|e }}</a>
+                        <h3>{% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}
+                        <a href="/package/{{ rating.getPackage.getIdentifier|e }}"><i class="icon icon-arrow-right"></i> {{ rating.getPackage|e }}</a>
+                        </h3>
                         <p>
                         {{ rating.getPackage.getDescription|e }}
                         </p>
