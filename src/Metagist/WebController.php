@@ -5,7 +5,10 @@ namespace Metagist;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Doctrine\Common\Collections\Collection;
+use Pagerfanta\Adapter\DoctrineCollectionAdapter;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\View\TwitterBootstrapView;
 
 /**
  * WebController for Metagist.
@@ -52,6 +55,7 @@ class WebController
             'contribute'    => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
             'package'       => array('match' => '/package/{author}/{name}', 'method' => 'package'),
             'search'        => array('match' => '/search', 'method' => 'search'),
+            'search-page'   => array('match' => '/search/{query}/{page}', 'method' => 'search'),
             'update'        => array('match' => '/update/{author}/{name}', 'method' => 'update'),
         );
 
@@ -168,11 +172,16 @@ class WebController
     public function ratings($author, $name, $page = 1)
     {
         $package  = $this->application->packages()->byAuthorAndName($author, $name);
-        
+        $ratings  = $this->application->ratings()->byPackage($package);
+        $routeGen = function($page) { return '/ratings/'.$page;};
+        $pager    = $this->getPaginationFor($ratings);
+        $pager->setCurrentPage($page);
+        $view     = new TwitterBootstrapView();
         return $this->application->render(
             'ratings.html.twig', array(
                 'package' => $package,
-                'ratings' => $this->application->ratings()->byPackage($package)
+                'ratings' => $pager,
+                'pagination' => $view->render($pager, $routeGen)
             )
         );
     }
@@ -302,6 +311,13 @@ class WebController
     public function search(Request $request)
     {
         $query = $request->get('query');
+        if ($query == '*') {
+            $query = '';
+        }
+        $page  = $request->get('page');
+        if (intval($page) == 0) {
+            $page = 1;
+        }
         @list ($author, $name) = explode('/', $query);
         $package = null;
         try {
@@ -322,12 +338,23 @@ class WebController
         
         $packages = $this->application->packages()->byIdentifierPart($author);
         
+        $routeGenerator = function($page) use ($query) {
+            if ($query == '') {
+                $query = '*';
+            }
+            return '/search/' . urlencode($query) . '/'.$page;
+        };
+        $pagerfanta = $this->getPaginationFor($packages);
+        $pagerfanta->setCurrentPage($page);
+        $view       = new TwitterBootstrapView();
+        
         return $this->application->render(
             'search.html.twig', 
             array(
                 'query' => $query,
                 'dummy' => isset($dummy) ? $dummy : null,
-                'packages' => $packages,
+                'packages' => $pagerfanta,
+                'pagination' => $view->render($pagerfanta, $routeGenerator)
             )
         );
     }
@@ -427,5 +454,19 @@ class WebController
     {
         $token = $this->application->security()->getToken();
         return (null !== $token) ? $token->getUser() : null;
+    }
+    
+    /**
+     * Creates a pagination for the given collection.
+     * 
+     * @param \Doctrine\Common\Collections\Collection $collection
+     * @return Pagerfanta
+     */
+    protected function getPaginationFor(Collection $collection, $maxPerPage = 25)
+    {
+        $adapter = new DoctrineCollectionAdapter($collection);
+        $pagerfanta = new Pagerfanta($adapter);
+        $pagerfanta->setMaxPerPage($maxPerPage);
+        return $pagerfanta;
     }
 }
