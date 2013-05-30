@@ -49,11 +49,17 @@ class PackageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testByAuthorAndName()
     {
+        $collection = new \Doctrine\Common\Collections\ArrayCollection(array());
+        $collection->add(MetaInfo::fromValue('test/test', 1));
+        
         $pp = $this->createPackage();
         $this->client->expects($this->once())
             ->method('get')
             ->with('author/name')
             ->will($this->returnValue($pp));
+        $this->metainfoFactory->expects($this->once())
+            ->method('fromPackagistPackage')
+            ->will($this->returnValue($collection));
         
         $result = $this->repo->byAuthorAndName('author', 'name');
         $this->assertInstanceOf('\Metagist\Package', $result);
