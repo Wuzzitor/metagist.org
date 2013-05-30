@@ -80,7 +80,9 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
                 $credentials["client_secret"],
                 \Github\Client::AUTH_URL_CLIENT_ID
             );
-            $client->getHttpClient()->setOption('user_agent', 'Metagist');
+            $client->setHeaders(
+                array("User-Agent" => "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0")
+            );
             
             $factory = new MetaInfoFactory();
             $factory->setGitHubClient($client);
