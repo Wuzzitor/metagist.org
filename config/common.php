@@ -35,6 +35,9 @@ $app['assetic.output.path_to_js']       = 'js/scripts.js';
  * category group icons
  */
 $app['category.icons.mapping'] = array(
+    
+    'community/homepage'  => 'icon-home',
+    
     'documentation/api' => 'icon-sitemap',
     'documentation/manual' => 'icon-book',
     'documentation/gettingstarted' => 'icon-rocket',

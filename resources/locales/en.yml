@@ -1,6 +1,8 @@
 Homepage: Metagist Homepage
 
 community: Community
+community_homepage: Homepage
+community_blog: Blog
 
 documentation: Package Documentation
 documentation_api: API Documentation
