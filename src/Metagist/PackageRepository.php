@@ -93,11 +93,14 @@ class PackageRepository
         $data = array(
             $package->getIdentifier(),
             $package->getDescription(),
-            implode(',', $package->getVersions())
+            implode(',', $package->getVersions()),
+            $package->getType(),
+            date('Y-m-d H:i:s')
         );
         if ($id == null) {
             $stmt = $this->connection->executeQuery(
-                'INSERT INTO packages (identifier, description, versions) VALUES (?, ?, ?)',
+                'INSERT INTO packages (identifier, description, versions, type, time_updated)
+                 VALUES (?, ?, ?, ?, ?)',
                 $data
             );
             $id = $this->connection->lastInsertId();
@@ -105,8 +108,9 @@ class PackageRepository
         } else {
             $data[] = $id;
             $stmt = $this->connection->executeQuery(
-                'UPDATE packages SET identifier = ?, description = ?, versions = ?)
-                    WHERE id = ?',
+                'UPDATE packages 
+                 SET identifier = ?, description = ?, versions = ?, type = ?, time_updated = ?)
+                 WHERE id = ?',
                 $data
             );
         }
@@ -125,6 +129,8 @@ class PackageRepository
         $package = new Package($data['identifier'], $data['id']);
         $package->setDescription($data['description']);
         $package->setVersions(explode(',', $data['versions']));
+        $package->setType($data['type']);
+        $package->setTimeUpdated($data['time_updated']);
         
         return $package;
     }

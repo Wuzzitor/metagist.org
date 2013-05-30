@@ -88,6 +88,8 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
             'identifier' => 'test/test',
             'description' => 'test',
             'versions' => 'dev-master',
+            'type' => 'library',
+            'time_updated' => date('Y-m-d H:i:s')
         );
         $statement = $this->createMockStatement();
         $statement->expects($this->once())
@@ -111,6 +113,8 @@ class PackageRepositoryTest extends \PHPUnit_Framework_TestCase
             'identifier' => 'test/test',
             'description' => 'test',
             'versions' => 'dev-master',
+            'type' => 'library',
+            'time_updated' => date('Y-m-d H:i:s')
         );
         $statement = $this->createMockStatement();
         $statement->expects($this->at(0))
