@@ -21,8 +21,8 @@ transparency_repository: Git Repository
 reliability: Indicators on reliability
 reliability_usage: Used in projects
 reliability_maturity: Maturity
-reliability_committers: Committers
-reliability_committs: Committs
+reliability_contributors: Contributors
+reliability_commits: Commits
 reliability_maintainers: Maintainers
 reliability_requires: Dependencies
 reliability_requires.dev: Dev-Dependencies
