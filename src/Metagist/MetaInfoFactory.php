@@ -29,6 +29,7 @@ class MetaInfoFactory
             $metainfos = new ArrayCollection(
                 array(
                     MetaInfo::fromValue(CategorySchema::REPOSITORY_IDENTIFIER, $package->getRepository(), $versionString),
+                    MetaInfo::fromValue('community/homepage', $firstVersion->getHomepage(), $versionString),
                     MetaInfo::fromValue('reliability/maintainers', count($package->getMaintainers()), $versionString),
                     MetaInfo::fromValue('reliability/requires', count($firstVersion->getRequire()), $versionString),
                     MetaInfo::fromValue('reliability/requires.dev', count($firstVersion->getRequireDev()), $versionString)
