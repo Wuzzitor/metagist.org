@@ -151,6 +151,16 @@ class MetaInfo
     }
     
     /**
+     * Set the version string.
+     * 
+     * @param string $version
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+    }
+    
+    /**
      * Returns the id of the user who created the info.
      * 
      * @return int|null

@@ -79,8 +79,8 @@ class MetaInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetVersion()
     {
-        $this->metaInfo = MetaInfo::fromArray(array('version' => 'test'));
-        $this->assertEquals('test', $this->metaInfo->getVersion());
+        $this->metaInfo->setVersion('abc');
+        $this->assertEquals('abc', $this->metaInfo->getVersion());
     }
     
     /**
