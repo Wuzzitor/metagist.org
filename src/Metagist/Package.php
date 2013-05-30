@@ -41,6 +41,12 @@ class Package
     protected $type;
     
     /**
+     * datetime of the last update
+     * @var string
+     */
+    protected $time_updated;
+    
+    /**
      * metainfos
      * @var Collection
      */
@@ -181,6 +187,26 @@ class Package
         }
         
         return $this->metaInfos;
+    }
+    
+    /**
+     * Returns the time of the last update
+     * 
+     * @return string|null
+     */
+    public function getTimeUpdated()
+    {
+        return $this->time_updated;
+    }
+    
+    /**
+     * Set the time of the last update
+     * 
+     * @return string|null
+     */
+    public function setTimeUpdated($time)
+    {
+        $this->time_updated = $time;
     }
     
     /**
