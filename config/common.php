@@ -52,12 +52,13 @@ $app['category.icons.mapping'] = array(
  * Configuration how to render category group entries
  */
 $app['category.render.mapping'] = array(
-    'reliability/usage' => array('class' => 'label label-info'),
-    'reliability/maintainers' => array('class' => 'badge'),
-    'reliability/committers' => array('class' => 'badge'),
-    'reliability/committs' => array('class' => 'badge'),
-    'documentation/api' => array('displayAs' => 'url'),
-    'documentation/manual' => array('displayAs' => 'file'),
-    'transparency/repository' => array('displayAs' => 'url'),
-    'testing/tests.status' => array('displayAs' => 'badge'),
+    'reliability/usage'        => array('class' => 'label label-info'),
+    'reliability/maintainers'  => array('class' => 'badge'),
+    'reliability/committers'   => array('class' => 'badge'),
+    'reliability/committs'     => array('class' => 'badge'),
+    'community/homepage'       => array('displayAs' => 'url'),
+    'documentation/api'        => array('displayAs' => 'url'),
+    'documentation/manual'     => array('displayAs' => 'file'),
+    'transparency/repository'  => array('displayAs' => 'url'),
+    'testing/tests.status'     => array('displayAs' => 'badge'),
 );

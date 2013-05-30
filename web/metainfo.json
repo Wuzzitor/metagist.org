@@ -83,6 +83,12 @@
         "description": "Community resources like blogs, forums, irc.",
         "access": "ROLE_USER",
         "types": {
+            "homepage": {
+                "access": "ROLE_USER",
+                "type": "url",
+                "cardinality": 1,
+                "description": "Official homepage"
+            },
             "blog": {
                 "access": "ROLE_USER",
                 "type": "url",
@@ -118,6 +124,7 @@
             "repository": {
                 "access": "ROLE_SYSTEM",
                 "type": "url",
+                "cardinality": 1,
                 "description": "Git repository url"
             },
             "ohloh": {
