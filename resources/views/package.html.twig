@@ -8,7 +8,10 @@
         <p>{{package.description}}</p>
         
         <br />
-        <a class="btn btn-primary" href="{{ package.getMetaInfos('community', 'homepage').first.getValue }}"><i class="icon-white icon-home"></i> Homepage</a>
+        {% set homepageInfo = package.getMetaInfos('community', 'homepage').first %}
+        {% if homepageInfo %}
+        <a class="btn btn-primary" href="{{ homepageInfo.getValue }}"><i class="icon-white icon-home"></i> Homepage</a>
+        {% endif %}
         <a class="btn btn-success" href="http://packagist.org/packages/{{package.identifier}}"><i class="icon-white icon-external-link-sign"></i> @Packagist</a>
         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
             <a class="btn" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a>
