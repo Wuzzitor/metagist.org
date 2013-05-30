@@ -27,6 +27,12 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
     const METAINFO_REPO = 'repo.metainfo';
     
     /**
+     * pimple key under which the metainfo factory can be accessed
+     * @var string
+     */
+    const METAINFO_FACTORY = 'factory.metainfo';
+    
+    /**
      * pimple key under which the ratings repo can be accessed
      * @var string
      */
@@ -65,9 +71,19 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
             return new PackageRepository($app['db'], $validator);
         };
         
+        $app[self::METAINFO_FACTORY] = function () use ($app) {
+            $client = new \Github\Client();
+            //$client->authenticate($needle, $secret, \Github\Client::AUTH_URL_CLIENT_ID);
+            
+            $factory = new MetaInfoFactory();
+            $factory->setGitHubClient($client);
+            
+            return $factory;
+        };
+        
         $app[self::PACKAGE_FACTORY] = function () use ($app) {
             $client = new \Packagist\Api\Client();
-            return new PackageFactory($client);
+            return new PackageFactory($client, $app[self::METAINFO_FACTORY]);
         };
         
         $app[self::METAINFO_REPO] = function () use ($app, $validator) {

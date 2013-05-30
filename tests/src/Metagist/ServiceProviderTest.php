@@ -50,6 +50,9 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($app[ServiceProvider::METAINFO_REPO]);
         $this->assertInstanceOf("\Metagist\MetaInfoRepository", $app[ServiceProvider::METAINFO_REPO]);
         
+        $this->assertNotNull($app[ServiceProvider::METAINFO_FACTORY]);
+        $this->assertInstanceOf("\Metagist\MetaInfoFactory", $app[ServiceProvider::METAINFO_FACTORY]);
+        
         $this->assertNotNull($app[ServiceProvider::PACKAGE_FACTORY]);
         $this->assertInstanceOf("\Metagist\PackageFactory", $app[ServiceProvider::PACKAGE_FACTORY]);
         
