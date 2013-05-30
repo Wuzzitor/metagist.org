@@ -13,17 +13,17 @@
                 "access": "ROLE_USER",
                 "description": "Classification of the package's maturity (alpha, beta, productive etc.)"
             },
-            "committers": {
+            "contributors": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
                 "cardinality": 1,
-                "description": "Approximate number of committers."
+                "description": "Approximate number of contributors."
             },
-            "committs": {
+            "commits": {
                 "access": "ROLE_SYSTEM",
                 "type": "integer",
                 "cardinality": 1,
-                "description": "Approximate number of committs."
+                "description": "Approximate number of commits."
             },
             "maintainers": {
                 "access": "ROLE_SYSTEM",
