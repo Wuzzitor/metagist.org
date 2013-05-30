@@ -30,12 +30,14 @@
         "twig/twig"             : "~1.10",
         "twitter/bootstrap"     : "2.3.1",
         
-        "opauth/opauth": ">=0.4.0",
-        "opauth/github": "dev-master",
-        "icehero/silex-opauth": "dev-master",
+        "opauth/opauth"         : ">=0.4.0",
+        "opauth/github"         : "dev-master",
+        "icehero/silex-opauth"  : "dev-master",
         
-        "knplabs/packagist-api": "0.1.*@dev",
-        "pagerfanta/pagerfanta": "v1.0.0"
+        "knplabs/packagist-api" : "0.1.*@dev",
+        "pagerfanta/pagerfanta" : "v1.0.0",
+        
+        "knplabs/github-api"    : "1.1.3"
     },
     "require-dev": {
         "symfony/browser-kit"   : "~2.2",
