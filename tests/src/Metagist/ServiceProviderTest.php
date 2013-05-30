@@ -42,6 +42,20 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
         $app['db'] = $this->getMockBuilder("\Doctrine\DBAL\Connection")
             ->disableOriginalConstructor()
             ->getMock();
+        $app["opauth"] = array(
+            "login" => "/auth/login",
+            "callback" => "/auth/callback/github/oauth2callback",
+            "config" => array(
+                "security_salt" => "dev-salt",
+                "Strategy" =>  array(
+                    "Github" => array(
+                        /* metagist.dev application */
+                        "client_id" => "client-test",
+                        "client_secret" => "client-secret"
+                    )
+                )
+            )
+        );
         $this->provider->register($app);
         
         $this->assertNotNull($app[ServiceProvider::CATEGORY_SCHEMA]);
