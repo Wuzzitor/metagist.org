@@ -17,13 +17,21 @@ class PackageFactory
     private $client;
     
     /**
+     * nested metainfo factory.
+     * 
+     * @var \Metagist\MetaInfoFactory 
+     */
+    private $metainfoFactory;
+    
+    /**
      * Constructor.
      * 
      * @param \Packagist\Api\Client $client
      */
-    public function __construct(PackagistClient $client)
+    public function __construct(PackagistClient $client, MetaInfoFactory $metainfoFactory)
     {
-        $this->client = $client;
+        $this->client          = $client;
+        $this->metainfoFactory = $metainfoFactory;
     }
     
     /**
@@ -67,8 +75,7 @@ class PackageFactory
         }
         $package->setVersions($versions);
         
-        $metainfoFactory = new MetaInfoFactory();
-        $metainfos = $metainfoFactory->fromPackagistPackage($packagistPackage);
+        $metainfos = $this->metainfoFactory->fromPackagistPackage($packagistPackage);
         $package->setMetaInfos($metainfos);
         
         return $package;

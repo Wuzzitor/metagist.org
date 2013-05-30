@@ -23,6 +23,12 @@ class PackageFactoryTest extends \PHPUnit_Framework_TestCase
     private $client;
     
     /**
+     * mi factory mock
+     * @var \Packagist\MetaInfoFactory 
+     */
+    private $metainfoFactory;
+    
+    /**
      * Test setup
      */
     public function setUp()
@@ -31,7 +37,10 @@ class PackageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->client = $this->getMockBuilder("\Packagist\Api\Client")
             ->disableOriginalConstructor()
             ->getMock();
-        $this->repo = new PackageFactory($this->client);
+        $this->metainfoFactory = $this->getMockBuilder("\Metagist\MetaInfoFactory")
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->repo = new PackageFactory($this->client, $this->metainfoFactory);
     }
     
     
