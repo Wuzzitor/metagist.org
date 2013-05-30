@@ -49,6 +49,16 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures versions getter / setter are working
+     */
+    public function testGetTimeUpdated()
+    {
+        $time = '2013-10-31 00:30:00';
+        $this->package->setTimeUpdated($time);
+        $this->assertEquals($time, $this->package->getTimeUpdated());
+    }
+    
+    /**
      * Ensures id getter is working
      */
     public function testGetId()
