@@ -15,26 +15,8 @@ use Pagerfanta\View\TwitterBootstrapView;
  * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
-class WebController
+class WebController extends Controller
 {
-
-    /**
-     * the application instance
-     * @var Application 
-     */
-    protected $application;
-
-    /**
-     * Constructor.
-     * 
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->application = $app;
-        $this->initRoutes();
-    }
-
     /**
      * Routing setup.
      * 
@@ -370,22 +352,6 @@ class WebController
     }
 
     /**
-     * Renders any errors.
-     * 
-     * @return string
-     */
-    public function errors()
-    {
-        $flashBag = $this->application->session()->getFlashBag();
-        $flashBag->add('warning', 'Warning flash message');
-        $flashBag->add('info', 'Info flash message');
-        $flashBag->add('success', 'Success flash message');
-        $flashBag->add('error', 'Error flash message');
-
-        return $this->render('errors.html.twig');
-    }
-
-    /**
      * 
      * @return void
      */
@@ -410,29 +376,6 @@ class WebController
     }
 
     /**
-     * Retrieves a package either from the db or packagist.
-     * 
-     * @param string $author
-     * @param string $name
-     * @return Package
-     */
-    protected function getPackage($author, $name)
-    {
-        $packageRepo = $this->application->packages();
-        $package = $packageRepo->byAuthorAndName($author, $name);
-        if ($package == null) {
-            $package = $this->application[ServiceProvider::PACKAGE_FACTORY]->byAuthorAndName($author, $name);
-            if ($packageRepo->save($package)) {
-                /* @var $metaInfoRepo MetaInfoRepository */
-                $metaInfoRepo = $this->application[ServiceProvider::METAINFO_REPO];
-                $metaInfoRepo->savePackage($package);
-            }
-        }
-
-        return $package;
-    }
-
-    /**
      * Returns the form factory.
      * 
      * @return \Metagist\FormFactory
@@ -443,17 +386,6 @@ class WebController
             $this->application['form.factory'],
             $this->application[ServiceProvider::CATEGORY_SCHEMA]
         );
-    }
-    
-    /**
-     * Returns the current user.
-     * 
-     * @return \Metagist\User|null
-     */
-    protected function getUser()
-    {
-        $token = $this->application->security()->getToken();
-        return (null !== $token) ? $token->getUser() : null;
     }
     
     /**
