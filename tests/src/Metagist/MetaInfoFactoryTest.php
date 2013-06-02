@@ -16,6 +16,11 @@ class MetaInfoFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $factory;
     
+    /**
+     * logger mock
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
     
     /**
      * Test setup
@@ -23,7 +28,8 @@ class MetaInfoFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->factory = new MetaInfoFactory();
+        $this->logger  = $this->getMock("Psr\Log\LoggerInterface");
+        $this->factory = new MetaInfoFactory($this->logger);
     }
     
     /**
@@ -116,13 +122,70 @@ class MetaInfoFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromGithubRepoCollectsContributorsAndCommits()
     {
+        $client = $this->createClientReturning(array());
+        $this->factory->setGitHubClient($client);
+        $result = $this->factory->fromGithubRepo("https://github.com/owner/repo");
+        $this->assertInstanceOf('\Doctrine\Common\Collections\Collection', $result);
+    }
+    
+    /**
+     * Ensures the scraper works.
+     */
+    public function testFromGithubPage()
+    {
+        $client = $this->createClientReturning('<div class="social-count">123</div>');
+        $this->factory->setGitHubClient($client);
+        
+        $collection = $this->factory->fromGithubPage('bonndan', 'MdMan');
+        $this->assertInstanceOf('\Doctrine\Common\Collections\Collection', $collection);
+        $metaInfo = $collection->first();
+        $this->assertEquals(123, $metaInfo->getValue());
+    }
+    
+    /**
+     * Ensures the scraper works.
+     */
+    public function testFromGithubIssuePage()
+    {
+        $needle = '<div class="issues-list-options" data-pjax="">
+    <div class="button-group">
+        <a href="/Wuzzitor/metagist.org/issues?page=1&amp;state=open" class="minibutton selected">
+          4 Open
+        </a>
+        <a href="/Wuzzitor/metagist.org/issues?page=1&amp;state=closed" class="minibutton ">
+          5 Closed
+        </a>
+    </div></div>';
+        $client = $this->createClientReturning($needle);
+        $this->factory->setGitHubClient($client);
+        
+        $collection = $this->factory->fromGithubIssuePage('bonndan', 'MdMan');
+        $this->assertInstanceOf('\Doctrine\Common\Collections\Collection', $collection);
+        
+        $metaInfo = $collection->first();
+        $this->assertInstanceOf("\Metagist\MetaInfo", $metaInfo);
+        $this->assertEquals(4, $metaInfo->getValue());
+        
+        $metaInfo = $collection->next();
+        $this->assertInstanceOf("\Metagist\MetaInfo", $metaInfo);
+        $this->assertEquals(5, $metaInfo->getValue());
+    }
+    
+    /**
+     * Creates a mock of \Github\Client
+     * 
+     * @param mixed $returnedResponse
+     * @return \Github\Client
+     */
+    protected function createClientReturning($returnedResponse)
+    {
         $client = $this->getMockBuilder("\Github\Client")
            ->disableOriginalConstructor()
            ->getMock();
         $response = $this->getMock("\Github\HttpClient\Message\Response");
         $response->expects($this->any())
             ->method('getContent')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue($returnedResponse));
         $httpClient = $this->getMock("\Github\HttpClient\HttpClientInterface");
         $httpClient->expects($this->any())
             ->method('get')
@@ -131,8 +194,6 @@ class MetaInfoFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getHttpClient')
             ->will($this->returnValue($httpClient));
         
-        $this->factory->setGitHubClient($client);
-        $result = $this->factory->fromGithubRepo("https://github.com/owner/repo");
-        $this->assertInstanceOf('\Doctrine\Common\Collections\Collection', $result);
+        return $client;
     }
 }

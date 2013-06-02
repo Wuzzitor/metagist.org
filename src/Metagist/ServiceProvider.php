@@ -84,7 +84,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
                 array("User-Agent" => "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0")
             );
             
-            $factory = new MetaInfoFactory();
+            $factory = new MetaInfoFactory($app['monolog']);
             $factory->setGitHubClient($client);
             
             return $factory;

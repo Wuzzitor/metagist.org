@@ -42,6 +42,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
         $app['db'] = $this->getMockBuilder("\Doctrine\DBAL\Connection")
             ->disableOriginalConstructor()
             ->getMock();
+        $app['monolog'] = $this->getMock("\Psr\Log\LoggerInterface");
         $app["opauth"] = array(
             "login" => "/auth/login",
             "callback" => "/auth/callback/github/oauth2callback",
