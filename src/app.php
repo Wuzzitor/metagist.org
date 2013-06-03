@@ -143,6 +143,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider());
  * The controller registers itself.
  */
 new Metagist\WebController($app);
+new Metagist\ApiController($app);
 
 /**
  * Opauth, overwrites some routes.
