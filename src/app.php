@@ -19,7 +19,7 @@ use Symfony\Component\Translation\Loader\YamlFileLoader;
 /*
  * configuration 
  */
-$env = getenv('APP_ENV') ? : 'dev';
+$env = $_SERVER['SERVER_NAME'] == 'metagist.org' ? 'prod': 'dev';
 require __DIR__ . "/../config/$env.php";
 
 if ($app['http_cache.enabled'] == true) {
