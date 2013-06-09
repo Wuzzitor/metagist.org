@@ -151,8 +151,7 @@ new Metagist\ApiController($app);
  * user_agent="PHP"
  * @link https://github.com/zendframework/zf2/pull/4331
  */
-use SilexOpauth\OpauthExtension;
-$app->register(new OpauthExtension());
+$app->register(new Metagist\Auth\OpauthExtension());
 
 /**
  * Provides a repo for packages
