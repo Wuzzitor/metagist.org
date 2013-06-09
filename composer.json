@@ -32,7 +32,6 @@
         
         "opauth/opauth"         : ">=0.4.0",
         "opauth/github"         : "dev-master",
-        "icehero/silex-opauth"  : "dev-master",
         
         "knplabs/packagist-api" : "0.1.*@dev",
         "pagerfanta/pagerfanta" : "v1.0.0",
