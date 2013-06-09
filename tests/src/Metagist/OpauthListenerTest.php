@@ -104,8 +104,8 @@ class OpauthListenerTest extends \PHPUnit_Framework_TestCase
     public function testSubscribesToEvents()
     {
         $events = array(
-            \SilexOpauth\OpauthExtension::EVENT_SUCCESS => 'onSuccess',
-            \SilexOpauth\OpauthExtension::EVENT_ERROR => 'onError'
+            \Metagist\Auth\OpauthExtension::EVENT_SUCCESS => 'onSuccess',
+            \Metagist\Auth\OpauthExtension::EVENT_ERROR => 'onError'
         );
         
         $this->assertEquals($events, OpauthListener::getSubscribedEvents());

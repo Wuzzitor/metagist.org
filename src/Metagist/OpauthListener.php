@@ -95,8 +95,8 @@ class OpauthListener implements EventSubscriberInterface, ListenerInterface
     public static function getSubscribedEvents()
     {
         return array(
-            \SilexOpauth\OpauthExtension::EVENT_SUCCESS => 'onSuccess',
-            \SilexOpauth\OpauthExtension::EVENT_ERROR => 'onError'
+            \Metagist\Auth\OpauthExtension::EVENT_SUCCESS => 'onSuccess',
+            \Metagist\Auth\OpauthExtension::EVENT_ERROR => 'onError'
         );
     }
 
