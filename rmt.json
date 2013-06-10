@@ -1,5 +1,9 @@
 {
    "vcs": "git",
    "version-generator": "semantic",
-   "version-persister": "vcs-tag"
+   "version-persister": "vcs-tag",
+   
+   "post-release-actions": [
+       "src/VersionStampAction.php"
+    ]
 }
