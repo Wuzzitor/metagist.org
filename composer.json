@@ -41,17 +41,23 @@
         "symfony/css-selector"  : "~2.2",
         "symfony/dom-crawler"   : "~2.2",
         
-        "bonndan/RMT"           : "@dev"
+        "bonndan/RMT"           : "@dev",
+        "wuzzitor/metagist-api" : "dev-master"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-0": {
-            "Metagist": "src/"
+            "Metagist": "src/",
+            "Metagist\\Api": "vendor/wuzzitor/metagist-api/src"
         },
         "files": ["vendor/opauth/github/GitHubStrategy.php"]
     },
     "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Wuzzitor/metagist-api.git"
+        },
         { 
             "type": "package",
             "package": {
