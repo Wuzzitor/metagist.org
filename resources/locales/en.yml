@@ -5,10 +5,10 @@ community_homepage: Homepage
 community_blog: Blog
 
 documentation: Package Documentation
-documentation_api: API Documentation
-documentation_manual: End user manual
-documentation_gettingstarted: Getting started
-documentation_license: License
+api: API Documentation
+manual: End user manual
+gettingstarted: Getting started
+license: License
 
 flags: Flags
 flags_featured: Featured Project
@@ -16,22 +16,22 @@ flags_featured: Featured Project
 metrics: Code Analysis Metrics
 
 transparency: Transparency
-transparency_issues: Issue tracker
-transparency_repository: Git Repository
+issues: Issue tracker
+repository: Git Repository
 reliability: Indicators on reliability
-reliability_usage: Used in projects
-reliability_maturity: Maturity
-reliability_contributors: Contributors
-reliability_commits: Commits
-reliability_maintainers: Maintainers
-reliability_requires: Dependencies
-reliability_requires.dev: Dev-Dependencies
-reliability_stillmaintained: Still maintained?
-flag_featured: Featured Projects
+usage: Used in projects
+maturity: Maturity
+contributors: Contributors
+commits: Commits
+maintainers: Maintainers
+requires: Dependencies
+requires.dev: Dev-Dependencies
+stillmaintained: Still maintained?
+featured: Featured Projects
 
-testing_tests: Tests Location
-testing_tests.number: Number of tests
-testing_tests.status: Tests status
+tests: Tests Location
+tests.number: Number of tests
+tests.status: Tests status
 
 typehint_badge: "Please provided an url to an image."
 typehint_integer: "Notice: Only positive numbers are allowed."

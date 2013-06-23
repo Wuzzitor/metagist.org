@@ -36,32 +36,33 @@ $app['assetic.output.path_to_js']       = 'js/scripts.js';
  */
 $app['category.icons.mapping'] = array(
     
-    'community/homepage'  => 'icon-home',
+    'homepage'  => 'icon-home',
     
-    'documentation/api' => 'icon-sitemap',
-    'documentation/manual' => 'icon-book',
-    'documentation/gettingstarted' => 'icon-rocket',
+    'api' => 'icon-sitemap',
+    'manual' => 'icon-book',
+    'gettingstarted' => 'icon-rocket',
     
-    'reliability/committers' => 'icon-group',
-    'reliability/maintainers' => 'icon-group',
-    'reliability/usage' => 'icon-resize-horizontal',
+    'committers' => 'icon-group',
+    'maintainers' => 'icon-group',
+    'usage' => 'icon-resize-horizontal',
     
-    'testing/tests.number' => 'icon-dashboard',
-    'testing/tests.status' => 'icon-lightbulb',
-    'transparency/repository' => 'icon-github',
+    'commits' => 'icon-dashboard',
+    'tests.number' => 'icon-dashboard',
+    'tests.status' => 'icon-lightbulb',
+    'repository' => 'icon-github',
 );
 
 /**
  * Configuration how to render category group entries
  */
 $app['category.render.mapping'] = array(
-    'reliability/usage'        => array('class' => 'label label-info'),
-    'reliability/maintainers'  => array('class' => 'badge'),
-    'reliability/committers'   => array('class' => 'badge'),
-    'reliability/committs'     => array('class' => 'badge'),
-    'community/homepage'       => array('displayAs' => 'url'),
-    'documentation/api'        => array('displayAs' => 'url'),
-    'documentation/manual'     => array('displayAs' => 'file'),
-    'transparency/repository'  => array('displayAs' => 'url'),
-    'testing/tests.status'     => array('displayAs' => 'badge'),
+    'usage'        => array('class' => 'label label-info'),
+    'maintainers'  => array('class' => 'badge'),
+    'committers'   => array('class' => 'badge'),
+    'commits'     => array('class' => 'badge'),
+    'homepage'     => array('displayAs' => 'url'),
+    'api'          => array('displayAs' => 'url'),
+    'manual'       => array('displayAs' => 'file'),
+    'repository'   => array('displayAs' => 'file'),
+    'tests.status' => array('displayAs' => 'badge'),
 );
