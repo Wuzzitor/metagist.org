@@ -72,6 +72,20 @@ class MetaInfo
     const CLOSED_ISSUES = 'issues.closed';
     
     /**
+     * Number of project contributors (based on repo info).
+     * 
+     * @var string
+     */
+    const CONTRIBUTORS = 'contributors';
+    
+    /**
+     * Number of commits (repo).
+     * 
+     * @var string
+     */
+    const COMMITS = 'commits';
+    
+    /**
      * user id
      * @var int|null
      */
