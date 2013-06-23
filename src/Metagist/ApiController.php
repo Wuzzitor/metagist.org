@@ -58,24 +58,13 @@ class ApiController extends Controller
         $package->setMetaInfos(
             $this->application->metainfo()->byPackage($package)
         );
-        $schema    = $this->application->categories();
-        $data = array(
-            'identifier'  => $package->getIdentifier(),
-            'description' => $package->getDescription(),
-            'timeUpdated' => $package->getTimeUpdated(),
-            'versions'    => $package->getVersions(),
+        
+        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        $body = $serializer->serialize($package, 'json');
+        
+        $response = \Symfony\Component\HttpFoundation\Response::create(
+            $body, 200, array('application/json')
         );
-        
-        $infos = array();
-        foreach ($schema->getCategories() as $categoryName => $nil) {
-            $infos[$categoryName] = array();
-            $metainfos = $package->getMetaInfos($categoryName);
-            foreach ($metainfos as $metainfo) {
-                $infos[$categoryName][] = array($metainfo->getGroup() => $metainfo->getValue());
-            }
-        }
-        $data['metaInfo'] = $infos;
-        
-        return $this->application->json($data);
+        return $response;
     }
 }

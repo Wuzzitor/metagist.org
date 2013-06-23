@@ -67,13 +67,9 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $this->application->expects($this->once())
             ->method('metainfo')
             ->will($this->returnValue($metainfoRepo));
-        $schema = new CategorySchema(file_get_contents(__DIR__ . '/testdata/testcategories.json'));
-        $this->application->expects($this->once())
-            ->method('categories')
-            ->will($this->returnValue($schema));
         
         $response = $this->controller->package('aname', 'apackage');
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
         $package = json_decode($response->getContent());
         $this->assertEquals('aname/apackage', $package->identifier);
     }
