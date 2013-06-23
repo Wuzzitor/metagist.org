@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "78823e5bb4d9491d6427d24d3d71d278",
+    "hash": "a3c6e095fcc72c331ee40a04337c203e",
     "packages": [
         {
             "name": "bonndan/RMT",
@@ -580,61 +580,6 @@
             "time": "2013-03-28 16:41:24"
         },
         {
-            "name": "knplabs/github-api",
-            "version": "1.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "1.1.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/KnpLabs/php-github-api/archive/1.1.3.zip",
-                "reference": "1.1.3",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "kriswallsmith/buzz": ">=0.7",
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Github\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thibault Duplessis",
-                    "email": "thibault.duplessis@gmail.com",
-                    "homepage": "http://ornicar.github.com"
-                },
-                {
-                    "name": "KnpLabs Team",
-                    "homepage": "http://knplabs.com"
-                }
-            ],
-            "description": "GitHub API v3 client",
-            "homepage": "https://github.com/KnpLabs/php-github-api",
-            "keywords": [
-                "api",
-                "gh",
-                "gist",
-                "github"
-            ],
-            "time": "2012-12-27 10:17:21"
-        },
-        {
             "name": "knplabs/packagist-api",
             "version": "dev-master",
             "source": {
@@ -729,54 +674,6 @@
                 "minification"
             ],
             "time": "2012-08-28 05:18:28"
-        },
-        {
-            "name": "kriswallsmith/buzz",
-            "version": "v0.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "v0.10"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/v0.10",
-                "reference": "v0.10",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-curl": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Buzz": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
-                }
-            ],
-            "description": "Lightweight HTTP client",
-            "homepage": "https://github.com/kriswallsmith/Buzz",
-            "keywords": [
-                "curl",
-                "http client"
-            ],
-            "time": "2013-05-19 03:41:15"
         },
         {
             "name": "leafo/lessphp",
@@ -1368,61 +1265,6 @@
             "time": "2013-06-19 14:39:26"
         },
         {
-            "name": "symfony/browser-kit",
-            "version": "v2.3.1",
-            "target-dir": "Symfony/Component/BrowserKit",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "v2.3.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/v2.3.1",
-                "reference": "v2.3.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/dom-crawler": ">=2.0,<3.0"
-            },
-            "require-dev": {
-                "symfony/css-selector": ">=2.0,<3.0",
-                "symfony/process": ">=2.0,<3.0"
-            },
-            "suggest": {
-                "symfony/process": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\BrowserKit\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony BrowserKit Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-05-15 15:16:47"
-        },
-        {
             "name": "symfony/config",
             "version": "v2.3.1",
             "target-dir": "Symfony/Component/Config",
@@ -1524,57 +1366,6 @@
             "time": "2013-06-11 07:15:14"
         },
         {
-            "name": "symfony/css-selector",
-            "version": "v2.3.1",
-            "target-dir": "Symfony/Component/CssSelector",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "v2.3.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/v2.3.1",
-                "reference": "v2.3.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\CssSelector\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
-                    "name": "Jean-François Simon",
-                    "email": "jeanfrancois.simon@sensiolabs.com"
-                }
-            ],
-            "description": "Symfony CssSelector Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-05-19 18:59:12"
-        },
-        {
             "name": "symfony/debug",
             "version": "v2.3.1",
             "target-dir": "Symfony/Component/Debug",
@@ -1629,59 +1420,6 @@
             "description": "Symfony Debug Component",
             "homepage": "http://symfony.com",
             "time": "2013-06-02 11:58:44"
-        },
-        {
-            "name": "symfony/dom-crawler",
-            "version": "v2.3.1",
-            "target-dir": "Symfony/Component/DomCrawler",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "v2.3.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/v2.3.1",
-                "reference": "v2.3.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "symfony/css-selector": ">=2.0,<3.0"
-            },
-            "suggest": {
-                "symfony/css-selector": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\DomCrawler\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony DomCrawler Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-06-11 07:15:14"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2682,12 +2420,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wuzzitor/metagist-api.git",
-                "reference": "36a647111edb633227e21298a8c8622f4666dc7a"
+                "reference": "16c1bc9c1a12fb8fb7a117cfced80d1f8e2da4e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wuzzitor/metagist-api/zipball/36a647111edb633227e21298a8c8622f4666dc7a",
-                "reference": "36a647111edb633227e21298a8c8622f4666dc7a",
+                "url": "https://api.github.com/repos/Wuzzitor/metagist-api/zipball/16c1bc9c1a12fb8fb7a117cfced80d1f8e2da4e9",
+                "reference": "16c1bc9c1a12fb8fb7a117cfced80d1f8e2da4e9",
                 "shasum": ""
             },
             "require": {
@@ -2697,8 +2435,9 @@
                 "php": ">=5.3.3"
             },
             "require-dev": {
+                "doctrine/common": "2.3.0",
                 "silex/silex": "1.0.*@dev",
-                "wuzzitor/metagist.org": "0.0.4"
+                "wuzzitor/metagist.org": "0.1.0"
             },
             "type": "library",
             "autoload": {
@@ -2726,7 +2465,7 @@
                 "source": "https://github.com/Wuzzitor/metagist-api/tree/master",
                 "issues": "https://github.com/Wuzzitor/metagist-api/issues"
             },
-            "time": "2013-06-23 02:20:50"
+            "time": "2013-06-23 13:46:59"
         }
     ],
     "packages-dev": [
