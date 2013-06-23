@@ -50,6 +50,17 @@ class CategorySchema
     private $categories;
     
     /**
+     * Creates a schema instance with the default config file contents.
+     * 
+     * @return \Metagist\CategorySchema
+     */
+    public static function create()
+    {
+        $config = __DIR__ . '/../../web/metainfo.json';
+        return new static(file_get_contents($config));
+    }
+    
+    /**
      * Initialize with a json string.
      * 
      * @param string $json
@@ -61,18 +72,19 @@ class CategorySchema
         if ($this->categories === null) {
             throw new \InvalidArgumentException('Invalid json passed?');
         }
+        $this->assertGroupsAreUnique();
     }
     
     /**
      * Returns the type of a group.
      * 
-     * @param string $category
      * @param string $group
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getType($category, $group)
+    public function getType($group)
     {
+        $category = $this->getCategoryForGroup($group);
         $this->assertGroupExists($category, $group);
         return $this->categories->$category->types->$group->type;
     }
@@ -119,6 +131,26 @@ class CategorySchema
     }
     
     /**
+     * Reverse search based on group name.
+     * 
+     * @param string $group
+     * @return string|false
+     */
+    public function getCategoryForGroup($group)
+    {
+        foreach (array_keys($this->getCategories()) as $category) {
+            $groups = $this->getGroups($category);
+            foreach (array_keys($groups) as $groupName) {
+                if ($group == $groupName) {
+                    return $category;
+                }
+            }
+        }
+        
+        throw new \InvalidArgumentException('Unknown group: ' . $group);
+    }
+    
+    /**
      * Asserts a category exists.
      * 
      * @param string $category
@@ -144,6 +176,26 @@ class CategorySchema
         
         if (!isset($this->categories->$category->types->$group)) {
             throw new \InvalidArgumentException('Unknown group: ' . $group);
+        }
+    }
+    
+    /**
+     * Ensures the group names are only used once.
+     * 
+     * @throws Exception
+     */
+    protected function assertGroupsAreUnique()
+    {
+        $groupsNames = array();
+        
+        foreach (array_keys($this->getCategories()) as $category) {
+            $groups = $this->getGroups($category);
+            foreach (array_keys($groups) as $groupName) {
+                if (isset($groupsNames[$groupName])) {
+                    throw new Exception('Group name not unique: ' . $category . '/' . $groupName);
+                }
+                $groupsNames[$groupName] = $groupName;
+            }
         }
     }
 }

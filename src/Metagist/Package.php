@@ -171,17 +171,14 @@ class Package
     /**
      * Returns the associated metainfos.
      * 
+     * @param string $group
      * @return \Doctrine\Common\Collections\Collection|null
      */
-    public function getMetaInfos($category = null, $group = null)
+    public function getMetaInfos($group = null)
     {
-        if ($category !== null) {
-            $callback = function (MetaInfo $metainfo) use ($category, $group) {
-                $match = $metainfo->getCategory() == $category;
-                if ($group !== null) {
-                    $match = $match && $metainfo->getGroup() == $group; 
-                }
-                return $match;
+        if ($group !== null) {
+            $callback = function (MetaInfo $metainfo) use ($group) {
+                return $metainfo->getGroup() == $group; 
             };
             return $this->metaInfos->filter($callback);
         }

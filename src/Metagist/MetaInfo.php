@@ -22,12 +22,6 @@ class MetaInfo
     private $time_updated;
     
     /**
-     * category name
-     * @var string
-     */
-    private $category;
-    
-    /**
      * group name
      * @var string
      */
@@ -73,16 +67,14 @@ class MetaInfo
     /**
      * Factory method to create metainfo based on values.
      * 
-     * @param string $identifier must be of format "$category/$group"
+     * @param string $group
      * @param mixed  $value
      * @return MetaInfo
      */
-    public static function fromValue($identifier, $value, $version = null)
+    public static function fromValue($group, $value, $version = null)
     {
-        list ($category, $group) = explode('/', $identifier);
         return self::fromArray(
             array(
-                'category' => $category,
                 'group'    => $group,
                 'value'    => $value,
                 'version'  => $version
@@ -108,16 +100,6 @@ class MetaInfo
     public function getPackage()
     {
         return $this->package;
-    }
-    
-    /**
-     * Returns the category name.
-     * 
-     * @return string
-     */
-    public function getCategory()
-    {
-        return $this->category;
     }
     
     /**

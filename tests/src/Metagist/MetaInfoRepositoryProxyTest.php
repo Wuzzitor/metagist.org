@@ -57,7 +57,7 @@ class MetaInfoRepositoryProxyTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $metaInfo = MetaInfo::fromValue('test/testInteger', true);
+        $metaInfo = MetaInfo::fromValue('testInteger', true);
             
         $this->context->expects($this->once())
             ->method('isGranted')
@@ -83,7 +83,7 @@ class MetaInfoRepositoryProxyTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         
         $this->setExpectedException("\Symfony\Component\Security\Core\Exception\AccessDeniedException");
-        $this->proxy->save(MetaInfo::fromValue('test/testInteger', true));
+        $this->proxy->save(MetaInfo::fromValue('testInteger', true));
     }
     
     /**

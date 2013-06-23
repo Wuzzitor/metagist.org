@@ -43,12 +43,31 @@ class Validator
     }
     
     /**
+     * Checks if the group exists.
+     * 
+     * @param string $group
+     * @return boolean
+     */
+    public function isValidGroup($group)
+    {
+        if (!self::isValidName($group)) {
+            return false;
+        }
+        try {
+            $this->schema->getCategoryForGroup($group);
+            return true;
+        } catch (\InvalidArgumentException $exception) {
+            return false;
+        }
+    }
+    
+    /**
      * Validate a name (author or package name).
      * 
      * @param string $name author or package name
      * @return boolean
      */
-    public function isValidName($name)
+    public static function isValidName($name)
     {
         $pattern = '/^[a-zA-Z0-9\-\.]{2,128}$/i';
         return (bool) preg_match($pattern, $name);
@@ -63,11 +82,11 @@ class Validator
      */
     public function isValidMetaInfo(MetaInfo $metaInfo)
     {
-        if ($metaInfo->getPackage() == null || $metaInfo->getCategory() == null || $metaInfo->getGroup() == null) {
-            throw new InvalidInfoException('Package, category or group is not set.');
+        if ($metaInfo->getPackage() == null || $metaInfo->getGroup() == null) {
+            throw new InvalidInfoException('Package or group is not set.');
         }
         
-        $type  = $this->schema->getType($metaInfo->getCategory(), $metaInfo->getGroup());
+        $type  = $this->schema->getType($metaInfo->getGroup());
         $value = $metaInfo->getValue();
         
         if ($type == CategorySchema::TYPE_STRING) {

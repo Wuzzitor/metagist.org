@@ -53,7 +53,6 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('fetch')
             ->will($this->returnValue(
                 array(
-                    'category' => 'cat123',
                     'group' => 'group123',
                     'value' => 'val123'))
             );
@@ -142,7 +141,7 @@ class MetaInfoRepositoryTest extends \PHPUnit_Framework_TestCase
         
         $this->connection->expects($this->at(0))
             ->method('executeQuery')
-            ->with("DELETE FROM metainfo WHERE package_id = ? AND category = ? AND  `group` = ?");
+            ->with("DELETE FROM metainfo WHERE package_id = ? AND `group` = ?");
         $this->connection->expects($this->at(1))
             ->method('executeQuery')
             ->with($this->stringContains('INSERT INTO metainfo'))

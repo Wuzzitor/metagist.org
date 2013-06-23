@@ -58,7 +58,6 @@ $metainfo->addColumn('user_id', 'integer', array('length' => 10, 'unsigned' => t
 $metainfo->addForeignKeyConstraint($users, array('user_id'), array('id'));
 $metainfo->addColumn('time_updated', 'datetime', array('notnull' => true));
 $metainfo->addColumn('version', 'string', array('length' => 32, 'notnull' => false));
-$metainfo->addColumn('category','string', array('length' => 32, 'notnull' => true));
 $metainfo->addColumn('group','string', array('length' => 32, 'notnull' => true));
 $metainfo->addColumn('value','text');
 

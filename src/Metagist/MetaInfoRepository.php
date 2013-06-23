@@ -61,16 +61,16 @@ class MetaInfoRepository
      * @param string $group
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function byCategoryGroup($category, $group)
+    public function byGroup($group)
     {
-        if (!$this->validator->isValidCategoryGroup($category, $group)) {
-            throw new \InvalidArgumentException('Category or group not existing.');
+        if (!$this->validator->isValidGroup($group)) {
+            throw new \InvalidArgumentException('Group not existing.');
         }
         
         $stmt = $this->connection->executeQuery(
             'SELECT m.*, p.identifier FROM metainfo m LEFT JOIN packages p ON p.id = m.package_id 
-             WHERE category = ? AND `group` = ?',
-            array($category, $group)
+             WHERE `group` = ?',
+            array($group)
         );
         $collection = new ArrayCollection();
         while ($row = $stmt->fetch()) {
@@ -114,24 +114,22 @@ class MetaInfoRepository
     {
         if ($cardinality === 1) {
             $this->connection->executeQuery(
-                'DELETE FROM metainfo WHERE package_id = ? AND category = ? AND  `group` = ?',
+                'DELETE FROM metainfo WHERE package_id = ? AND `group` = ?',
                 array(
                     $info->getPackage()->getId(),
-                    $info->getCategory(),
                     $info->getGroup()
                 )
             );
         }
         
         $stmt = $this->connection->executeQuery(
-            'INSERT INTO metainfo (package_id, user_id, time_updated, version, category, `group`, value) 
+            'INSERT INTO metainfo (package_id, user_id, time_updated, version, `group`, value) 
              VALUES (?, ?, ?, ?, ?, ?, ?)',
             array(
                 $info->getPackage()->getId(),
                 $info->getUserId(),
                 date('Y-m-d H:i:s', time()),
                 $info->getVersion(),
-                $info->getCategory(),
                 $info->getGroup(),
                 $info->getValue()
             )

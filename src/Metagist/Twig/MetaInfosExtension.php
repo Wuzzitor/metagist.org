@@ -69,11 +69,9 @@ class MetaInfosExtension extends \Twig_Extension
         
         /* @var $first \Metagist\MetaInfo */
         $first    = $collection->first();
-        $category = $first->getCategory();
         $group    = $first->getGroup();
         
-        $strategy = isset($this->mappings[$category.'/'.$group]) ? 
-            $this->mappings[$category.'/'.$group] : array();
+        $strategy = isset($this->mappings[$group]) ? $this->mappings[$group] : array();
         return $this->renderList($collection, $strategy);
     }
     
@@ -124,15 +122,16 @@ class MetaInfosExtension extends \Twig_Extension
         return $buffer;
     }
     
+    /**
+     * Render a single metainfo.
+     * 
+     * @param \Metagist\MetaInfo $metaInfo
+     * @return string
+     */
     public function renderInfo(\Metagist\MetaInfo $metaInfo)
     {
-        /* @var $first \Metagist\MetaInfo */
-        $category = $metaInfo->getCategory();
         $group    = $metaInfo->getGroup();
-        
-        $strategy = isset($this->mappings[$category.'/'.$group]) ? 
-            $this->mappings[$category.'/'.$group] : array();
-        
+        $strategy = isset($this->mappings[$group]) ?  $this->mappings[$group] : array();
         return $this->renderMetaInfo($metaInfo, $strategy);
     }
     

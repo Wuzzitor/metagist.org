@@ -39,21 +39,11 @@ class MetaInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromValueFactoryMethod()
     {
-        $info = MetaInfo::fromValue('cat/grp', 'test123', '1.0.0');
+        $info = MetaInfo::fromValue('grp', 'test123', '1.0.0');
         $this->assertInstanceOf('Metagist\MetaInfo', $info);
-        $this->assertEquals('cat', $info->getCategory());
         $this->assertEquals('grp', $info->getGroup());
         $this->assertEquals('test123', $info->getValue());
         $this->assertEquals('1.0.0', $info->getVersion());
-    }
-    
-    /**
-     * Tests the category getter.
-     */
-    public function testGetCategory()
-    {
-        $this->metaInfo = MetaInfo::fromArray(array('category' => 'test'));
-        $this->assertEquals('test', $this->metaInfo->getCategory());
     }
     
     /**

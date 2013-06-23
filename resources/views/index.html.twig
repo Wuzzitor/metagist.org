@@ -18,7 +18,7 @@
             <h2>{{ "Featured Packages" | trans }}</h2>
             <ul class="unstyled">
             {% for metainfo in featured %}
-                <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
+                <li class="{{ metainfo.getGroup }}">
                     <h3>
                         <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}"><i class="icon icon-arrow-right"></i> {{ metainfo.getPackage|e }}</a>
                     </h3>
@@ -60,8 +60,8 @@
             <h2>Latest Updates</h2>
             <ul class="unstyled">
                 {% for metainfo in latest %}
-                    <li class="{{ metainfo.getCategory ~ '_' ~ metainfo.getGroup }}">
-                        <strong>{{ icon(metainfo.getCategory ~ '/' ~ metainfo.getGroup) }} {{ (metainfo.getCategory ~ '_' ~ metainfo.getGroup)|trans }}:</strong>  {{ renderInfo(metainfo) }}
+                    <li class="{{ metainfo.getGroup }}">
+                        <strong>{{ icon(metainfo.getGroup) }} {{ (metainfo.getGroup)|trans }}:</strong>  {{ renderInfo(metainfo) }}
                         <a href="/package/{{ metainfo.getPackage.getIdentifier|e }}" title="{{ metainfo.getPackage.getIdentifier|e }}"><i class="icon icon-arrow-right"></i> {{ metainfo.getPackage }}</a>
                     </li>
                 {% endfor %}

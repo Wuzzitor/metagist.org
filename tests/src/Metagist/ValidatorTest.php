@@ -65,27 +65,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $metaInfo = MetaInfo::fromArray(
             array(
                 'package' => new Package('test/test'),
-                'group' => 'test',
+                'group' => 'testInteger',
             )
         );
         
-        $this->setExpectedException("\Metagist\InvalidInfoException");
-        $this->validator->isValidMetaInfo($metaInfo);
-    }
-    
-    /**
-     * Ensures the group presence is checked.
-     */
-    public function testIsValidMetaInfoWithoutGroup()
-    {
-        $metaInfo = MetaInfo::fromArray(
-            array(
-                'package' => new Package('test/test'),
-                'category' => 'test',
-            )
-        );
-        
-        $this->setExpectedException("\Metagist\InvalidInfoException");
         $this->validator->isValidMetaInfo($metaInfo);
     }
     
@@ -96,8 +79,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $metaInfo = MetaInfo::fromArray(
             array(
-                'category' => 'test',
-                'group' => 'test',
+                'group' => 'testInteger',
             )
         );
         

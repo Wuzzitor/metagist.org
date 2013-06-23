@@ -20,7 +20,7 @@ class Badge implements StrategyInterface
         return sprintf(
             $template,
             $metaInfo->getValue(),
-            $metaInfo->getCategory() . '/' . $metaInfo->getGroup()
+            $metaInfo->getGroup()
         );
     }
 

@@ -63,7 +63,7 @@ class WebController extends Controller
             'index.html.twig', array(
                 'latest' => $repo->latest(),
                 'latestRating' => $ratings->latest()->first(),
-                'featured' => $repo->byCategoryGroup('flags', 'featured'),
+                'featured' => $repo->byGroup('featured'),
                 'best' => $this->application->ratings()->best(5)
             )
         );

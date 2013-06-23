@@ -68,8 +68,8 @@ class MetaInfoRepositoryProxy
      */
     public function save(MetaInfo $metaInfo)
     {
-        $category   = $metaInfo->getCategory();
         $group      = $metaInfo->getGroup();
+        $category   = $this->schema->getCategoryForGroup($group);
         $reqRole    = $this->schema->getAccess($category, $group);
         if (!$this->context->isGranted($reqRole)) {
             throw new AccessDeniedException(
