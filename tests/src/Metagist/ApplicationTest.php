@@ -163,4 +163,32 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         
         $this->app->run();
     }
+    
+    /**
+     * Ensures the worker interface can be used.
+     */
+    public function testWorker()
+    {
+        /*
+         * api config
+         */
+        $this->app[\Metagist\Api\ServiceProvider::APP_WORKER_CONFIG] = array(
+            'base_url' => 'http://metagist.dev/api/',
+            'consumer_key' => 'dev-test',
+            'consumer_secret' => 'dev-test',
+        );
+        $this->app[\Metagist\Api\ServiceProvider::APP_CONSUMERS] = array(
+            'metagist.dev' => 'metagist.dev',
+        );
+        $services = realpath(__DIR__ . '/../../../config/services.json');
+        $this->app[\Metagist\Api\ServiceProvider::APP_SERVICES] = $services;
+
+        $test = new \Metagist\Api\ServiceProvider();
+        $test->register($this->app);
+        $this->app[\Metagist\Api\ServiceProvider::API] = function () use ($test) {
+            return $test;
+        };
+        
+        $this->assertInstanceOf("\Metagist\Api\WorkerInterface", $this->app->worker());
+    }
 }

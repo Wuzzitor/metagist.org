@@ -118,4 +118,14 @@ class Application extends \Silex\Application
             parent::run();
         }
     }
+    
+    /**
+     * Returns the Api service provider.
+     * 
+     * @return \Metagist\Api\WorkerInterface
+     */
+    public function worker()
+    {
+        return $this[\Metagist\Api\ServiceProvider::API]->worker();
+    }
 }
