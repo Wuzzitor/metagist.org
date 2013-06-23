@@ -72,21 +72,7 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         };
         
         $app[self::METAINFO_FACTORY] = function () use ($app) {
-            $client = new \Github\Client();
-            
-            $credentials = $app["opauth"]["config"]["Strategy"]["Github"];
-            $client->authenticate(
-                $credentials["client_id"],
-                $credentials["client_secret"],
-                \Github\Client::AUTH_URL_CLIENT_ID
-            );
-            $client->setHeaders(
-                array("User-Agent" => "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0")
-            );
-            
             $factory = new MetaInfoFactory($app['monolog']);
-            $factory->setGitHubClient($client);
-            
             return $factory;
         };
         

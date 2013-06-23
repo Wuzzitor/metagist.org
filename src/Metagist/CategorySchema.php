@@ -39,12 +39,6 @@ class CategorySchema
     CONST TYPE_BADGE = 'badge';
     
     /**
-     * identifer for the repo category and group
-     * @var string
-     */
-    const REPOSITORY_IDENTIFIER = 'transparency/repository';
-    
-    /**
      * @var object
      */
     private $categories;
