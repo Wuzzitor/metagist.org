@@ -7,6 +7,9 @@ use \Doctrine\Common\Collections\ArrayCollection;
 /**
  * Factory for MetaInfo objects.
  * 
+ * This factory is onyl used on package creation, updates are transmitted by the
+ * worker.
+ * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
 class MetaInfoFactory
