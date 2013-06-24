@@ -44,7 +44,9 @@ abstract class Controller
         $packageRepo = $this->application->packages();
         $package = $packageRepo->byAuthorAndName($author, $name);
         if ($package == null) {
-            $package = $this->application[ServiceProvider::PACKAGE_FACTORY]->byAuthorAndName($author, $name);
+            $factory = $this->application[ServiceProvider::PACKAGE_FACTORY];
+            /* @var $factory PackageFactory */
+            $package = $factory->byAuthorAndName($author, $name);
             if ($packageRepo->save($package)) {
                 /* @var $metaInfoRepo MetaInfoRepository */
                 $metaInfoRepo = $this->application[ServiceProvider::METAINFO_REPO];
