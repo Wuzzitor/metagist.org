@@ -161,4 +161,9 @@ $app->register(new Metagist\Auth\OpauthExtension());
  */
 $app->register(new Metagist\ServiceProvider());
 
+/**
+ * Metagist API for worker usage
+ */
+$app->register(new \Metagist\Api\ServiceProvider());
+
 return $app;
