@@ -1,9 +1,17 @@
 {
-   "vcs": "git",
-   "version-generator": "semantic",
-   "version-persister": "vcs-tag",
-   
-   "post-release-actions": [
-       "src/VersionStampAction.php"
+    "vcs": "git",
+    "prerequisites": ["display-last-changes"],
+    "version-generator": "semantic",
+    "version-persister": "vcs-tag",
+    "pre-release-actions": [
+        {
+            "name": "changelog-update",
+            "format": "semantic",
+            "dump-commits": true
+        },
+        {
+            "name": "src/VersionStampAction.php",
+            "file": "config/version.php"
+        }
     ]
 }
