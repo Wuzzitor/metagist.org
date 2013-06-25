@@ -46,7 +46,7 @@ class VersionStampAction extends BaseAction
 
         file_put_contents($this->options['file'], sprintf($template, $version));
         
-        exec('git commit version.php --allow-empty -m "Updated version.php file"', $result, $exitCode);
+        exec('git commit ' . $this->options['file'] . ' --allow-empty -m "Updated version.php file"', $result, $exitCode);
         if ($exitCode != 0) {
             throw new \RuntimeException('Could not commit the version file: ' . implode(' ', $result));
         }
