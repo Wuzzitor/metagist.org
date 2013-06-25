@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 
-require dirname(__DIR__) . '/version.php';
+require dirname(__DIR__) . '/config/version.php';
 
 /*
  * configuration 
