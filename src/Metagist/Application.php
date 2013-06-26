@@ -128,4 +128,19 @@ class Application extends \Silex\Application
     {
         return $this[\Metagist\Api\ServiceProvider::API]->worker();
     }
+    
+    /**
+     * Validates (oauth) an incoming request message.
+     * 
+     * @return string|false the consumer key if validation is successful.
+     */
+    public function validateRequest($message)
+    {
+        try {
+            return $this[\Metagist\Api\ServiceProvider::API]->validateRequest($message);
+        } catch (\Metagist\Api\Exception $exception) {
+            $this->logger()->warning('Error validating an incoming request: ' . $exception->getMessage());
+            return false;
+        }
+    }
 }

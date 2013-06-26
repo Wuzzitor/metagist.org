@@ -191,4 +191,43 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInstanceOf("\Metagist\Api\WorkerInterface", $this->app->worker());
     }
+    
+    /**
+     * Ensures the validateRequest() method forwards to the api method.
+     */
+    public function testValidateRequest()
+    {
+        $testMessage = 'test';
+        $test = $this->getMock("\Metagist\Api\ServiceProvider");
+        $this->app[\Metagist\Api\ServiceProvider::API] = function () use ($test) {
+            return $test;
+        };
+        $test->expects($this->once())
+            ->method('validateRequest')
+            ->with($testMessage)
+            ->will($this->returnValue('aconsumer'));
+        
+        $this->assertEquals('aconsumer', $this->app->validateRequest($testMessage));
+    }
+    
+    /**
+     * Ensures the validateRequest() catches an api exception.
+     */
+    public function testValidateRequestReturnsFalseOnApiException()
+    {
+        $testMessage = 'test';
+        $test = $this->getMock("\Metagist\Api\ServiceProvider");
+        $this->app[\Metagist\Api\ServiceProvider::API] = function () use ($test) {
+            return $test;
+        };
+        $this->app['monolog'] = function () use ($test) {
+            return $this->getMock("\Psr\Log\LoggerInterface");
+        };
+        $test->expects($this->once())
+            ->method('validateRequest')
+            ->with($testMessage)
+            ->will($this->throwException(new \Metagist\Api\Exception('fail')));
+        
+        $this->assertFalse($this->app->validateRequest($testMessage));
+    }
 }
