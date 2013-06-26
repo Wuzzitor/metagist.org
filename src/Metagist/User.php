@@ -13,18 +13,28 @@ class User implements UserInterface
 {
     /**
      * user role
+     * 
      * @var string
      */
     const ROLE_USER = 'ROLE_USER';
     
     /**
+     * system role (remote workers)
+     * 
+     * @var string
+     */
+    const ROLE_SYSTEM = 'ROLE_SYSTEM';
+    
+    /**
      * admin role
+     * 
      * @var string
      */
     const ROLE_ADMIN = 'ROLE_ADMIN';
     
     /**
      * the intenal user id
+     * 
      * @var int
      */
     private $id;
