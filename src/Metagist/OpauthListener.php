@@ -72,15 +72,42 @@ class OpauthListener implements EventSubscriberInterface, ListenerInterface
         /* @var $response array */
         $response = $event->getSubject();
         $user = $this->provider->createUserFromOauthResponse($response);
-        
+        $this->authenticateUser($user);
+        $this->logger->info("GitHub auth successful for user " . $user->getUsername());
+        $event->setArgument('result', new \Symfony\Component\HttpFoundation\RedirectResponse('/'));
+    }
+
+    /**
+     * Method to create an authenticated user to remote workers.
+     * 
+     * @param string $consumerKey
+     * @return \Metagist\User
+     */
+    public function onWorkerAuthentication($consumerKey)
+    {
+        $user = new User($consumerKey, User::ROLE_SYSTEM);
+        $this->authenticateUser($user);
+        $this->logger->info("User authenticated for worker " . $user->getUsername());
+        return $user;
+    }
+    
+    /**
+     * Authenticates using a preauthenticated token.
+     * 
+     * @param \Metagist\User $user
+     */
+    protected function authenticateUser(User $user)
+    {
         $token = new PreAuthenticatedToken($user, '', 'opauth');
         $this->manager->authenticate($token);
         $this->context->setToken($token);
-        $this->logger->info("GitHub auth successful.");
-        
-        $event->setArgument('result', new \Symfony\Component\HttpFoundation\RedirectResponse('/'));
     }
     
+    /**
+     * Error event is logged.
+     * 
+     * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+     */
     public function onError(GenericEvent $event)
     {
         $response = $event->getSubject();

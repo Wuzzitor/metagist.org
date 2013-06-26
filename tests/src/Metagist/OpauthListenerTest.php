@@ -110,4 +110,20 @@ class OpauthListenerTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals($events, OpauthListener::getSubscribedEvents());
     }
+    
+    /**
+     * Tests the fake user creation for remote workers.
+     */
+    public function testOnWorkerAuthentication()
+    {
+        $this->manager->expects($this->once())
+            ->method("authenticate");
+        $this->securityContext->expects($this->once())
+            ->method("setToken")
+            ->with($this->isInstanceOf("Symfony\Component\Security\Core\Authentication\Token\TokenInterface"));
+        
+        $user = $this->listener->onWorkerAuthentication('aconsumer');
+        $this->assertInstanceOf("\Metagist\User", $user);
+        $this->assertContains(User::ROLE_SYSTEM, $user->getRoles());
+    }
 }
