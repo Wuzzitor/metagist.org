@@ -47,7 +47,7 @@ $app['security.users'] = array(
  * api config
  */
 $app[\Metagist\Api\ServiceProvider::APP_WORKER_CONFIG] = array(
-    'base_url' => 'http://metagist.dev/api/',
+    'base_url' => 'http://seal/metagist-worker/api/',
     'consumer_key' => 'dev-test',
     'consumer_secret' => 'dev-test',
 );
