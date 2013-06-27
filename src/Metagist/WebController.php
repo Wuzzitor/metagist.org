@@ -118,7 +118,7 @@ class WebController extends Controller
     }
     
     /**
-     * Updates package info.
+     * Updates package info by invoking the worker.
      * 
      * @param string $author
      * @param string $name
@@ -126,20 +126,21 @@ class WebController extends Controller
      */
     public function update($author, $name)
     {
-        $packageFactory = $this->application[ServiceProvider::PACKAGE_FACTORY];
-        /* @var $packageFactory PackageFactory */
-        $tempPackage = $packageFactory->byAuthorAndName($author, $name);
-        $package = $this->application->packages()->byAuthorAndName($author, $name);
-        
-        foreach ($tempPackage->getMetaInfos() as $metaInfo) {
-            /* @var $metaInfo MetaInfo */
-            $metaInfo->setPackage($package);
-            $this->application->metainfo()->save($metaInfo);
+        $flashBag = $this->application->session()->getFlashBag();
+        try {
+            $package = $this->getPackage($author, $name);
+            $this->application->getApi()->worker()->scan($author, $name);
+        } catch (Exception $exception) {
+            $flashBag->add(
+                'error',
+                'Error while updating the package: ' . $exception->getMessage()
+            );
+            return $this->application->redirect('/');
         }
         
-        $this->application->session()->getFlashBag()->add(
+        $flashBag->add(
             'success',
-            'The package ' . $package->getIdentifier() . ' has been updated. Thanks.'
+            'The package ' . $package->getIdentifier() . ' will be updated. Thanks.'
         );
         return $this->application->redirect('/package/' . $package->getIdentifier());
     }
