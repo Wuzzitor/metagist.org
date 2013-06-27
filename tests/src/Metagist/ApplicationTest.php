@@ -177,4 +177,20 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         
         $this->assertSame($test, $this->app->getApi());
     }
+    
+    /**
+     * Ensures the application returns the api provider
+     */
+    public function testGetOpauthListener()
+    {
+        $listener = $this->getMockBuilder("\Metagist\OpauthListener")
+            ->disableOriginalConstructor()
+            ->getMock();
+            
+        $this->app[\Metagist\OpauthSecurityServiceProvider::LISTENER] = function () use ($listener) {
+            return $listener;
+        };
+        
+        $this->assertSame($listener, $this->app->getOpauthListener());
+    }
 }

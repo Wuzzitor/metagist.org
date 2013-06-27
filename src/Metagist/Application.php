@@ -128,4 +128,15 @@ class Application extends \Silex\Application
     {
         return $this[\Metagist\Api\ServiceProvider::API];
     }
+    
+    /**
+     * Returns the opauth listener (used to authenticate users).
+     * 
+     * @todo rework this. The listener should maybe not be provided here.
+     * @return \Metagist\OpauthListener
+     */
+    public function getOpauthListener()
+    {
+        return $this[\Metagist\OpauthSecurityServiceProvider::LISTENER];
+    }
 }
