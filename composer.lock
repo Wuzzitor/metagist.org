@@ -2420,12 +2420,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wuzzitor/metagist-api.git",
-                "reference": "16c1bc9c1a12fb8fb7a117cfced80d1f8e2da4e9"
+                "reference": "b75926f82c08f8626638dce0799639d08d94b80c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wuzzitor/metagist-api/zipball/16c1bc9c1a12fb8fb7a117cfced80d1f8e2da4e9",
-                "reference": "16c1bc9c1a12fb8fb7a117cfced80d1f8e2da4e9",
+                "url": "https://api.github.com/repos/Wuzzitor/metagist-api/zipball/b75926f82c08f8626638dce0799639d08d94b80c",
+                "reference": "b75926f82c08f8626638dce0799639d08d94b80c",
                 "shasum": ""
             },
             "require": {
@@ -2465,7 +2465,7 @@
                 "source": "https://github.com/Wuzzitor/metagist-api/tree/master",
                 "issues": "https://github.com/Wuzzitor/metagist-api/issues"
             },
-            "time": "2013-06-23 13:46:59"
+            "time": "2013-06-26 05:50:55"
         }
     ],
     "packages-dev": [
