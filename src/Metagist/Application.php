@@ -120,27 +120,12 @@ class Application extends \Silex\Application
     }
     
     /**
-     * Returns the Api service provider.
+     * Returns the api provider.
      * 
-     * @return \Metagist\Api\WorkerInterface
+     * @return \Metagist\Api\ApiProviderInterface
      */
-    public function worker()
+    public function getApi()
     {
-        return $this[\Metagist\Api\ServiceProvider::API]->worker();
-    }
-    
-    /**
-     * Validates (oauth) an incoming request message.
-     * 
-     * @return string|false the consumer key if validation is successful.
-     */
-    public function validateRequest($message)
-    {
-        try {
-            return $this[\Metagist\Api\ServiceProvider::API]->validateRequest($message);
-        } catch (\Metagist\Api\Exception $exception) {
-            $this->logger()->warning('Error validating an incoming request: ' . $exception->getMessage());
-            return false;
-        }
+        return $this[\Metagist\Api\ServiceProvider::API];
     }
 }

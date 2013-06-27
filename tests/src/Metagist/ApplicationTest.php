@@ -165,69 +165,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Ensures the worker interface can be used.
+     * Ensures the application returns the api provider
      */
-    public function testWorker()
+    public function testGetApi()
     {
-        /*
-         * api config
-         */
-        $this->app[\Metagist\Api\ServiceProvider::APP_WORKER_CONFIG] = array(
-            'base_url' => 'http://metagist.dev/api/',
-            'consumer_key' => 'dev-test',
-            'consumer_secret' => 'dev-test',
-        );
-        $this->app[\Metagist\Api\ServiceProvider::APP_CONSUMERS] = array(
-            'metagist.dev' => 'metagist.dev',
-        );
-        $services = realpath(__DIR__ . '/../../../config/services.json');
-        $this->app[\Metagist\Api\ServiceProvider::APP_SERVICES] = $services;
-
         $test = new \Metagist\Api\ServiceProvider();
         $test->register($this->app);
         $this->app[\Metagist\Api\ServiceProvider::API] = function () use ($test) {
             return $test;
         };
         
-        $this->assertInstanceOf("\Metagist\Api\WorkerInterface", $this->app->worker());
-    }
-    
-    /**
-     * Ensures the validateRequest() method forwards to the api method.
-     */
-    public function testValidateRequest()
-    {
-        $testMessage = 'test';
-        $test = $this->getMock("\Metagist\Api\ServiceProvider");
-        $this->app[\Metagist\Api\ServiceProvider::API] = function () use ($test) {
-            return $test;
-        };
-        $test->expects($this->once())
-            ->method('validateRequest')
-            ->with($testMessage)
-            ->will($this->returnValue('aconsumer'));
-        
-        $this->assertEquals('aconsumer', $this->app->validateRequest($testMessage));
-    }
-    
-    /**
-     * Ensures the validateRequest() catches an api exception.
-     */
-    public function testValidateRequestReturnsFalseOnApiException()
-    {
-        $testMessage = 'test';
-        $test = $this->getMock("\Metagist\Api\ServiceProvider");
-        $this->app[\Metagist\Api\ServiceProvider::API] = function () use ($test) {
-            return $test;
-        };
-        $this->app['monolog'] = function () use ($test) {
-            return $this->getMock("\Psr\Log\LoggerInterface");
-        };
-        $test->expects($this->once())
-            ->method('validateRequest')
-            ->with($testMessage)
-            ->will($this->throwException(new \Metagist\Api\Exception('fail')));
-        
-        $this->assertFalse($this->app->validateRequest($testMessage));
+        $this->assertSame($test, $this->app->getApi());
     }
 }
