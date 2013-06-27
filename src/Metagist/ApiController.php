@@ -6,7 +6,7 @@ namespace Metagist;
  * 
  * @author Daniel Pozzi <bonndan76@googlemail.com>
  */
-class ApiController extends Controller
+class ApiController extends Controller implements \Metagist\Api\ServerInterface
 {
     /**
      * routes.
@@ -66,5 +66,47 @@ class ApiController extends Controller
             $body, 200, array('application/json')
         );
         return $response;
+    }
+    
+    /**
+     * Receive metainfo updates from a worker.
+     * 
+     * @param string $author
+     * @param string $name
+     * @param \Metagist\MetaInfo $info
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function pushInfo($author, $name, MetaInfo $info = null)
+    {
+        $message = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+        try {
+            $consumerKey = $this->application->getApi()->validateRequest($message);
+        } catch (\Metagist\Api\Exception $exception) {
+            $this->application->logger()->warning('Error validating an incoming request: ' . $exception->getMessage());
+            return $this->application->json('Authorization failed: ' . $exception->getMessage(), 403);
+        }
+        
+        $this->application->logger()->info('Received pushInfo from worker ' . $consumerKey);
+        
+        //create an authenticated user
+        $user = $this->application->getOpauthListener()->onWorkerAuthentication($consumerKey);
+        
+        //check package
+        $package = $this->application->packages()->byAuthorAndName($author, $name);
+        if ($package == null) {
+            $message = 'Unknown package ' . $author . '/' . $name;
+            $this->application->logger()->warning($message);
+            return $this->application->json($message, 404);
+        }
+        
+        $serializer = $this->application->getApi()->getSerializer();
+        $metaInfo   = $serializer->deserialize($message->getContent(), "\Metagist\MetaInfo", 'json');
+        $metaInfo->setPackage($package);
+        
+        $this->application->metainfo()->save($metaInfo, 1);
+        
+        return $this->application->json(
+            'Received info on ' . $metaInfo->getGroup() . ' for package ' . $package->getIdentifier()
+        );
     }
 }

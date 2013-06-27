@@ -36,6 +36,9 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             ->method('match')
             ->will($this->returnValue($this));
         $this->application->expects($this->any())
+            ->method('logger')
+            ->will($this->returnValue($this->getMock("\Psr\Log\LoggerInterface")));
+        $this->application->expects($this->any())
             ->method('json')
             ->will($this->returnCallback(array($this, 'json')));
         $this->controller = new ApiController($this->application);
@@ -75,6 +78,127 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Tests the successful execution of pushInfo().
+     */
+    public function testPushInfo()
+    {
+        $api = $this->createMockApi();
+        $api->expects($this->once())
+            ->method('validateRequest')
+            ->will($this->returnValue('aconsumer'));
+        $serializerMock = $this->getMock("\JMS\Serializer\SerializerInterface");
+        $api->expects($this->any())
+            ->method('getSerializer')
+            ->will($this->returnValue($serializerMock));
+        
+        $this->createOpauthListenerMock();
+        
+        //package is found
+        $packageRepo = $this->createPackageRepo('aname', 'apackage');
+        $this->application->expects($this->once())
+            ->method('packages')
+            ->will($this->returnValue($packageRepo));
+        
+        //decode payload
+        $data = array(
+            'group' => 'test', 
+            'value' => 'a test value',
+            'version' => '0.0.1'
+        );
+        $serializerMock->expects($this->once())
+            ->method('deserialize')
+            ->will($this->returnValue(MetaInfo::fromValue('test', 'a value', '1.0.2')));
+        $metaInfoRepo = $this->createMetaInfoRepo();
+        $metaInfoRepo->expects($this->once())
+            ->method('save')
+            ->with($this->isInstanceOf("\Metagist\MetaInfo"));
+        $this->application->expects($this->once())
+            ->method('metainfo')
+            ->will($this->returnValue($metaInfoRepo));
+        
+        $response = $this->controller->pushInfo('aname', 'apackage');
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+    }
+    
+    /**
+     * Ensures the request is denied with proper authorization
+     */
+    public function testPushInfoFailsForWrongAuthorization()
+    {
+        $api = $this->createMockApi();
+        $api->expects($this->once())
+            ->method('validateRequest')
+            ->will($this->throwException(new \Metagist\Api\Exception('test')));
+        
+        $repo = $this->createMetaInfoRepo();
+        $repo->expects($this->never())
+            ->method('save');
+        $this->createOpauthListenerMock();
+        
+        $response = $this->controller->pushInfo('author', 'name');
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+        $this->assertEquals(403, $response->getStatusCode());
+    }
+    
+    /**
+     * Ensures a 404 is sent if the package cannot be found.
+     */
+    public function testPushInfoFailsForMissingPackage()
+    {
+        
+        $api = $this->createMockApi();
+        $api->expects($this->once())
+            ->method('validateRequest')
+            ->will($this->returnValue('aconsumer'));
+        $serializerMock = $this->getMock("\JMS\Serializer\SerializerInterface");
+        $api->expects($this->any())
+            ->method('getSerializer')
+            ->will($this->returnValue($serializerMock));
+        $this->createOpauthListenerMock();
+        
+        //package is found
+        $packageRepo = $this->createPackageRepo('aname', 'apackage', true);
+        $this->application->expects($this->once())
+            ->method('packages')
+            ->will($this->returnValue($packageRepo));
+        
+        $response = $this->controller->pushInfo('aname', 'apackage');
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+    
+    /**
+     * 
+     */
+    protected function createOpauthListenerMock()
+    {
+        $listenerMock = $this->getMockBuilder("\Metagist\OpauthListener")
+            ->disableOriginalConstructor()
+            ->getMock();
+        $listenerMock->expects($this->any())
+            ->method('onWorkerAuthentication')
+            ->with('aconsumer');
+        $this->application->expects($this->any())
+            ->method('getOpauthListener')
+            ->will($this->returnValue($listenerMock));
+    }
+    /**
+     * Creates a mocked api.
+     * 
+     * @return \Metagist\Api\ApiProviderInterface mock
+     */
+    protected function createMockApi()
+    {
+        $apiMock = $this->getMock("\Metagist\Api\ApiProviderInterface");
+        $this->application->expects($this->any())
+            ->method('getApi')
+            ->will($this->returnValue($apiMock));
+        
+        return $apiMock;
+    }
+    
+    
+    /**
      * Mocks the controllers bind behaviour
      */
     public function bind($route)
@@ -99,15 +223,21 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
      * Creates a package repo mock.
      * 
      */
-    protected function createPackageRepo($author, $name)
+    protected function createPackageRepo($author, $name, $returnNull = false)
     {
         $packageRepo = $this->getMockBuilder("\Metagist\PackageRepository")
             ->disableOriginalConstructor()
             ->getMock();
+        if (!$returnNull) {
+            $package = new Package($author . "/" . $name);
+        } else {
+            $package = null;
+        }
+        
         $packageRepo->expects($this->once())
             ->method('byAuthorAndName')
             ->with($author, $name)
-            ->will($this->returnValue(new Package($author . "/" . $name)));
+            ->will($this->returnValue($package));
         
         return $packageRepo;
     }
@@ -122,7 +252,7 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $repo = $this->getMockBuilder("\Metagist\MetaInfoRepository")
             ->disableOriginalConstructor()
             ->getMock();
-        $repo->expects($this->once())
+        $repo->expects($this->any())
             ->method('byPackage')
             ->will($this->returnValue($collection));
         
