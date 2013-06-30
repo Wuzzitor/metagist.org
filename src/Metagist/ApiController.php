@@ -17,6 +17,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
     protected $routes = array(
         'api-homepage'      => array('match' => '/api', 'method' => 'index'),
         'api-package'       => array('match' => '/api/package/{author}/{name}', 'method' => 'package'),
+        'api-pushInfo'      => array('match' => '/api/pushInfo/{author}/{name}', 'method' => 'pushInfo'),
     );
     
     /**
