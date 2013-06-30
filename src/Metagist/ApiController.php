@@ -1,6 +1,8 @@
 <?php
 namespace Metagist;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Api Controller.
  * 
@@ -16,6 +18,13 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         'api-homepage'      => array('match' => '/api', 'method' => 'index'),
         'api-package'       => array('match' => '/api/package/{author}/{name}', 'method' => 'package'),
     );
+    
+    /**
+     * incoming request
+     * 
+     * @var \Symfony\Component\HttpFoundation\Request|null 
+     */
+    protected $request;
     
     /**
      * Setup of the api routes.
@@ -59,7 +68,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
             $this->application->metainfo()->byPackage($package)
         );
         
-        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        $serializer = $this->application->getApi()->getSerializer();
         $body = $serializer->serialize($package, 'json');
         
         $response = \Symfony\Component\HttpFoundation\Response::create(
@@ -78,18 +87,29 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
      */
     public function pushInfo($author, $name, MetaInfo $info = null)
     {
-        $message = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+        $message = $this->getIncomingRequest();
+        
+        //validate oauth
         try {
             $consumerKey = $this->application->getApi()->validateRequest($message);
+            $this->application->getOpauthListener()->onWorkerAuthentication($consumerKey);
         } catch (\Metagist\Api\Exception $exception) {
-            $this->application->logger()->warning('Error validating an incoming request: ' . $exception->getMessage());
+            $this->application->logger()->warning('Error authorizing a pushInfo request: ' . $exception->getMessage());
             return $this->application->json('Authorization failed: ' . $exception->getMessage(), 403);
         }
         
-        $this->application->logger()->info('Received pushInfo from worker ' . $consumerKey);
+        //validate json integrity
+        try {
+            $validator = $this->application->getApi()->getSchemaValidator();
+            $factory = new \Guzzle\Http\Message\RequestFactory();
+            $request = $factory->fromMessage($message->__toString());
+            $validator->validateRequest($request, 'pushInfo');
+        } catch (\Metagist\Api\Validation\Exception $exception) {
+            $this->application->logger()->warning('Error validating a pushInfo request: ' . $exception->getMessage());
+            return $this->application->json('Invalid content: ' . $exception->getMessage(), 400);
+        }
         
-        //create an authenticated user
-        $user = $this->application->getOpauthListener()->onWorkerAuthentication($consumerKey);
+        $this->application->logger()->info('Received pushInfo from worker ' . $consumerKey);
         
         //check package
         $package = $this->application->packages()->byAuthorAndName($author, $name);
@@ -108,5 +128,29 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         return $this->application->json(
             'Received info on ' . $metaInfo->getGroup() . ' for package ' . $package->getIdentifier()
         );
+    }
+    
+    /**
+     * Returns the incoming request.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    protected function getIncomingRequest()
+    {
+        if ($this->request === null) {
+            return Request::createFromGlobals();
+        }
+        
+        return $this->request;
+    }
+    
+    /**
+     * Inject a request for testing.
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
     }
 }
