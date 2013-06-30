@@ -103,6 +103,9 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $api->expects($this->once())
             ->method('getSchemaValidator')
             ->will($this->returnValue($validatorMock));
+        $api->expects($this->once())
+            ->method('getIncomingRequest')
+            ->will($this->returnValue($this->createPushInfoRequest()));
         
         $this->createOpauthListenerMock();
         
@@ -129,7 +132,7 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             ->method('metainfo')
             ->will($this->returnValue($metaInfoRepo));
         
-        $this->injectPushInfoRequest();
+        
         $response = $this->controller->pushInfo('aname', 'apackage');
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
     }
@@ -143,13 +146,16 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $api->expects($this->once())
             ->method('validateRequest')
             ->will($this->throwException(new \Metagist\Api\Exception('test')));
+        $api->expects($this->once())
+            ->method('getIncomingRequest')
+            ->will($this->returnValue($this->createPushInfoRequest()));
         
         $repo = $this->createMetaInfoRepo();
         $repo->expects($this->never())
             ->method('save');
         $this->createOpauthListenerMock();
         
-        $this->injectPushInfoRequest();
+        
         $response = $this->controller->pushInfo('author', 'name');
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
         $this->assertEquals(403, $response->getStatusCode());
@@ -179,8 +185,10 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $api->expects($this->once())
             ->method('getSchemaValidator')
             ->will($this->returnValue($validatorMock));
+        $api->expects($this->once())
+            ->method('getIncomingRequest')
+            ->will($this->returnValue($this->createPushInfoRequest()));
         
-        $this->injectPushInfoRequest();
         $response = $this->controller->pushInfo('aname', 'apackage');
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
         $this->assertEquals(400, $response->getStatusCode());
@@ -208,6 +216,9 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $api->expects($this->once())
             ->method('getSchemaValidator')
             ->will($this->returnValue($validatorMock));
+        $api->expects($this->once())
+            ->method('getIncomingRequest')
+            ->will($this->returnValue($this->createPushInfoRequest()));
         
         //package is found
         $packageRepo = $this->createPackageRepo('aname', 'apackage', true);
@@ -215,7 +226,6 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             ->method('packages')
             ->will($this->returnValue($packageRepo));
         
-        $this->injectPushInfoRequest();
         $response = $this->controller->pushInfo('aname', 'apackage');
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
         $this->assertEquals(404, $response->getStatusCode());
@@ -315,8 +325,10 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Constructs a post request with payload.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Request
      */
-    protected function injectPushInfoRequest()
+    private function createPushInfoRequest()
     {
         $request = \Symfony\Component\HttpFoundation\Request::create(
             'http://test.com',
@@ -327,6 +339,7 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             array(),
             '{"info":{"group":"testInteger","value":12}}'
         );
-        $this->controller->setRequest($request);
+        
+        return $request;
     }
 }

@@ -87,7 +87,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
      */
     public function pushInfo($author, $name, MetaInfo $info = null)
     {
-        $message = $this->getIncomingRequest();
+        $message = $this->application->getApi()->getIncomingRequest();
         
         //validate oauth
         try {
@@ -128,29 +128,5 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         return $this->application->json(
             'Received info on ' . $metaInfo->getGroup() . ' for package ' . $package->getIdentifier()
         );
-    }
-    
-    /**
-     * Returns the incoming request.
-     * 
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
-    protected function getIncomingRequest()
-    {
-        if ($this->request === null) {
-            return Request::createFromGlobals();
-        }
-        
-        return $this->request;
-    }
-    
-    /**
-     * Inject a request for testing.
-     * 
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     */
-    public function setRequest(Request $request)
-    {
-        $this->request = $request;
     }
 }
