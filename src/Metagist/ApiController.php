@@ -1,8 +1,6 @@
 <?php
 namespace Metagist;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Api Controller.
  * 
