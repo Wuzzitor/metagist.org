@@ -12,6 +12,7 @@
         {
             "name": "src/VersionStampAction.php",
             "file": "config/version.php"
-        }
+        },
+        "vcs-commit"
     ]
 }

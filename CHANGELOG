@@ -3,6 +3,8 @@ VERSION 0  BETTER USE OF RMT
 ============================
 
    Version 0.1 - Better use of RMT
+      30/06/2013 16:56  0.1.6  Better integration of RMT
+         71673cb Updated changelog
       30/06/2013 16:52  0.1.5  API integration (untested)
          a5d513b updated metagist-api dep, using getIncomingRequest() from api in controller
          e61eda8 better debugging messages on error

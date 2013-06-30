@@ -45,10 +45,5 @@ class VersionStampAction extends BaseAction
         $template = "<?php\ndefine('METAGIST_VERSION', '%s');\n";
 
         file_put_contents($this->options['file'], sprintf($template, $version));
-        
-        exec('git commit ' . $this->options['file'] . ' --allow-empty -m "Updated version.php file"', $result, $exitCode);
-        if ($exitCode != 0) {
-            throw new \RuntimeException('Could not commit the version file: ' . implode(' ', $result));
-        }
     }
 }
