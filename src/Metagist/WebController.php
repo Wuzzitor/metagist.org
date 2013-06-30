@@ -130,11 +130,12 @@ class WebController extends Controller
         try {
             $package = $this->getPackage($author, $name);
             $this->application->getApi()->worker()->scan($author, $name);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $flashBag->add(
                 'error',
                 'Error while updating the package: ' . $exception->getMessage()
             );
+            $this->application->logger()->error('Exception: ' . $exception->getMessage());
             return $this->application->redirect('/');
         }
         
