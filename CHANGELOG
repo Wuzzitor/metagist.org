@@ -3,6 +3,23 @@ VERSION 0  BETTER USE OF RMT
 ============================
 
    Version 0.1 - Better use of RMT
+      30/06/2013 16:52  0.1.5  API integration (untested)
+         a5d513b updated metagist-api dep, using getIncomingRequest() from api in controller
+         e61eda8 better debugging messages on error
+         06e83d9 dep update
+         8cbf8f1 the api controller uses a configured serializer to return package json, pushInfo validates the request payload
+         5843fcb corrected copyright holder name (was G. Pineau from Silex-Kitchen-Edition copy)
+         9499d4d webcontroller update() methods invokes worker
+         0373cbe dep version advancements
+         b22274f api controller can handle pushInfo()
+         5a7f2b4 application provides the opauth listener
+         f6f1304 updates dev-config settings
+         527fb28 opauth security provider registers the opauth listener for public access
+         15eecf3 application returns api instead of forwarding several api methods
+         35807f7 opauth listener provides a method to authenticate a fake user representing a remote worker
+         3421b53 added const User::ROLE_SYSTEM
+         e6dcd40 application provides method to oauth-validate request messages
+         25bbfec Updated changelog
       25/06/2013 21:38  0.1.4  Better use of RMT
          e9b78c4 fixed versionstampaction to regard the version file path
          d95e1bd Changelog file
