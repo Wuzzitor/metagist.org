@@ -340,6 +340,8 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             '{"info":{"group":"testInteger","value":12}}'
         );
         
-        return $request;
+        $message = $request->__toString();
+        $serviceProvider = new \Metagist\Api\ServiceProvider();
+        return $serviceProvider->getIncomingRequest($message);
     }
 }

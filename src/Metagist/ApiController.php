@@ -86,11 +86,12 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
      */
     public function pushInfo($author, $name, MetaInfo $info = null)
     {
-        $message = $this->application->getApi()->getIncomingRequest();
+        $request = $this->application->getApi()->getIncomingRequest();
+        /* @var $request \Guzzle\Http\Message\EntityEnclosingRequest */
         
         //validate oauth
         try {
-            $consumerKey = $this->application->getApi()->validateRequest($message);
+            $consumerKey = $this->application->getApi()->validateRequest($request);
             $this->application->getOpauthListener()->onWorkerAuthentication($consumerKey);
         } catch (\Metagist\Api\Exception $exception) {
             $this->application->logger()->warning('Error authorizing a pushInfo request: ' . $exception->getMessage());
@@ -117,7 +118,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         }
         
         $serializer = $this->application->getApi()->getSerializer();
-        $metaInfo   = $serializer->deserialize($message->getContent(), "\Metagist\MetaInfo", 'json');
+        $metaInfo   = $serializer->deserialize($request->getBody(), "\Metagist\MetaInfo", 'json');
         $metaInfo->setPackage($package);
         
         $this->application->metainfo()->save($metaInfo, 1);

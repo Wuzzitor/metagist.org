@@ -10,7 +10,8 @@ abstract class Controller
 {
     /**
      * the application instance
-     * @var Application 
+     * 
+     * @var \Metagist\Application 
      */
     protected $application;
 
