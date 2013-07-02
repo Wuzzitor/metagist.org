@@ -48,10 +48,10 @@ $app['security.users'] = array(
  */
 $app[\Metagist\Api\ServiceProvider::APP_WORKER_CONFIG] = array(
     'base_url' => 'http://seal/metagist-worker/api/',
-    'consumer_key' => 'dev-test',
+    'consumer_key' => 'metagist.dev',
     'consumer_secret' => 'dev-test',
 );
 $app[\Metagist\Api\ServiceProvider::APP_CONSUMERS] = array(
-    'metagist.dev' => 'metagist.dev',
+    'worker' => 'dev-test',
 );
 $app[\Metagist\Api\ServiceProvider::APP_SERVICES] = __DIR__ . '/services.json';
