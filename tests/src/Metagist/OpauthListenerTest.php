@@ -116,7 +116,7 @@ class OpauthListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnWorkerAuthentication()
     {
-        $this->manager->expects($this->once())
+        $this->manager->expects($this->never())
             ->method("authenticate");
         $this->securityContext->expects($this->once())
             ->method("setToken")

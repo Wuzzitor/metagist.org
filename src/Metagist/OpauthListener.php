@@ -72,7 +72,9 @@ class OpauthListener implements EventSubscriberInterface, ListenerInterface
         /* @var $response array */
         $response = $event->getSubject();
         $user = $this->provider->createUserFromOauthResponse($response);
-        $this->authenticateUser($user);
+        $token = new PreAuthenticatedToken($user, '', 'opauth');
+        $this->manager->authenticate($token);
+        $this->context->setToken($token);
         $this->logger->info("GitHub auth successful for user " . $user->getUsername());
         $event->setArgument('result', new \Symfony\Component\HttpFoundation\RedirectResponse('/'));
     }
@@ -86,21 +88,12 @@ class OpauthListener implements EventSubscriberInterface, ListenerInterface
     public function onWorkerAuthentication($consumerKey)
     {
         $user = new User($consumerKey, User::ROLE_SYSTEM);
-        $this->authenticateUser($user);
+        
+        $token = new PreAuthenticatedToken($user, '', 'opauth');
+        $this->context->setToken($token);
+        
         $this->logger->info("User authenticated for worker " . $user->getUsername());
         return $user;
-    }
-    
-    /**
-     * Authenticates using a preauthenticated token.
-     * 
-     * @param \Metagist\User $user
-     */
-    protected function authenticateUser(User $user)
-    {
-        $token = new PreAuthenticatedToken($user, '', 'opauth');
-        $this->manager->authenticate($token);
-        $this->context->setToken($token);
     }
     
     /**
