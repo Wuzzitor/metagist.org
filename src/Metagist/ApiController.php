@@ -118,7 +118,13 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         }
         
         $serializer = $this->application->getApi()->getSerializer();
-        $metaInfo   = $serializer->deserialize($request->getBody(), "\Metagist\MetaInfo", 'json');
+        try {
+            $metaInfo   = $serializer->deserialize($request->getBody()->__toString(), "Metagist\MetaInfo", 'json');
+        } catch (\JMS\Parser\SyntaxErrorException $exception) {
+            $this->application->logger()->error($exception->getMessage() . ': ' . $request->getBody()->__toString());
+            $this->application->logger()->error('Request: ' . $request->__toString());
+            return $this->application->json('parsing error', 500);
+        }
         $metaInfo->setPackage($package);
         
         $this->application->metainfo()->save($metaInfo, 1);

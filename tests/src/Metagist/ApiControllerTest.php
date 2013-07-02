@@ -88,21 +88,19 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPushInfo()
     {
+        $serviceProvider = new Api\ServiceProvider();
+        
         $api = $this->createMockApi();
         $api->expects($this->once())
             ->method('validateRequest')
             ->will($this->returnValue('aconsumer'));
-        $serializerMock = $this->getMock("\JMS\Serializer\SerializerInterface");
         $api->expects($this->any())
             ->method('getSerializer')
-            ->will($this->returnValue($serializerMock));
+            ->will($this->returnValue($serviceProvider->getSerializer()));
         
-        $validatorMock = $this->getMockBuilder("\Metagist\Api\Validation\Plugin\SchemaValidator")
-            ->disableOriginalConstructor()
-            ->getMock();
         $api->expects($this->once())
             ->method('getSchemaValidator')
-            ->will($this->returnValue($validatorMock));
+            ->will($this->returnValue($serviceProvider->getSchemaValidator()));
         $api->expects($this->once())
             ->method('getIncomingRequest')
             ->will($this->returnValue($this->createPushInfoRequest()));
@@ -116,14 +114,6 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($packageRepo));
         
         //decode payload
-        $data = array(
-            'group' => 'test', 
-            'value' => 'a test value',
-            'version' => '0.0.1'
-        );
-        $serializerMock->expects($this->once())
-            ->method('deserialize')
-            ->will($this->returnValue(MetaInfo::fromValue('test', 'a value', '1.0.2')));
         $metaInfoRepo = $this->createMetaInfoRepo();
         $metaInfoRepo->expects($this->once())
             ->method('save')
@@ -135,6 +125,7 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         
         $response = $this->controller->pushInfo('aname', 'apackage');
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
+        $this->assertEquals(200, $response->getStatusCode());
     }
     
     /**
@@ -337,7 +328,7 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(),
             array(),
-            '{"info":{"group":"testInteger","value":12}}'
+            '{"info":{"group":"repository","version":"dev-master","value":"https:\/\/github.com\/Matthimatiker\/MolComponents.git"}}'
         );
         
         $message = $request->__toString();
