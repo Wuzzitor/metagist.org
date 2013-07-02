@@ -100,8 +100,6 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         //validate json integrity
         try {
             $validator = $this->application->getApi()->getSchemaValidator();
-            $factory = new \Guzzle\Http\Message\RequestFactory();
-            $request = $factory->fromMessage($message->__toString());
             $validator->validateRequest($request, 'pushInfo');
         } catch (\Metagist\Api\Validation\Exception $exception) {
             $this->application->logger()->warning('Error validating a pushInfo request: ' . $exception->getMessage());
