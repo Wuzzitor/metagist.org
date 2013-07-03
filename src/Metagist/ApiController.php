@@ -1,6 +1,8 @@
 <?php
 namespace Metagist;
 
+use Guzzle\Http\Message\EntityEnclosingRequestInterface;
+
 /**
  * Api Controller.
  * 
@@ -117,20 +119,28 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
             return $this->application->json($message, 404);
         }
         
-        $serializer = $this->application->getApi()->getSerializer();
-        try {
-            $metaInfo   = $serializer->deserialize($request->getBody()->__toString(), "Metagist\MetaInfo", 'json');
-        } catch (\JMS\Parser\SyntaxErrorException $exception) {
-            $this->application->logger()->error($exception->getMessage() . ': ' . $request->getBody()->__toString());
-            $this->application->logger()->error('Request: ' . $request->__toString());
+        $metaInfo = $this->extractMetaInfoFromRequest($request);
+        if ($metaInfo === null) {
             return $this->application->json('parsing error', 500);
         }
         $metaInfo->setPackage($package);
-        
         $this->application->metainfo()->save($metaInfo, 1);
         
         return $this->application->json(
             'Received info on ' . $metaInfo->getGroup() . ' for package ' . $package->getIdentifier()
         );
+    }
+    
+    /**
+     * Parses the body payload.
+     * 
+     * @param \Guzzle\Http\Message\EntityEnclosingRequestInterface $request
+     * @return null
+     */
+    protected function extractMetaInfoFromRequest(EntityEnclosingRequestInterface $request)
+    {
+        $json = $request->getBody()->__toString();
+        $data = json_decode($json, true);
+        return MetaInfo::fromArray($data['info']);
     }
 }

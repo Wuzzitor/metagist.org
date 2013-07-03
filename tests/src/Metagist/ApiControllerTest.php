@@ -117,15 +117,29 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         $metaInfoRepo = $this->createMetaInfoRepo();
         $metaInfoRepo->expects($this->once())
             ->method('save')
-            ->with($this->isInstanceOf("\Metagist\MetaInfo"));
+            ->with($this->isInstanceOf("\Metagist\MetaInfo"))
+            ->will($this->returnCallback(array($this, 'validateMetaInfo')));
         $this->application->expects($this->once())
             ->method('metainfo')
             ->will($this->returnValue($metaInfoRepo));
         
-        
         $response = $this->controller->pushInfo('aname', 'apackage');
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
         $this->assertEquals(200, $response->getStatusCode());
+    }
+    
+    /**
+     * Callback method to validate the metaInfo received from testPushInfo()
+     * 
+     * '{"info":{"group":"repository","version":"dev-master","value":"https:\/\/github.com\/Matthimatiker\/MolComponents.git"}}'
+     * 
+     * @param \Metagist\MetaInfo $info
+     */
+    public function validateMetaInfo(MetaInfo $info)
+    {
+       $this->assertEquals('repository', $info->getGroup());
+       $this->assertEquals('dev-master', $info->getVersion());
+       $this->assertEquals('https://github.com/Matthimatiker/MolComponents.git', $info->getValue());
     }
     
     /**
