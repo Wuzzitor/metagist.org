@@ -88,5 +88,14 @@ class ServiceProvider implements \Silex\ServiceProviderInterface
         $app[self::RATINGS_REPO] = function () use ($app) {
             return new RatingRepository($app['db']);
         };
+        
+        $app->error(function (\Exception $e) use ($app) {
+            $message = sprintf('%s: %s (uncaught exception): %s', get_class($e), $e->getMessage(), $e->getTraceAsString());
+            if ($e instanceof HttpExceptionInterface && $e->getStatusCode() < 500) {
+                $app['monolog']->addError($message, array('exception' => $e));
+            } else {
+                $app['monolog']->addCritical($message, array('exception' => $e));
+            }
+        }, 255);
     }
 }
