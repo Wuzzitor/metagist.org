@@ -93,8 +93,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         
         //validate oauth
         try {
-            $consumerKey = $this->application->getApi()->validateRequest($request);
-            $this->application->getOpauthListener()->onWorkerAuthentication($consumerKey);
+            $this->application->getApi()->validateRequest($request);
         } catch (\Metagist\Api\Exception $exception) {
             $this->application->logger()->warning('Error authorizing a pushInfo request: ' . $exception->getMessage());
             return $this->application->json('Authorization failed: ' . $exception->getMessage(), 403);
@@ -109,7 +108,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
             return $this->application->json('Invalid content: ' . $exception->getMessage(), 400);
         }
         
-        $this->application->logger()->info('Received pushInfo from worker ' . $consumerKey);
+        $this->application->logger()->info('Received signed and schema-valid pushInfo request.');
         
         //check package
         $package = $this->application->packages()->byAuthorAndName($author, $name);
@@ -124,7 +123,13 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
             return $this->application->json('parsing error', 500);
         }
         $metaInfo->setPackage($package);
-        $this->application->metainfo()->save($metaInfo, 1);
+        
+        try {
+            $this->application->metainfo()->save($metaInfo, 1);
+        } catch (\Symfony\Component\Security\Core\Exception\AccessDeniedException $exception) {
+            $this->application->logger()->warning('PushInfo from:' . $exception->getMessage());
+            return $this->application->json($message, 403);
+        }
         
         return $this->application->json(
             'Received info on ' . $metaInfo->getGroup() . ' for package ' . $package->getIdentifier()
