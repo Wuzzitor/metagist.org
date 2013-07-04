@@ -127,8 +127,8 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
         try {
             $this->application->metainfo()->save($metaInfo, 1);
         } catch (\Symfony\Component\Security\Core\Exception\AccessDeniedException $exception) {
-            $this->application->logger()->warning('PushInfo from:' . $exception->getMessage());
-            return $this->application->json($message, 403);
+            $this->application->logger()->warning('PushInfo: ' . $exception->getMessage());
+            return $this->application->json($exception->getMessage(), 403);
         }
         
         return $this->application->json(
