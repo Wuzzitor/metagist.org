@@ -90,7 +90,6 @@ $app['translator'] = $app->share($app->extend('translator', function($translator
 $app->register(new MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__ . '/../log/app.log',
     'monolog.name' => 'app',
-    'monolog.level' => 300 // = Logger::WARNING
 ));
 
 $app->register(new TwigServiceProvider(), array(
