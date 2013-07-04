@@ -131,6 +131,7 @@ class ApiController extends Controller implements \Metagist\Api\ServerInterface
             return $this->application->json($exception->getMessage(), 403);
         }
         
+        $this->application->packages()->save($package);
         return $this->application->json(
             'Received info on ' . $metaInfo->getGroup() . ' for package ' . $package->getIdentifier()
         );
