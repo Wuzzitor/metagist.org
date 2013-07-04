@@ -109,7 +109,7 @@ class PackageRepository
             $data[] = $id;
             $stmt = $this->connection->executeQuery(
                 'UPDATE packages 
-                 SET identifier = ?, description = ?, versions = ?, type = ?, time_updated = ?)
+                 SET identifier = ?, description = ?, versions = ?, type = ?, time_updated = ?
                  WHERE id = ?',
                 $data
             );
