@@ -3,6 +3,28 @@ VERSION 0  BETTER USE OF RMT
 ============================
 
    Version 0.1 - Better use of RMT
+      04/07/2013 23:05  0.1.7  PushInfo working
+         3d1ce38 updated api controller test
+         9bb8dcd updating package timestamp after pushInfo
+         e80f675 package repo bugfix
+         25b268e improved api controller debugging
+         04e5214 improved metainfo repo proxy debugging
+         3dc494e bugfix: removed leftover from metainfo category field
+         003f52f removed logger threshold
+         775b79c improved metainfo repo proxy debugging
+         c26a9fb updated deps
+         c422e39 api controller catches access denied exceptions and returns 403 responses
+         bf36aac removed onWorkerAuthentication from opauth listener (functionality provided by metagist-api)
+         a8eea13 showing backtrace in error log on exceptions
+         149d8b6 skipping deserialization using jms/serializer
+         5358bc8 fixed usage of jms serializer: removed leading backslash of namespace
+         09f9491 opauth listener does not autenticate a system user again against the database
+         f397663 changed dev-env configuration
+         a82406c update deps
+         28081eb fixed the api controller to handle the guzzle request instance properly
+         dfc70e6 adapted api controller to handle changed type of incoming request
+         016a0c7 code cleanup
+         6d3cd98 added missing pushInfo route
       30/06/2013 16:56  0.1.6  Better integration of RMT
          71673cb Updated changelog
       30/06/2013 16:52  0.1.5  API integration (untested)
