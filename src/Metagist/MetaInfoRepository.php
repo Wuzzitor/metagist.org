@@ -124,7 +124,7 @@ class MetaInfoRepository
         
         $stmt = $this->connection->executeQuery(
             'INSERT INTO metainfo (package_id, user_id, time_updated, version, `group`, value) 
-             VALUES (?, ?, ?, ?, ?, ?, ?)',
+             VALUES (?, ?, ?, ?, ?, ?)',
             array(
                 $info->getPackage()->getId(),
                 $info->getUserId(),
