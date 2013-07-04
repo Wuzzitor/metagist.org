@@ -79,6 +79,11 @@ class MetaInfoRepositoryProxyTest extends \PHPUnit_Framework_TestCase
             ->method('isGranted')
             ->with('ROLE_USER')
             ->will($this->returnValue(false));
+        $user = new \Metagist\User('test', null, \Metagist\User::ROLE_USER);
+        $token = new \Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken($user, NULL, 'api');
+        $this->context->expects($this->once())
+            ->method('getToken')
+            ->will($this->returnValue($token));
         $this->repo->expects($this->never())
             ->method('save');
         

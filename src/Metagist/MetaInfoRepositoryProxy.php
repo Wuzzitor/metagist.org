@@ -72,8 +72,10 @@ class MetaInfoRepositoryProxy
         $category   = $this->schema->getCategoryForGroup($group);
         $reqRole    = $this->schema->getAccess($category, $group);
         if (!$this->context->isGranted($reqRole)) {
+            $user = $this->context->getToken()->getUser();
+            $role = implode(' ', $user->getRoles());
             throw new AccessDeniedException(
-                $reqRole . ' is not authorized to save ' . $category . "/" . $group
+                $role . ' is not authorized to save ' . $category . "/" . $group . ', required is ' . $reqRole
             );
         }
         
