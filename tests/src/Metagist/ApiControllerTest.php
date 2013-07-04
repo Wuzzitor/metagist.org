@@ -109,7 +109,7 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         
         //package is found
         $packageRepo = $this->createPackageRepo('aname', 'apackage');
-        $this->application->expects($this->once())
+        $this->application->expects($this->any())
             ->method('packages')
             ->will($this->returnValue($packageRepo));
         
