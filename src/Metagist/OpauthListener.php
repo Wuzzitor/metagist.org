@@ -80,23 +80,6 @@ class OpauthListener implements EventSubscriberInterface, ListenerInterface
     }
 
     /**
-     * Method to create an authenticated user to remote workers.
-     * 
-     * @param string $consumerKey
-     * @return \Metagist\User
-     */
-    public function onWorkerAuthentication($consumerKey)
-    {
-        $user = new User($consumerKey, User::ROLE_SYSTEM);
-        
-        $token = new PreAuthenticatedToken($user, '', 'opauth');
-        $this->context->setToken($token);
-        
-        $this->logger->info("User authenticated for worker " . $user->getUsername());
-        return $user;
-    }
-    
-    /**
      * Error event is logged.
      * 
      * @param \Symfony\Component\EventDispatcher\GenericEvent $event
