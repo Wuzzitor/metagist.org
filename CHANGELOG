@@ -3,6 +3,10 @@ VERSION 0  BETTER USE OF RMT
 ============================
 
    Version 0.1 - Better use of RMT
+      11/07/2013 22:25  0.1.8  Minor validation improvements
+         f3d3138 package provides methods to get author or name from identifier
+         ca58922 added util class
+         590578d changed name validation rules, added isValidIdentifier() method to validator
       04/07/2013 23:05  0.1.7  PushInfo working
          3d1ce38 updated api controller test
          9bb8dcd updating package timestamp after pushInfo
