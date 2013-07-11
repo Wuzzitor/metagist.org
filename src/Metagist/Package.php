@@ -95,6 +95,34 @@ class Package
     }
     
     /**
+     * Returns the author/owner part of the package identifier.
+     * 
+     * @return boolean
+     */
+    public function getAuthor()
+    {
+        if (!Validator::isValidIdentifier($this->identifier)) {
+            return false;
+        }
+        $pieces = Util::splitIdentifier($this->identifier);
+        return $pieces[0];
+    }
+    
+    /**
+     * Returns the name part of the package identifier.
+     * 
+     * @return string|false
+     */
+    public function getName()
+    {
+        if (!Validator::isValidIdentifier($this->identifier)) {
+            return false;
+        }
+        $pieces = Util::splitIdentifier($this->identifier);
+        return $pieces[1];
+    }
+    
+    /**
      * Get the description.
      * 
      * @return string

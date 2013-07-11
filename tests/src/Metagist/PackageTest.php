@@ -31,6 +31,31 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Ensures the author part can be extracted.
+     */
+    public function testGetAuthor()
+    {
+        $this->assertEquals('test', $this->package->getAuthor());
+    }
+    
+    /**
+     * Ensures the name part can be extracted.
+     */
+    public function testGetName()
+    {
+        $this->assertEquals('123', $this->package->getName());
+    }
+    
+    /**
+     * Ensures the name part extraction fails with wrong identifier
+     */
+    public function testGetNameFails()
+    {
+        $this->package = new Package('test');
+        $this->assertFalse($this->package->getName());
+    }
+    
+    /**
      * Ensures description getter / setter are working
      */
     public function testDescription()
