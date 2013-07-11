@@ -69,8 +69,29 @@ class Validator
      */
     public static function isValidName($name)
     {
-        $pattern = '/^[a-zA-Z0-9\-\.]{2,128}$/i';
+        $pattern = '/^[a-zA-Z0-9\-]{2,128}$/i';
         return (bool) preg_match($pattern, $name);
+    }
+    
+    /**
+     * Checks if a package identifier has the correct format.
+     * 
+     * @param string $identifier
+     * @return boolean
+     */
+    public static function isValidIdentifier($identifier)
+    {
+        if (!is_string($identifier)) {
+            throw new \InvalidArgumentException('Identifier must be a string.');
+        }
+        
+        $slashPos = strpos($identifier, '/');
+        if (in_array($slashPos, array(FALSE, 0, strlen($identifier)-1), true)) {
+            return false;
+        }
+        
+        list($author, $name) = explode('/', $identifier);
+        return self::isValidName($author) && self::isValidName($name);
     }
     
     /**

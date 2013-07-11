@@ -49,7 +49,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             array('test123', true),
             array('test-123', true),
             array('test-123-TEST', true),
-            array('test-12.3', true),
+            array('test-12.3', false),
             array('t', false),
             array('1', false),
             array('test/123', false),
@@ -152,5 +152,51 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testIsValidCategoryGroup()
     {
         $this->assertTrue($this->validator->isValidCategoryGroup('test', 'testInteger'));
+    }
+    
+    /**
+     * Ensures a valid identifier is regarded as valid
+     */
+    public function testIsValidIdentifier()
+    {
+        $identifier = "abcde/fg-hi";
+        $this->assertTrue(Validator::isValidIdentifier($identifier));
+    }
+    
+    /**
+     * Ensures that no-string args cause an exception.
+     */
+    public function testIsValidIdentifierNoStringException()
+    {
+        $this->setExpectedException("\InvalidArgumentException");
+        Validator::isValidIdentifier(array());
+    }
+    
+    /**
+     * Ensures invalid identifiers are detected.
+     * 
+     * @param string $invalidIdentifier
+     * @dataProvider getInvalidIdentifiers
+     */
+    public function testIsValidIdentifierFails($invalidIdentifier)
+    {
+        $this->assertFalse(Validator::isValidIdentifier($invalidIdentifier));
+    }
+    
+    /**
+     * Data provider for invalid package identifiers.
+     * 
+     * @return array
+     */
+    public function getInvalidIdentifiers()
+    {
+        return array(
+            array('a'),
+            array('a/b'),
+            array('/b'),
+            array('a/'),
+            array('has_/underscore'),
+            array('is/' . str_repeat('toolong', 30)),
+        );
     }
 }
