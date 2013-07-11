@@ -81,16 +81,13 @@ class Validator
      */
     public static function isValidIdentifier($identifier)
     {
-        if (!is_string($identifier)) {
-            throw new \InvalidArgumentException('Identifier must be a string.');
-        }
-        
+        $pieces = Util::splitIdentifier($identifier);
         $slashPos = strpos($identifier, '/');
         if (in_array($slashPos, array(FALSE, 0, strlen($identifier)-1), true)) {
             return false;
         }
         
-        list($author, $name) = explode('/', $identifier);
+        list($author, $name) = $pieces;
         return self::isValidName($author) && self::isValidName($name);
     }
     
