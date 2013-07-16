@@ -1,14 +1,12 @@
 Metagist.org
 ============
 
-Metagist is a portal which provides information on composer packages. It retrieves
-data from Packagist as well as GitHub and other sources. End users can contribute
-information, too.
-
-Rating and Reviews
-------------------
-
-Like many app stores MetaGist will provide a rating system.
+Metagist is an attempt to leverage quality and transparency of <a href="http://getcomposer.org">composer</a> 
+packages by collecting and providing quality-related information. It is meant to 
+be used in addition to <a href="https://packagist.org">Packagist.org</a>.
+            
+Packages can be rated and reviewed github users - similar to th rating system of 
+popular app stores. 
 
 
 ![screenshot](https://github.com/wuzzitor/metagist.org/raw/master/doc/screen.png "In-Dev Screenshot")
