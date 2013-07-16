@@ -19,7 +19,7 @@
                     <li>
                         <i class="icon icon-arrow-right"></i>
                         {{ (group) | trans}} ({{ package.getMetaInfos(name, group).count }})
-                        <a href="/contribute/{{package.identifier}}/{{name}}/{{group}}">{{groupdata.description | trans}}</a>
+                        <a href="/contribute/{{package.identifier}}/{{group}}">{{groupdata.description | trans}}</a>
                     </li>
                 {% endfor %}
                 </ul>

@@ -34,7 +34,7 @@ class WebController extends Controller
             'ratings-pp'    => array('match' => '/ratings/{author}/{name}/{page}', 'method' => 'ratings'),
             'rate'          => array('match' => '/rate/{author}/{name}', 'method' => 'rate'),
             'contribute-list' => array('match' => '/contribute/list/{author}/{name}', 'method' => 'contributeList'),
-            'contribute'    => array('match' => '/contribute/{author}/{name}/{category}/{group}', 'method' => 'contribute'),
+            'contribute'    => array('match' => '/contribute/{author}/{name}/{group}', 'method' => 'contribute'),
             'package'       => array('match' => '/package/{author}/{name}', 'method' => 'package'),
             'search'        => array('match' => '/search', 'method' => 'search'),
             'search-page'   => array('match' => '/search/{query}/{page}', 'method' => 'search'),
@@ -264,15 +264,15 @@ class WebController extends Controller
      * 
      * @param string  $author
      * @param string  $name
-     * @param string  $category
      * @param string  $group
      * @param Request $request
      * @return string
      */
-    public function contribute($author, $name, $category, $group, Request $request)
+    public function contribute($author, $name, $group, Request $request)
     {
         $package     = $this->application->packages()->byAuthorAndName($author, $name);
         $flashBag    = $this->application->session()->getFlashBag();
+        $category    = $this->application->categories()->getCategoryForGroup($group);
         $groups      = $this->application->categories()->getGroups($category);
         $groupData   = $groups[$group];
         $form        = $this->getFormFactory()->getContributeForm(
@@ -283,7 +283,7 @@ class WebController extends Controller
             $form->bind($request);
             if ($form->isValid()) {
                 $data     = $form->getData();
-                $metaInfo = MetaInfo::fromValue($category.'/'.$group, $data['value'], $data['version']);
+                $metaInfo = MetaInfo::fromValue($group, $data['value'], $data['version']);
                 $metaInfo->setPackage($package);
                 
                 try {
@@ -291,7 +291,7 @@ class WebController extends Controller
                     $flashBag->add('success', 'Info saved. Thank you.');
                 } catch (Symfony\Component\Security\Core\Exception\AccessDeniedException $exception) {
                     $this->application->logger()->warn($exception->getMessage());
-                    $flashBag->add('error', 'Access denied to ' . $category . '_' . $group);
+                    $flashBag->add('error', 'Access denied to ' . $group);
                 }
                 
                 return $this->application->redirect('/package/' . $package->getIdentifier());
