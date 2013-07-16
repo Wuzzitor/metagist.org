@@ -69,11 +69,12 @@
         <br /><a class="btn btn-small" href="/update/{{package.identifier}}"><i class="icon-refresh"></i> Update</a>
     {% endif %}
     <hr />
-    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
-        <div class="span2 pull-right text-right">
-            <a class="btn" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a><br />
-        </div>
-    {% endif %}
+    <div class="span4 pull-right text-right">
+        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
+            <a class="btn" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a> 
+        {% endif %}
+        <a class="btn" href="/ratings/{{package.getIdentifier}}">more</a>
+    </div>
     <h2>{{ "Reviews" |trans}}</h2>
     <div class="row-fluid">
         {% for rating in ratings %}
@@ -89,12 +90,7 @@
                 <p>{{rating.comment | e}}</p>
             </div>
         {% endfor %}
-        
-            
-        <a class="btn btn-small" href="/ratings/{{package.getIdentifier}}">more</a>
     </div>
-    
-    
     </div>
 </div>
 {% endblock %}
