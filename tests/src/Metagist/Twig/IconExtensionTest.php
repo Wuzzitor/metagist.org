@@ -33,6 +33,7 @@ class IconExtensionTest extends \PHPUnit_Framework_TestCase
         $functions = $this->extension->getFunctions();
         $this->assertNotEmpty($functions);
         $this->assertArrayHasKey('icon', $functions);
+        $this->assertArrayHasKey('stars', $functions);
     }
     
     /**
@@ -52,6 +53,16 @@ class IconExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $icon = $this->extension->icon('asd');
         $this->assertEquals('', $icon);
+    }
+    
+    /**
+     * Ensures the stars() method returns the correct number of stars.
+     */
+    public function testStars()
+    {
+        $result = $this->extension->stars(5);
+        $icon = '<i class="icon icon-star"></i>';
+        $this->assertEquals(str_repeat($icon, 5), $result);
     }
     
     /**

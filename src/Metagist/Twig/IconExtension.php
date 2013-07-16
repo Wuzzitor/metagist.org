@@ -33,7 +33,8 @@ class IconExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'icon' => new \Twig_Function_Method($this, 'icon', array("is_safe" => array("html"))),
+            'icon'  => new \Twig_Function_Method($this, 'icon', array("is_safe" => array("html"))),
+            'stars' => new \Twig_Function_Method($this, 'stars', array("is_safe" => array("html"))),
         );
     }
     
@@ -51,6 +52,23 @@ class IconExtension extends \Twig_Extension
         
         $class = $this->mapping[$key];
         return '<i class="' . $class . '"></i>';
+    }
+    
+    /**
+     * Returns a number of star-icons as html.
+     * 
+     * @param int $rating
+     * @return string
+     */
+    public function stars($rating)
+    {
+        $buffer = '';
+        // {% for i in 1..latestRating.rating %}{% endfor %}
+        for ($i=0; $i<$rating; $i++) {
+            $buffer .= '<i class="icon icon-star"></i>';
+        }
+        
+        return $buffer;
     }
     
     /**
