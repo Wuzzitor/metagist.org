@@ -2,7 +2,8 @@
 {% set pagetitle = 'metagist.org on ' ~ package %}
 
 {% block content %}
-
+<div class="item item-blue">
+    <div class="content">
     <div class="page-header">
         <h1>contribute to<br />{{package}}<br /><small>Pick one of the points of the categories listed below.</small></h1>
     </div>
@@ -17,7 +18,7 @@
                 {% for group, groupdata in categories.getGroups(name) %}
                     <li>
                         <i class="icon icon-arrow-right"></i>
-                        {{ (name ~ '_' ~ group) | trans}} ({{ package.getMetaInfos(name, group).count }})
+                        {{ (group) | trans}} ({{ package.getMetaInfos(name, group).count }})
                         <a href="/contribute/{{package.identifier}}/{{name}}/{{group}}">{{groupdata.description | trans}}</a>
                     </li>
                 {% endfor %}
@@ -27,4 +28,6 @@
     {% endif %}
     {% endfor %}
                 
+    </div>
+</div>
 {% endblock %}
