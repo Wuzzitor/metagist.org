@@ -31,9 +31,6 @@
               <div class="tab-pane {% if loop.first %}active{%endif%}" id="tab_{{name}}">
                   <div class="pull-right span2">
                     {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
-                        <a class="btn btn-block btn-success" href="/contribute/list/{{package.identifier}}"><i class="icon-pencil icon-4x"></i><br />
-                            Add info
-                        </a>
                     {% else %}
                         <a class="btn btn-primary btn-block" href="{{ path('login') }}">
                             <i class="icon-white icon-4x icon-rocket"></i><br /> {{ 'Contribute!'|trans }}</a>
@@ -48,7 +45,15 @@
                                  {% if infos.count %}
                                     <dd>{{ renderInfos(infos) }}</dd>
                                  {% else %}
-                                    <dd><span class="text-warning">Contribution required</span></dd>
+                                    <dd>
+                                    {% if is_granted(groupdata.access) %}
+                                        <a href="/contribute/{{package.identifier}}/{{group}}">
+                                            <i class="icon-pencil"></i> add this information
+                                        </a>
+                                    {% else %}
+                                        <span class="text-warning">Contribution required</span>
+                                    {% endif %}
+                                    </dd>
                                  {% endif %}
                             </dl>
                     {% endif %}
