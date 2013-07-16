@@ -39,6 +39,8 @@ class WebController extends Controller
             'search'        => array('match' => '/search', 'method' => 'search'),
             'search-page'   => array('match' => '/search/{query}/{page}', 'method' => 'search'),
             'update'        => array('match' => '/update/{author}/{name}', 'method' => 'update'),
+            'latest'        => array('match' => '/latest', 'method' => 'latest'),
+            'about'         => array('match' => '/about', 'method' => 'about'),
         );
 
         foreach ($routes as $name => $data) {
@@ -61,12 +63,38 @@ class WebController extends Controller
         $ratings = $this->application->ratings();
         return $this->application->render(
             'index.html.twig', array(
-                'latest' => $repo->latest(),
-                'latestRating' => $ratings->latest()->first(),
                 'featured' => $repo->byGroup('featured'),
-                'best' => $this->application->ratings()->best(5)
+                'best' => $ratings->best(5),
+                'latestRatings' => $ratings->latest(1),
             )
         );
+    }
+    
+    /**
+     * Show the latest updates and ratings.
+     * 
+     * @return string
+     */
+    public function latest()
+    {
+        $repo    = $this->application->metainfo();
+        $ratings = $this->application->ratings();
+        return $this->application->render(
+            'latest.html.twig', array(
+                'latestUpdates' => $repo->latest(),
+                'latestRatings' => $ratings->latest(5),
+            )
+        );
+    }
+    
+    /**
+     * Show the about info
+     * 
+     * @return string
+     */
+    public function about()
+    {
+        return $this->application->render('info.html.twig');
     }
 
     /**
