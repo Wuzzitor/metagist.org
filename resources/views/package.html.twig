@@ -3,65 +3,93 @@
 
 {% block content %}
 
-    <div class="hero-unit">
-        <h1>metagist on:<br />{{package}}</h1>
-        <p>{{package.description}}</p>
-        
-        <br />
+<div class="item item-blue">
+    <div class="content">
+    <h1>{{package.getIdentifier}}</h1>
+    <p>{{package.description}}</p>
+    <p>
         {% set homepageInfo = package.getMetaInfos('community', 'homepage').first %}
         {% if homepageInfo %}
-        <a class="btn btn-primary" href="{{ homepageInfo.getValue }}"><i class="icon-white icon-home"></i> Homepage</a>
+        <a href="{{ homepageInfo.getValue }}"><i class="icon-white icon-home"></i> Homepage</a><br />
         {% endif %}
-        <a class="btn btn-success" href="http://packagist.org/packages/{{package.identifier}}"><i class="icon-white icon-external-link-sign"></i> @Packagist</a>
-        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
-            <a class="btn" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a>
-            <a class="btn" href="/contribute/list/{{package.identifier}}"><i class="icon-pencil"></i> Contribute</a>
-        {% else %}
-            <a class="btn" href="{{ path('login') }}"><i class="icon-white icon-key"></i> {{ 'Sign in to rate and contribute'|trans }}</a>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn btn-warning" href="/update/{{package.identifier}}"><i class="icon-refresh"></i> Update</a>
-        {% endif %}
-        
+        <a href="http://packagist.org/packages/{{package.identifier}}">
+            <i class="icon-white icon-archive"></i> See the package at Packagist.org</a>
+        <br />
+    </p>
+    <div class="clearfix"></div>
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+          {% for name, data in categories.getCategories() %}
+              {% if name != 'flags' %}
+              <li class="{% if loop.first %}active{%endif%}"><a href="#tab_{{name}}" data-toggle="tab">{{name | trans}}</a></li>
+              {% endif %}
+          {% endfor %}
+      </ul>
+      <div class="tab-content">
+          {% for name, data in categories.getCategories() %}
+              {% if name != 'flags' %}
+              <div class="tab-pane {% if loop.first %}active{%endif%}" id="tab_{{name}}">
+                  <div class="pull-right span2">
+                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
+                        <a class="btn btn-block btn-success" href="/contribute/list/{{package.identifier}}"><i class="icon-pencil icon-4x"></i><br />
+                            Add info
+                        </a>
+                    {% else %}
+                        <a class="btn btn-primary btn-block" href="{{ path('login') }}">
+                            <i class="icon-white icon-4x icon-rocket"></i><br /> {{ 'Contribute!'|trans }}</a>
+                        <br />
+                    {% endif %}
+                </div>
+                  {% for group, groupdata in categories.getGroups(name) %}
+                    {% if (groupdata.access == 'ROLE_ADMIN' and is_granted(groupdata.access)) or groupdata.access != 'ROLE_ADMIN' %}
+                        {% set infos = package.getMetaInfos(group)%}
+                            <dl class="dl-horizontal">
+                                 <dt title="{{groupdata.description}}">{{ icon(group) }} {{ (group) | trans}}</dt>
+                                 {% if infos.count %}
+                                    <dd>{{ renderInfos(infos) }}</dd>
+                                 {% else %}
+                                    <dd><span class="text-warning">Contribution required</span></dd>
+                                 {% endif %}
+                            </dl>
+                    {% endif %}
+                  {% endfor %}
+              </div>
+              {% endif %}
+          {% endfor %}
+      </div>
     </div>
     
-    <div class="row-fluid">
-        <div class="span12">
-            <h2>{{ "Latest Reviews" |trans}}</h2>
-            <ul class="unstyled">
-            {% for rating in ratings %}
-                <li>
-                    {% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}
-                    <a href="/ratings/{{package.getIdentifier}}">{{rating.title}} by {{rating.getUser}}</a>
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% for name, data in categories.getCategories() %}
-    {% if loop.index0 is even %}
-    <div class="row-fluid">
+    <small class="pull-right">Last updated: {{ package.getTimeUpdated }}</small>
+    {% if is_granted('ROLE_ADMIN') %}
+        <br /><a class="btn btn-small" href="/update/{{package.identifier}}"><i class="icon-refresh"></i> Update</a>
     {% endif %}
-        <div class="span6">
-            <h2 title="{{data.description}}">{{name | trans}}</h2>
-            {% for group, groupdata in categories.getGroups(name) %}
-                {% if (groupdata.access == 'ROLE_ADMIN' and is_granted(groupdata.access)) or groupdata.access != 'ROLE_ADMIN' %}
-                    {% set infos = package.getMetaInfos(group)%}
-                        <dl class="dl-horizontal">
-                             <dt title="{{groupdata.description}}">{{ icon(group) }} {{ (group) | trans}}</dt>
-                             {% if infos.count %}
-                                <dd>{{ renderInfos(infos) }}</dd>
-                             {% else %}
-                                <dd><span class="text-warning">Contribution required</span></dd>
-                             {% endif %}
-                        </dl>
-                {% endif %}
-            {% endfor %}
+    <hr />
+    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) %}
+        <div class="span2 pull-right text-right">
+            <a class="btn" href="/rate/{{package.identifier}}"><i class="icon-white icon-star"></i> Rate this package</a><br />
         </div>
-    {% if  loop.index0 is not even %}
-    </div>
     {% endif %}
-    {% endfor %}
+    <h2>{{ "Reviews" |trans}}</h2>
+    <div class="row-fluid">
+        {% for rating in ratings %}
+            <div class="span2 text-center">
+                <h2>{% for i in 1..rating.rating %}<i class="icon icon-star"></i>{% endfor %}</h2>
+                <div>
+                    <img src="{{rating.getUser.getAvatarUrl}}" alt="User icon" /><br />
+                    by {{rating.getUser.getUsername}}
+                </div>
+            </div>
+            <div class="span10">
+                <h2>{{rating.title | e}}</h2>
+                <p>{{rating.comment | e}}</p>
+            </div>
+        {% endfor %}
+        
+            
+        <a class="btn btn-small" href="/ratings/{{package.getIdentifier}}">more</a>
     </div>
-    <span class="small muted">Last update: {{ package.getTimeUpdated }}</span>
+    
+    
+    </div>
+</div>
 {% endblock %}
