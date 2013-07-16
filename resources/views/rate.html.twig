@@ -2,16 +2,19 @@
 {% set pagetitle = 'Rate ' ~ package %}
 
 {% block content %}
+<div class="item item-blue">
+    <div class="content">
+        <div class="page-header">
+            <h1>Rate {{package}}<br /><small>Please respect the rules.</small></h1>
+        </div>
 
-    <div class="page-header">
-        <h1>Rate {{package}}<br /><small>Please respect the rules.</small></h1>
+        <form action="" method="post" novalidate {{ form_enctype(form) }} class="form-horizontal">
+    {{ form_widget(form) }}
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
+                    <a href="{{ path('package', {'author': package.author, 'name': package.name})}}" class="btn">{{ 'Cancel'|trans }}</a>
+                </div>
+        </form>
     </div>
-    
-    <form action="" method="post" novalidate {{ form_enctype(form) }} class="form-horizontal">
-        {{ form_widget(form) }}
-            <div class="controls">
-                <button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
-                <a href="/package/{{package.identifier}}" class="btn">{{ 'Cancel'|trans }}</a>
-            </div>
-    </form>
+</div>
 {% endblock %}
