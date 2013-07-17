@@ -2,13 +2,9 @@
 {% set pagetitle = 'metagist.org' %}
 
 {% block content %}
-
+<div class="item item-yellow">
+    <div class="content">
     <div class="page-header">
-        <form action="/search" method="post" class="form-search pull-right">
-            <input type="text" class="input-medium search-query" name="query" value="{{query | e}}">
-            <button type="submit" class="btn btn-primary">Search again</button>
-        </form>
-        
         <h1>Search results<br /><small>Packages matching your query "{{query | e}}"</small></h1>
     </div>
 
@@ -36,4 +32,6 @@
      
     {{ pagination|raw }}
     
+    </div>
+</div>
 {% endblock %}
